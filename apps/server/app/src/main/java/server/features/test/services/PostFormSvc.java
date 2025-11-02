@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 @SuppressFBWarnings({ "EI2" })
 public class PostFormSvc {
@@ -57,6 +55,7 @@ public class PostFormSvc {
           List<Integer> deleted = tpl.getT2();
 
           int savedCount = saved.size();
+          @SuppressWarnings("null")
           int deletedCount = deleted.stream().reduce(0, Integer::sum);
 
           return Tuples.of(savedCount, deletedCount);

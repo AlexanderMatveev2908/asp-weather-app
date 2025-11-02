@@ -10,7 +10,7 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 @Documented
-@Constraint(validatedBy = ResoledChecker.class)
+@Constraint(validatedBy = ResolvedChecker.class)
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Resolved {

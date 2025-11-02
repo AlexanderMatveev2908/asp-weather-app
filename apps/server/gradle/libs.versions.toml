@@ -8,13 +8,7 @@ lombok = "1.18.34"
 reactor = "3.6.6"
 spring-boot = "3.3.4"
 
-postgres = "42.7.3"
-liquibase = "4.30.0"
-r2dbc-postgres = "1.0.5.RELEASE"
-
 lettuce = "6.4.0.RELEASE"
-
-argon2 = "2.12"
 
 junit = "5.10.3"
 junit-platform = "1.10.3"
@@ -24,16 +18,9 @@ checkstyle = "10.20.1"
 pmd = "7.0.0"
 spotbugs = "4.8.6"
 spotbugs-gradle = "6.0.23" 
-java_jwt = "4.4.0"
-nimbus_jose_jwt = "10.5"
 spotbugs_annotations = "4.8.3"
 jackson_datatype_jdk8 = "2.17.2"
-bcprov_jdk18on = "1.78.1"
 datafaker = "2.1.0"
-commons_codec = "1.16.0"
-java_otp = "0.4.0"
-core = "3.0.1"
-javase = "3.0.1"
 
 
 
@@ -46,16 +33,7 @@ reactor-core = { module = "io.projectreactor:reactor-core", version.ref = "react
 spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation", version.ref = "spring-boot" }
 
-spring-boot-starter-mail = { module = "org.springframework.boot:spring-boot-starter-mail", version.ref = "spring-boot" }
-
-spring-boot-starter-data-r2dbc = { module = "org.springframework.boot:spring-boot-starter-data-r2dbc" }
-postgresql = { module = "org.postgresql:postgresql", version.ref = "postgres" }
-liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
-r2dbc-postgres = { module = "org.postgresql:r2dbc-postgresql", version.ref = "r2dbc-postgres" }
-
 redis-lettuce = { module = "io.lettuce:lettuce-core", version.ref = "lettuce" }
-
-argon2 = { module = "de.mkammerer:argon2-jvm", version.ref = "argon2" }
 
 checkstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "checkstyle" }
 spotbugs = { module = "com.github.spotbugs:spotbugs", version.ref = "spotbugs" }
@@ -64,16 +42,8 @@ spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-star
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform" }
 datafaker = {module = "net.datafaker:datafaker", version.ref = "datafaker"}
-javaJwt = {module = "com.auth0:java-jwt", version.ref = "java_jwt"}
-nimbusJoseJwt = {module = "com.nimbusds:nimbus-jose-jwt", version.ref = "nimbus_jose_jwt"}
 spotbugsAnnotations = {module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs_annotations"}
 jacksonDatatypeJdk8 = {module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8", version.ref = "jackson_datatype_jdk8"}
-bcprovJdk18on = {module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bcprov_jdk18on"}
-commonsCodec = {module = "commons-codec:commons-codec", version.ref = "commons_codec"}
-javaOtp = {module = "com.eatthepath:java-otp", version.ref = "java_otp"}
-core = {module = "com.github.kenglxn.qrgen:core", version.ref = "core"}
-javase = {module = "com.github.kenglxn.qrgen:javase", version.ref = "javase"}
-
 
 
 

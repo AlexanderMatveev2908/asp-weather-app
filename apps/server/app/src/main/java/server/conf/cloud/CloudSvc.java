@@ -24,7 +24,9 @@ import server.decorators.flow.ErrAPI;
 import server.lib.data_structure.parser.Prs;
 import server.lib.dev.MyLog;
 
-@Service @RequiredArgsConstructor @SuppressFBWarnings({ "EI2" })
+@Service
+@RequiredArgsConstructor
+@SuppressFBWarnings({ "EI2" })
 public class CloudSvc {
     private final WebClient.Builder webClientBuilder;
     private final EnvKeeper envKeeper;

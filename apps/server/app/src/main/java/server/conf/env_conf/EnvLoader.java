@@ -1,10 +1,6 @@
 package server.conf.env_conf;
 
-import java.io.IOException;
-import java.net.URI;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HexFormat;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
@@ -61,35 +57,9 @@ public final class EnvLoader implements EnvironmentPostProcessor {
 
             }
 
-            Path certFile = Hiker.CA_FILE;
-            Files.write(certFile, HexFormat.of().parseHex(supabaseCa));
-            Path cartPath = certFile.toAbsolutePath();
-
-            dbUrl = dbUrl + "?sslmode=verify-full&sslrootcert=" + cartPath;
-
-            props.put("DB_URL", dbUrl);
-
-            URI uri = URI.create(dbUrl.replace("jdbc:", ""));
-
-            String host = uri.getHost();
-            int port = uri.getPort();
-            String dbName = uri.getPath().replaceFirst("/", "");
-
-            StringBuilder r2dbcUrl = new StringBuilder();
-            r2dbcUrl.append("r2dbc:postgresql://")
-                    .append(dbUs).append(":").append(dbPwd).append("@")
-                    .append(host).append(":").append(port).append("/")
-                    .append(dbName);
-            r2dbcUrl.append("?sslMode=verify-full&sslRootCert=")
-                    .append(cartPath);
-
-            props.put("spring.r2dbc.url", r2dbcUrl.toString());
-            props.put("spring.r2dbc.username", dbUs);
-            props.put("spring.r2dbc.password", dbPwd);
-
             env.getPropertySources().addFirst(new PropertiesPropertySource("dotenv", props));
 
-        } catch (ErrAPI | IOException err) {
+        } catch (ErrAPI err) {
             throw new ErrAPI(err.getMessage());
         }
     }

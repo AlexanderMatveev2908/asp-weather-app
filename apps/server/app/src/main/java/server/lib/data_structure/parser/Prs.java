@@ -2,7 +2,6 @@ package server.lib.data_structure.parser;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.HexFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,8 +14,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
-import io.r2dbc.spi.Row;
-import io.r2dbc.spi.RowMetadata;
 import server.decorators.flow.ErrAPI;
 import server.lib.data_structure.ShapeCheck;
 import server.lib.dev.MyLog;
@@ -74,19 +71,6 @@ public final class Prs {
         }
 
         return sb.toString();
-    }
-
-    public static Map<String, Object> mapSql(Row row, RowMetadata meta) {
-        Map<String, Object> map = new HashMap<>();
-
-        meta.getColumnMetadatas().forEach(col -> {
-            String snakeCol = col.getName();
-            Object val = row.get(snakeCol);
-
-            map.put(Prs.snakeToCamel(snakeCol), val);
-        });
-
-        return map;
     }
 
     // ? hex

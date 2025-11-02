@@ -37,7 +37,7 @@ public class RateLimitSvcMdw {
 
     public Mono<Void> limit(Api api, int limit, int minutes) {
 
-        if (envKeeper.getNextPblEnv().equals("test"))
+        if (envKeeper.getEnvMode().equals("test"))
             return Mono.empty();
 
         long now = System.currentTimeMillis();

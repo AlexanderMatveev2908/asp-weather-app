@@ -5,10 +5,6 @@ import java.util.Optional;
 
 import org.springframework.web.server.ServerWebExchange;
 
-import server.models.applications.JobAppl;
-import server.models.backup_code.etc.RecInfoBkp;
-import server.models.user.User;
-
 public interface ApiAttr {
   ServerWebExchange getExch();
 
@@ -20,42 +16,6 @@ public interface ApiAttr {
     else
       getExch().getAttributes().put(key, value);
 
-  }
-
-  // ? user
-  default void setUserAttr(User user) {
-    setAttr("user", user);
-  }
-
-  default User getUser() {
-    return getExch().getAttribute("user");
-  }
-
-  // ? curr job application
-  default void setCurrApplication(JobAppl job) {
-    setAttr("jobApplication", job);
-  }
-
-  default JobAppl getCurrApplication() {
-    return getExch().getAttribute("jobApplication");
-  }
-
-  // ? bkp codes
-  default void setInfoBkp(RecInfoBkp rec) {
-    setAttr("recInfoBkp", rec);
-  }
-
-  default Optional<RecInfoBkp> getInfoBkp() {
-    RecInfoBkp rec = getExch().getAttribute("recInfoBkp");
-
-    return Optional.ofNullable(rec);
-  }
-
-  default void putCodesLeftIfPresent(Map<String, Object> data) {
-    Optional<RecInfoBkp> rec = getInfoBkp();
-
-    if (rec.isPresent())
-      data.put("codesLeft", rec.get().codesCount() - 1);
   }
 
   // ? instance form parsed in mdw and set before svc or ctrl

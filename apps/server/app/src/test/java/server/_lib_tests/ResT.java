@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import server.decorators.RootCls;
 import server.decorators.flow.ErrAPI;
-import server.models.user.User;
 
 import java.util.List;
 import java.util.Map;
@@ -92,8 +91,4 @@ public class ResT implements RootCls {
         return (List<String>) getCasting("bkpCodes", List.class, List.of());
     }
 
-    @SuppressWarnings({ "unchecked", })
-    public User getUser() {
-        return User.fromTestPayload(getCasting("user", Map.class, Map.of()));
-    }
 }

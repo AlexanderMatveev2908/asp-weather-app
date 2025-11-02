@@ -36,18 +36,8 @@ dependencies {
     // ? core
     implementation(libs.reactor.core)
     implementation(libs.spring.boot.starter.webflux)
-    // ? DB
-    implementation(libs.spring.boot.starter.data.r2dbc)
-    runtimeOnly(libs.postgresql)
-    implementation(libs.r2dbc.postgres)
-    // ? migrations
-    implementation(libs.liquibase.core)
     // ? redis
     implementation(libs.redis.lettuce)
-    // ? mails
-    implementation(libs.spring.boot.starter.mail)
-    // ? hash
-    implementation(libs.argon2)
     // ? checkers
     compileOnly(libs.spotbugsAnnotations)
     // ? tests
@@ -59,16 +49,9 @@ dependencies {
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
     testImplementation(libs.datafaker)
-    implementation(libs.javaJwt)
-    implementation(libs.nimbusJoseJwt)
     testImplementation(libs.spotbugsAnnotations)
     implementation(libs.jacksonDatatypeJdk8)
-    implementation(libs.bcprovJdk18on)
     implementation(libs.datafaker)
-    implementation(libs.commonsCodec)
-    implementation(libs.javaOtp)
-    implementation(libs.core)
-    implementation(libs.javase)
 }
 //_e
 

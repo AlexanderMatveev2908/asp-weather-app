@@ -2,7 +2,6 @@ package server.features.test.controllers;
 
 import java.util.Map;
 
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -15,15 +14,13 @@ import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 import server.decorators.flow.res_api.ResAPI;
 import server.features.test.services.PostFormSvc;
-import server.features.test.services.get_user_test.GetUserTestSvc;
 import server.lib.data_structure.ShapeCheck;
-import server.lib.security.cookies.MyCookies;
 
-@Component @RequiredArgsConstructor @SuppressFBWarnings({ "EI2" })
+@Component
+@RequiredArgsConstructor
+@SuppressFBWarnings({ "EI2" })
 public class PostTestCtrl {
     private final PostFormSvc postFormSvc;
-    private final GetUserTestSvc testUserSvc;
-    private final MyCookies ckMng;
 
     public Mono<ResponseEntity<ResAPI>> postMsg(Api api) {
         return api.getBd(new TypeReference<Map<String, Object>>() {
@@ -35,15 +32,6 @@ public class PostTestCtrl {
 
             return new ResAPI(200).msg("msg received").data(Map.of("clientMsg", msg)).build();
         }).switchIfEmpty(Mono.error(new ErrAPI("missing msg", 400)));
-    }
-
-    public Mono<ResponseEntity<ResAPI>> getUserTest(Api api) {
-        return testUserSvc.getUserTest(api).flatMap(data -> {
-
-            ResponseCookie jweCk = ckMng.jweCookie((String) data.get("refreshToken"));
-
-            return new ResAPI(200).msg("data test generated as requested").cookie(jweCk).data(data).build();
-        });
     }
 
     public Mono<ResponseEntity<ResAPI>> postFormData(Api api) {
