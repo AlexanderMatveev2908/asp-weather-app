@@ -157,7 +157,4 @@ public class ReqT {
         return res;
     }
 
-    public static ResT verifyMailWithToken(WebTestClient web, String token) {
-        return ReqT.withUrl(web, "/verify/confirm-email").method(HttpMethod.GET).addQueryCbcHmac(token).send();
-    }
 }

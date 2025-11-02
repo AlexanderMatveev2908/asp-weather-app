@@ -112,10 +112,10 @@ This file not only configures the server but also declares the environment varia
   apiVersion: v1
   kind: Secret
   metadata:
-  name: asp-job-application-tracker
+  name: asp-weather-app
   type: Opaque
   stringData:
-  APP_NAME: "asp-job-application-tracker"
+  APP_NAME: "asp-weather-app"
   ...rest key value pairs variables
   ```
 

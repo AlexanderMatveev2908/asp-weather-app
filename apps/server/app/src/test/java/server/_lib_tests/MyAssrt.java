@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.stream.Stream;
 
-import server.conf.Reg;
 import server.lib.data_structure.ShapeCheck;
 
 public class MyAssrt {
@@ -22,16 +21,4 @@ public class MyAssrt {
         base(res, status, null);
     }
 
-    public static void hasJwt(ResT res) {
-        assertTrue(Reg.isJWT(res.getJwt()));
-    }
-
-    public static void hasTokens(ResT res) {
-        hasJwt(res);
-        assertTrue(Reg.isJWE(res.getJwe()));
-    }
-
-    public static void hasCbcHmac(ResT res) {
-        assertTrue(Reg.isCbcHmac(res.getCbcHmac()));
-    }
 }

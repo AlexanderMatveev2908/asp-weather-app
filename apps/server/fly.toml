@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for asp-job-application-tracker-server on 2025-10-11T14:06:05+03:00
+# fly.toml app configuration file generated for asp-weather-app-server on 2025-11-02T21:38:30+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'asp-job-application-tracker-server'
+app = 'asp-weather-app-server'
 primary_region = 'fra'
 
 [build]

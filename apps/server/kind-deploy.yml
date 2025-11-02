@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: asp-job-application-tracker-server
+  name: asp-weather-app-server
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: asp-job-application-tracker-server
+      app: asp-weather-app-server
   template:
     metadata:
       labels:
-        app: asp-job-application-tracker-server
+        app: asp-weather-app-server
     spec:
       topologySpreadConstraints:
         - maxSkew: 1
@@ -18,12 +18,12 @@ spec:
           whenUnsatisfiable: ScheduleAnyway
           labelSelector:
             matchLabels:
-              app: asp-job-application-tracker-server
+              app: asp-weather-app-server
       containers:
         - name: server
-          image: alexandermatveev2908/asp-job-application-tracker-server:latest
+          image: alexandermatveev2908/asp-weather-app-server:latest
           ports:
             - containerPort: 3000
           envFrom:
             - secretRef:
-                name: asp-job-application-tracker
+                name: asp-weather-app

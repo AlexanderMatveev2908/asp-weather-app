@@ -1,9 +1,9 @@
 import { expect, Locator } from '@playwright/test';
-import { LibApplicationsTests } from './8.applications';
 import { Nullable } from '@/common/types/etc';
 import { LibShapeCheck } from '@/core/lib/data_structure/shape_check';
+import { LibUserTests } from './7.user';
 
-export abstract class LibSearchTests extends LibApplicationsTests {
+export abstract class LibSearchTests extends LibUserTests {
   public async gridSearchWrapper(): Promise<Locator> {
     const wrapper: Locator = await this.byIdInPage('search__content');
 

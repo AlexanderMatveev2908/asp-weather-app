@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: asp-job-application-tracker-server
+  name: asp-weather-app-server
 spec:
   type: NodePort
   selector:
-    app: asp-job-application-tracker-server
+    app: asp-weather-app-server
   ports:
     - protocol: TCP
       port: 80
