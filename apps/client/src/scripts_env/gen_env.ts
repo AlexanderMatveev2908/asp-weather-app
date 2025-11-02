@@ -26,15 +26,13 @@ export interface EnvVarsT {
   mode: EnvModeT;
   backURL: string;
   frontURL: string;
-  smptFrom: string;
 }
 
 export const envVars: EnvVarsT = {
   expectedMode: '${fullName}',
   mode: '${process.env['ENV_MODE']}',
   backURL: '${process.env[`BACK_URL${envSuffix}`]}',
-  frontURL: '${process.env[`FRONT_URL${envSuffix}`]}',
-  smptFrom: '${process.env['SMTP_FROM']}',
+  frontURL: '${process.env[`FRONT_URL${envSuffix}`]}'
 };
 
 for (const pair of Object.entries(envVars)) {

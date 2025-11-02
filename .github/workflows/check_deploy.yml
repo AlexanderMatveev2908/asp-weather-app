@@ -24,26 +24,10 @@ jobs:
       FRONT_URL_DEV: ${{secrets.FRONT_URL_DEV}}
       BACK_URL_TEST: ${{secrets.BACK_URL_TEST}}
       FRONT_URL_TEST: ${{secrets.FRONT_URL_TEST}}
-      SMTP_FROM: ${{secrets.SMTP_FROM}}
-      DB_URL: ${{secrets.DB_URL}}
-      DB_US: ${{secrets.DB_US}}
-      DB_PWD: ${{secrets.DB_PWD}}
-      SUPABASE_CA: ${{secrets.SUPABASE_CA}}
       REDIS_URL: ${{secrets.REDIS_URL}}
-      BREVO_SMPT_SERVER: ${{secrets.BREVO_SMPT_SERVER}}
-      BREVO_SMPT_PORT: ${{secrets.BREVO_SMPT_PORT}}
-      BREVO_SMPT_USER: ${{secrets.BREVO_SMPT_USER}}
-      BREVO_SMPT_PWD: ${{secrets.BREVO_SMPT_PWD}}
       CLOUD_NAME: ${{secrets.CLOUD_NAME}}
       CLOUD_API_KEY: ${{secrets.CLOUD_API_KEY}}
       CLOUD_API_SECRET: ${{secrets.CLOUD_API_SECRET}}
-      JWT_SECRET: ${{secrets.JWT_SECRET}}
-      JWE_PRIVATE: ${{secrets.JWE_PRIVATE}}
-      JWE_PUBLIC: ${{secrets.JWE_PUBLIC}}
-      HKDF_MASTER: ${{secrets.HKDF_MASTER}}
-      HKDF_SALT: ${{secrets.HKDF_SALT}}
-      DB_HASH_KEY: ${{secrets.DB_HASH_KEY}}
-      GCM_KEY: ${{secrets.GCM_KEY}}
 
     steps:
       - name: 📂 clone code

@@ -38,9 +38,6 @@ public final class EnvKeeper {
     @NotBlank
     @Resolved
     private String frontUrlTest;
-    @NotBlank
-    @Resolved
-    private String smptFrom;
 
     @NotBlank
     @Resolved

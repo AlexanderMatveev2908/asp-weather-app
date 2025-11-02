@@ -7,7 +7,6 @@ app:
   frontUrl: ${FRONT_URL}
   frontUrlDev: ${FRONT_URL_DEV}
   frontUrlTest: ${FRONT_URL_TEST}
-  smptFrom: ${SMTP_FROM}
   redisUrl: ${REDIS_URL}
   cloudName: ${CLOUD_NAME}
   cloudKey: ${CLOUD_API_KEY}
