@@ -55,7 +55,7 @@ public final class Prs {
     }
 
     // ? sql
-    private static String snakeToCamel(String key) {
+    public static String snakeToCamel(String key) {
         StringBuilder sb = new StringBuilder();
         boolean upperNext = false;
 

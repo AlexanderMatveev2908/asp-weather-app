@@ -18,7 +18,9 @@ import server.lib.data_structure.ShapeCheck;
 import server.lib.data_structure.parser.Prs;
 import server.lib.dev.MyLog;
 
-@Component @Order(100) @SuppressWarnings({ "unchecked" })
+@Component
+@Order(100)
+@SuppressWarnings({ "unchecked" })
 public class LogMdw implements WebFilter {
 
     @Override

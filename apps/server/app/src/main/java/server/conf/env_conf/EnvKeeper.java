@@ -56,12 +56,12 @@ public final class EnvKeeper {
     @Resolved
     private String redisUrl;
 
-    public EnvMode getEnvMode() {
+    public EnvMode getMode() {
         return EnvMode.fromValue(this.envMode);
     }
 
     public String getFrontUrl() {
-        return switch (getEnvMode()) {
+        return switch (getMode()) {
             case DEV -> frontUrlDev;
             case TEST -> frontUrlTest;
             case PROD -> frontUrl;
@@ -69,7 +69,7 @@ public final class EnvKeeper {
     }
 
     public String getBackUrl() {
-        return switch (getEnvMode()) {
+        return switch (getMode()) {
             case DEV -> backUrlDev;
             case TEST -> backUrlTest;
             case PROD -> backUrl;

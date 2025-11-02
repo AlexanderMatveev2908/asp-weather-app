@@ -11,6 +11,7 @@ import io.lettuce.core.api.reactive.RedisReactiveCommands;
 import reactor.core.publisher.Mono;
 import server.conf.db.remote_dictionary.RD;
 import server.conf.env_conf.EnvKeeper;
+import server.conf.env_conf.etc.EnvMode;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 
@@ -37,7 +38,7 @@ public class RateLimitSvcMdw {
 
     public Mono<Void> limit(Api api, int limit, int minutes) {
 
-        if (envKeeper.getEnvMode().equals("test"))
+        if (envKeeper.getMode().equals(EnvMode.TEST))
             return Mono.empty();
 
         long now = System.currentTimeMillis();
