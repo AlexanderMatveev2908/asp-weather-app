@@ -19,7 +19,7 @@
         <module name="EqualsHashCode"/> <!-- ! if equals is overridden, hashCode must be too -->
         <module name="EmptyBlock"/> <!-- ! catch {} or if {} without logic -->
         <module name="CyclomaticComplexity">
-            <property name="max" value="15"/>
+            <property name="max" value="10"/>
         </module>
         <module name="MethodLength">
             <property name="max" value="80"/>
