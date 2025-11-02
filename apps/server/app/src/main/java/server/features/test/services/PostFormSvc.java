@@ -21,7 +21,10 @@ import server.decorators.AppFile;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 
-@Service @Transactional @RequiredArgsConstructor @SuppressFBWarnings({ "EI2" })
+@Service
+@Transactional
+@RequiredArgsConstructor
+@SuppressFBWarnings({ "EI2" })
 public class PostFormSvc {
   private final CloudSvc cloud;
 
