@@ -1,10 +1,5 @@
 @use './t.css';
 
-@use './tokens/etc.scss';
-@use './tokens/txt.scss';
-@use './tokens/SVGs.scss';
-@use './tokens/z.scss';
-
 // ? all files inside tokens are imported here
 // ! exports are never imported here
 // ! files inside exports are used inside components only

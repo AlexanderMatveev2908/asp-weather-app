@@ -1,7 +1,0 @@
-@if(!useWrapApiDir.isPending()){
-<ng-content />
-}@else{
-<div class="wrap_spin">
-  <app-spin-btn appUseMetaEventDir [eventT]="useWrapApiDir.eventT()" />
-</div>
-}

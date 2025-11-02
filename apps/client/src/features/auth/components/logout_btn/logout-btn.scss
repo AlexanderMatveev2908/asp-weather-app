@@ -1,6 +1,0 @@
-@use 'exports/pseudo.scss';
-
-.root {
-  @extend .app__link;
-  @apply flex items-center justify-start -ml-2;
-}

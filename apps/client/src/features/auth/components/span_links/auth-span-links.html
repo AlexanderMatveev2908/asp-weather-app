@@ -1,7 +1,0 @@
-@if(links()) {
-<div class="root">
-  @for(lk of links(); track lk.id; let idx = $index){
-  <app-tooltip-link [lk]="lk" [arrowOn]="idx === 0 ? 'left' : 'right'" appUseIDsDir />
-  }
-</div>
-}
