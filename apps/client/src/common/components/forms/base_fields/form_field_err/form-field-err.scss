@@ -1,0 +1,7 @@
+:host {
+  @apply absolute w-full;
+}
+
+.root {
+  @apply absolute inset-0 pointer-events-none;
+}

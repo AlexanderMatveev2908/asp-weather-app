@@ -1,0 +1,9 @@
+@use 'exports/shapes' as shapes;
+
+:host {
+  @apply block w-full;
+}
+
+.root {
+  @extend .app__form__content_pad;
+}

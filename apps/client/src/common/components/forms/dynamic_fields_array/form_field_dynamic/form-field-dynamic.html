@@ -1,0 +1,26 @@
+<div class="root">
+  @if(!hideLabel()) {
+  <div class="root__label">
+    <span class="txt__lg">{{ useDynamicField.field?.()?.label }}</span>
+  </div>
+  }
+
+  <div class="root__input">
+    <input
+      #formField
+      [attr.data-field]="useDynamicField.fieldAttr()"
+      class="input__field txt__md"
+      [value]="useDynamicField.field?.()?.val"
+      [name]="useDynamicField.field?.()?.name"
+      (input)="useDynamicField.onChange($event.target.value)"
+      [type]="useDynamicField.field?.()?.type"
+      [placeholder]="useDynamicField.field?.()?.place"
+    />
+
+    <app-form-field-dynamic-err
+      [ctrl]="useDynamicField.ctrl()"
+      [idx]="useDynamicField.idx()"
+      appUseDynamicFieldDir
+    />
+  </div>
+</div>

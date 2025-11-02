@@ -1,0 +1,30 @@
+<app-csr-with-title [title]="'2FA'">
+  <div class="root">
+    <div class="root__swapper">
+      <app-swapper
+        [swap]="swapState().swap"
+        [setSwap]="setSwap"
+        [maxSwaps]="2"
+        appUseIDsDir
+        [testId]="useIDs.testId()"
+      >
+        <div #swapDiv class="swapper__swap" [style.--opa]="getOpacity(0)()">
+          <app-totp-form
+            appUseForm2faDir
+            [strategy]="strategy()"
+            appUseIDsDir
+            [testId]="useIDs.testId()!"
+          />
+        </div>
+        <div #swapDiv class="swapper__swap" [style.--opa]="getOpacity(1)()">
+          <app-bkp-form
+            appUseForm2faDir
+            [strategy]="strategy()"
+            appUseIDsDir
+            [testId]="useIDs.testId()!"
+          />
+        </div>
+      </app-swapper>
+    </div>
+  </div>
+</app-csr-with-title>

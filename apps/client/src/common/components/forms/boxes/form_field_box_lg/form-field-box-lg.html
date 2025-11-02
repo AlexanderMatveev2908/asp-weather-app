@@ -1,0 +1,20 @@
+<button
+  (click)="onClick()"
+  (mouseover)="onHover()"
+  (mouseleave)="onOut()"
+  (focus)="onHover()"
+  (blur)="onOut()"
+  [attr.data-testid]="useIdsDir.boxChoiceVarID(f())"
+  type="button"
+  class="root"
+  [style.--trs]="transform()"
+  [style.--trs_hover]="transformHover()"
+  [style.--bg]="bg()"
+  [style.--clr]="clr()"
+  [style.--bg_hover]="bgHover()"
+  [style.--clr_hover]="clrHover()"
+>
+  <span class="txt__lg break-all">
+    {{ f().label }}
+  </span>
+</button>

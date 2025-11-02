@@ -1,0 +1,15 @@
+@use 'exports/mix' as mix;
+
+.root {
+  @apply flex justify-center items-center gap-8;
+
+  .root__field {
+    @apply w-[45px] h-[45px];
+
+    .field__box {
+      @apply w-full h-full;
+      color: var(--clr);
+      @include mix.app__input__base(0 0 0 15px, var(--bg));
+    }
+  }
+}

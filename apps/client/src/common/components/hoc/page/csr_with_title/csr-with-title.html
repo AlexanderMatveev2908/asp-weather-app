@@ -1,0 +1,13 @@
+<app-page-wrapper [waitClient]="true" [isPending]="isPending()">
+  <ng-template #contentRef>
+    <div class="root">
+      <div class="root__title">
+        <span class="app__txt__grad txt__5xl">
+          {{ title() }}
+        </span>
+      </div>
+
+      <ng-content />
+    </div>
+  </ng-template>
+</app-page-wrapper>

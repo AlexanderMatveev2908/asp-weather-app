@@ -1,0 +1,23 @@
+.root {
+  height: calc(100% - 80px);
+  transition: transform 0.4s ease, opacity 0.3s ease;
+
+  @apply fixed top-[80px] left-full border-l-3 w-[90%] border-gray-300 bg-neutral-950 flex flex-col;
+
+  @media (min-width: 600px) {
+    @apply w-[500px];
+  }
+
+  .root__span_mail {
+    @apply flex items-center px-3 border-b-3 h-[70px] border-gray-300;
+  }
+
+  .root__body {
+    height: calc(100% - 70px);
+    @apply px-3 py-5 overflow-y-auto max-h-full flex flex-col gap-6;
+
+    .body__wrap_links {
+      @apply w-full grid grid-cols-1 gap-6 justify-items-start;
+    }
+  }
+}

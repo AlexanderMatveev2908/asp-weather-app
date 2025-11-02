@@ -1,0 +1,25 @@
+<div class="w-full flex flex-col justify-center items-center px-6">
+  <span class="txt__2xl text-center">
+    {{ txt() }}
+  </span>
+
+  <div class="mt-20 w-full flex justify-center flex-wrap gap-x-20 gap-y-14">
+    @for(ch of [ withDefault('a'),withDefault('b') ] ;track ch.id){
+    <div class="w-[250px]">
+      <app-btn-shadow
+        appUseIDsDir
+        [testId]="ch.testId"
+        appUseSpanDir
+        [spanProps]="ch"
+        [btnStateProps]="{
+          isPending: ch.isPending,
+          isDisabled: ch.isDisabled
+        }"
+        [listenersProps]="{
+          onClick: ch.onClick
+        }"
+      />
+    </div>
+    }
+  </div>
+</div>

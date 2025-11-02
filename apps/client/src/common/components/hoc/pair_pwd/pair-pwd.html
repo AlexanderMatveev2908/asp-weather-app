@@ -1,0 +1,28 @@
+<div class="root">
+  <app-form-field-txt
+    #pwdFieldRef
+    appUseFormFieldDir
+    [f]="pwdField()"
+    [ctrl]="getCtrl()('password')"
+    [onSvgClick]="toggleByKey('isPwdTypePwd')"
+    [onFocus]="useFocus.onFocus"
+    [onBlur]="useFocus.onBlur"
+    [focusOnMount]="focusOnMount()"
+  />
+
+  <app-pwd-generator [confSwap]="confSwap()" />
+  <app-pwd-checker
+    appUseFormFieldDir
+    [confSwap]="confSwap()"
+    [isFocused]="useFocus.isFocused()"
+    [pwdFieldRef]="pwdFieldRef"
+  />
+
+  <app-form-field-txt
+    appUseFormFieldDir
+    [f]="confPwdField()"
+    [ctrl]="getCtrl()('confirmPassword')"
+    [onSvgClick]="toggleByKey('isConfirmPwdTypePwd')"
+    [optionalDep]="optionalConfPwdDep()"
+  />
+</div>

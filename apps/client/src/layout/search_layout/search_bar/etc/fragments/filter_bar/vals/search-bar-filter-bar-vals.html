@@ -1,0 +1,5 @@
+<div class="root">
+  @for(f of currFilters(); track f.id){
+  <app-form-field-box-lg [f]="f" [ctrl]="getCtrl(f)" appUseFormFieldDir appUseIDsDir />
+  }
+</div>

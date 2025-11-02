@@ -1,0 +1,10 @@
+<app-csr-with-title [title]="'Verify Account'">
+  <app-user-mail-form
+    [mailMustBe]="'equal'"
+    appUseKitStrategy
+    [strategy]="strategy"
+    [useFullPage]="true"
+    appUseIDsDir
+    [testId]="'user_req_mail_conf_mail_form'"
+  />
+</app-csr-with-title>

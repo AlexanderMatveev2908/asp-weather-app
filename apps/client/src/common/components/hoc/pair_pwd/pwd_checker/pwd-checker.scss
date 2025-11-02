@@ -1,0 +1,14 @@
+:host {
+  @apply absolute;
+}
+
+.root {
+  transition: transform 0.4s, opacity 0.3s;
+  transform: var(--trsl);
+  max-width: 900px;
+  @apply w-[90vw] sm:w-[80vw] flex items-center flex-wrap justify-around gap-y-4 gap-x-16 bg-neutral-950 p-5 rounded-xl border-3;
+
+  .root__ruler {
+    @apply flex items-center justify-center gap-6;
+  }
+}

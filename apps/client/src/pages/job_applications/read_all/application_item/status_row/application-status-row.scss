@@ -1,0 +1,13 @@
+.root {
+  @apply w-full grid grid-cols-[1fr_2fr] gap-8 items-center;
+
+  .root__notes {
+    @apply w-fit justify-self-start -ml-1;
+  }
+
+  .root__status {
+    border-color: var(--clr);
+    color: var(--clr);
+    @apply w-full max-w-[250px] border-2 rounded-xl py-2 px-4 flex justify-center justify-self-center;
+  }
+}

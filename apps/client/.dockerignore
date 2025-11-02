@@ -1,0 +1,28 @@
+# ? ignore server stuff
+/apps/server
+
+# ? yarn
+.yarn/*
+!.yarn/patches/
+!.yarn/plugins/
+!.yarn/releases/
+!.yarn/sdks/
+!.yarn/versions/
+!.yarnrc.yml
+
+# ? node
+node_modules/
+
+# ? ts build
+*.tsbuildinfo
+
+# ? turbo
+turbo/
+.turbo/
+
+# ? build apps
+dist/
+build/
+
+# ? loggers
+logger/

@@ -1,0 +1,14 @@
+<div class="root">
+  <app-search-bar-btn-shape
+    appUseSpanDir
+    [spanProps]="btns.searchBtn"
+    [btnType]="'submit'"
+    appUseIDsDir
+  />
+  <app-search-bar-btn-shape
+    appUseSpanDir
+    [spanProps]="btns.eraseBtn"
+    [onClick]="onErase()"
+    appUseIDsDir
+  />
+</div>

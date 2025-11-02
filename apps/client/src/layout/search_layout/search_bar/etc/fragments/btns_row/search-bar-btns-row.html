@@ -1,0 +1,32 @@
+<div class="root">
+  <div class="root__group">
+    <app-search-bar-btn-shape
+      appUseSpanDir
+      [spanProps]="btns.sortBtn"
+      [onClick]="openSortBar"
+      appUseIDsDir
+    />
+    <app-search-bar-btn-shape
+      appUseSpanDir
+      [spanProps]="btns.filterBtn"
+      [onClick]="openFilterBar"
+      appUseIDsDir
+      [testId]="'open_filter_bar'"
+    />
+  </div>
+
+  <div class="root__group">
+    <app-search-bar-btn-shape
+      appUseSpanDir
+      [spanProps]="btns.searchBtn"
+      [btnType]="'submit'"
+      appUseIDsDir
+    />
+    <app-search-bar-btn-shape
+      appUseSpanDir
+      [spanProps]="btns.eraseBtn"
+      [onClick]="onErase()"
+      appUseIDsDir
+    />
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div [attr.data-testid]="useIDsDir.testId()" #drop class="root" [ngClass]="">
+  <button class="root__btn" (click)="onClick()" [ngClass]="twd().root">
+    <app-span [spanProps]="spanProps()" [sizesProps]="spanSizesProps" />
+
+    <div class="svg__2xl btn__arrow" [ngClass]="twd().arrow">
+      <app-svg-fill-up />
+    </div>
+  </button>
+
+  <div
+    class="root__content app__scroll"
+    #wrapContent
+    [style.max-height]="maxH()"
+    [ngClass]="twd().wrapContent"
+  >
+    <ng-container *ngTemplateOutlet="dropContentRef" />
+  </div>
+</div>

@@ -1,0 +1,31 @@
+package server.features.auth.middleware;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.WebFilterChain;
+
+import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Mono;
+import server.decorators.flow.ErrAPI;
+import server.decorators.flow.api.Api;
+import server.features.auth.paperwork.LoginForm;
+import server.middleware.base_mdw.BaseMdw;
+import server.models.user.svc.UserSvc;
+
+@Component @RequiredArgsConstructor
+public class LoginMdw extends BaseMdw {
+
+    private final UserSvc userSvc;
+
+    @Override
+    public Mono<Void> handle(Api api, WebFilterChain chain) {
+        return isTarget(api, chain, "/auth/login", () -> {
+            return limit(api, 5, 15).then(checkBodyForm(api, LoginForm.class).flatMap(form -> {
+                return userSvc.findByEmail(form.getEmail()).switchIfEmpty(Mono.error(new ErrAPI("user not found", 404)))
+                        .flatMap(user -> {
+                            api.setUserAttr(user);
+                            return checkUserPwdToMatch(api, form.getPassword()).then(chain.filter(api));
+                        });
+            }));
+        });
+    }
+}

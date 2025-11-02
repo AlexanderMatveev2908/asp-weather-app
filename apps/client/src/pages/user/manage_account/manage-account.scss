@@ -1,0 +1,17 @@
+@use 'exports/shapes' as shapes;
+
+:host {
+  @apply w-full h-full block;
+}
+
+.root {
+  @extend .app__form__page;
+
+  .root__swapper {
+    @extend .app__form__container_size;
+  }
+
+  .swapper__swap {
+    @include shapes.app__swapper__swap(var(--opac), false);
+  }
+}

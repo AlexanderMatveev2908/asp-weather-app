@@ -1,0 +1,17 @@
+<div #tooltipRef class="root">
+  @if(txt()){
+  <button (click)="onCpy()" type="button" class="root__txt">
+    <span class="txt__md">{{ label() ?? txt() }}</span>
+  </button>
+  }
+</div>
+
+@if(showTooltip() && txt()){
+<app-portal [coords]="cpyPasteCoords()">
+  <ng-template #tpl>
+    <div #pasteNotice class="paste_notice">
+      <span class="txt__sm"> Copied to clipboard </span>
+    </div>
+  </ng-template>
+</app-portal>
+}

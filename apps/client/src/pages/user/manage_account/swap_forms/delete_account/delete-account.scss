@@ -1,0 +1,5 @@
+@use 'exports/shapes';
+
+.root {
+  @extend .app__form__block;
+}

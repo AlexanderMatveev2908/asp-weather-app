@@ -1,0 +1,39 @@
+<div class="root">
+  <button
+    #tooltipRef
+    (click)="genPwd()"
+    (focus)="useHover.onHover()"
+    (blur)="useHover.onLeave()"
+    (mouseover)="useHover.onHover()"
+    (mouseleave)="useHover.onLeave()"
+    type="button"
+    class="root__btn"
+  >
+    <div class="text-gray-300 svg__2xl">
+      <ng-container *ngComponentOutlet="Svg" />
+    </div>
+  </button>
+
+  <app-cpy-paste [txt]="pwd()" [confSwap]="confSwap()" />
+</div>
+
+<!-- ! avoid starting animation when mode is still 'swapping' -->
+@if(showTooltip() ){
+<app-portal
+  [coords]="{
+    top: coords()?.top,
+    left: coords()?.left
+  }"
+>
+  <ng-template #tpl>
+    <div class="tooltip">
+      <app-tooltip
+        [isHover]="useHover.isHover()"
+        [eventT]="'NONE'"
+        [msg]="'Generate Password'"
+        appUseIDsDir
+      />
+    </div>
+  </ng-template>
+</app-portal>
+}

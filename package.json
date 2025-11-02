@@ -1,0 +1,22 @@
+{
+  "name": "asp-weather-app",
+  "packageManager": "yarn@4.10.3",
+  "devDependencies": {
+    "tsx": "^4.20.6",
+    "turbo": "^2.6.0"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "install_pkg": "turbo install_pkg --parallel",
+    "dev": "turbo dev --parallel",
+    "dev:test": "turbo dev:test --parallel",
+    "build": "turbo build --parallel",
+    "build:dev": "turbo build:dev --parallel",
+    "build:test": "turbo build:test --parallel",
+    "start": "turbo run start --parallel",
+    "check": "turbo check --parallel",
+    "test": "turbo test --parallel"
+  }
+}

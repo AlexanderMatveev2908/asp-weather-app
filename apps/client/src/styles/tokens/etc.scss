@@ -1,0 +1,27 @@
+// ? fast tested to see where an element is ad his border-box
+.tb {
+  @apply border-[3px] border-red-600;
+}
+.tc {
+  @apply text-red-600 text-3xl;
+}
+
+// ?  scroll
+.app__scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.app__scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.app__scroll::-webkit-scrollbar-thumb {
+  background: var(--gray__300);
+  border-radius: 10px;
+}
+
+.app__scroll {
+  scrollbar-width: auto;
+  scrollbar-color: var(--gray__300) transparent;
+}

@@ -1,0 +1,13 @@
+@use 'exports/shapes.scss';
+
+:host {
+  @apply block w-full;
+}
+
+.root {
+  @extend .app__form__flex;
+
+  .root__content {
+    @extend .app__form__content_no_pad;
+  }
+}

@@ -1,0 +1,33 @@
+@use 'exports/mix' as mix;
+
+.root {
+  @apply flex justify-start items-center;
+
+  .root__drop {
+    @apply w-fit relative;
+
+    .drop__btn {
+      @include mix.app__el__scl(1.3);
+
+      @apply flex justify-center items-center border-2 border-blue-600 rounded-xl py-2 px-6;
+
+      &:hover {
+        @include mix.app__shadow(var(--blue__600));
+      }
+    }
+
+    .drop__content {
+      transition: transform 0.3s, opacity 0.2s;
+
+      @apply absolute w-[200px] border-2 border-blue-600 rounded-xl bottom-0 left-0 bg-neutral-950 z-50;
+
+      .content__item {
+        @apply transition-all duration-300 flex w-full justify-center items-center py-2 cursor-pointer;
+
+        &:hover {
+          @apply bg-blue-600 text-gray-300;
+        }
+      }
+    }
+  }
+}

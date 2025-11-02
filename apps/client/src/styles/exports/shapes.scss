@@ -1,0 +1,51 @@
+@mixin app__btn__res($padding) {
+  padding: $padding;
+  @apply flex w-full justify-center max-w-full border-2 rounded-xl text-gray-300;
+}
+
+@mixin app__form__content($with_padding) {
+  padding: if($with_padding, 0 1rem, 0);
+  @apply w-full flex flex-col gap-10;
+}
+
+// ? derived • sass would not support runtime conditions so i compile classes before build
+.app__form__content_pad {
+  @include app__form__content(true);
+}
+
+.app__form__content_no_pad {
+  @include app__form__content(false);
+}
+
+@mixin app__swapper__swap($opac, $with_padding) {
+  @extend .app__form__content_pad;
+  opacity: $opac;
+  @apply h-fit transition-all duration-300;
+}
+
+// ? static
+.app__form__page {
+  @apply w-full min-h-[70vh] flex flex-col justify-center items-center gap-12;
+}
+
+.app__form__flex {
+  @apply h-fit flex flex-col items-center gap-14;
+}
+
+.app__form__block {
+  @apply w-full flex justify-center items-center mt-10;
+}
+
+.app__form__container {
+  @extend .app__form__flex;
+  @apply border-3 border-gray-300 rounded-xl p-4 pb-12 pt-10 overflow-hidden;
+}
+
+.app__form__size {
+  @apply w-[90%] max-w-[800px];
+}
+
+.app__form__container_size {
+  @extend .app__form__container;
+  @extend .app__form__size;
+}

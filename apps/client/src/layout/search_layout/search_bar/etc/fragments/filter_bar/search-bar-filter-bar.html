@@ -1,0 +1,24 @@
+<app-black-bg [props]="blackBgProps()" />
+
+<div #barRef class="root z__filter_bar" [ngClass]="twd()" [attr.data-testid]="'filter_bar'">
+  <app-search-bar-filter-bar-header [useBars]="useBars()" />
+
+  <div class="root__body" [style.--less]="HEIGHT_LESS">
+    <div class="body__labels body__scrollable app__scroll">
+      <app-search-bar-filter-bar-labels
+        [useFilters]="useFilters()"
+        [filtersAvailable]="filtersAvailable()"
+      />
+    </div>
+    <div class="body__separator"></div>
+    <div class="body__vals body__scrollable app__scroll">
+      <app-search-bar-filter-bar-vals
+        [useFilters]="useFilters()"
+        [filtersAvailable]="filtersAvailable()"
+        [form]="form()"
+      />
+    </div>
+  </div>
+
+  <app-search-bar-filter-bar-footer [onErase]="onErase()" />
+</div>

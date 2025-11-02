@@ -1,0 +1,36 @@
+<app-csr-with-title [title]="'Register'">
+  <app-auth-form-shape
+    appUseFormShapeDir
+    [fromGroup]="form"
+    [onSubmit]="onSubmit"
+    [isPending]="apiTracker.isPending()"
+    appUseIDsDir
+    [testId]="'register_form'"
+  >
+    <app-swapper
+      [maxSwaps]="2"
+      [setSwap]="useSwap.setSwap"
+      [swap]="useSwap.swapState().swap"
+      appUseIDsDir
+      [testId]="'register_form'"
+    >
+      <div #swapDiv class="app__swapper__swap" [style.--opac]="useSwap.getOpacity(0)()">
+        <!--  -->
+        @for(f of firstSwapFields; track f.id){
+        <app-form-field-txt
+          appUseFormFieldDir
+          [f]="f"
+          [ctrl]="getCtrl(f.name)"
+          [focusOnMount]="f.name === 'firstName'"
+        />
+        }
+      </div>
+
+      <div #swapDiv class="app__swapper__swap" [style.--opac]="useSwap.getOpacity(1)()">
+        <app-pair-pwd [getCtrl]="getCtrl" [confSwap]="useSwap.confSwap(1)()" />
+
+        <app-form-field-box-sm appUseFormFieldDir [f]="terms" [ctrl]="getCtrl('terms')" />
+      </div>
+    </app-swapper>
+  </app-auth-form-shape>
+</app-csr-with-title>

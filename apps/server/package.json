@@ -1,0 +1,15 @@
+{
+  "name": "server",
+  "scripts": {
+    "dev": "find app/src/main/java app/src/main/resources -type f | entr -r ./gradlew bootRun",
+    "dev:test": "yarn run dev",
+    "check": "./gradlew checkstyleMain && ./gradlew pmdMain && ./gradlew spotbugsMain && echo \"☕ java check passed 🎉\"",
+    "build": "./gradlew bootJar",
+    "build:dev": "yarn run build",
+    "build:test": "yarn run build",
+    "start": "java -jar app/build/libs/server-1.0.0.jar",
+    "test": "./gradlew test && echo \"☕ java tests passed 🎉\"",
+    "clean": "./gradlew clean",
+    "install_pkg": "./gradlew clean --refresh-dependencies"
+  }
+}

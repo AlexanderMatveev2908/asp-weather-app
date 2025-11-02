@@ -1,0 +1,31 @@
+@if(txtFieldsLessPresent().length){
+<div class="root">
+  <div class="root__drop">
+    <button
+      #dropBtnRef
+      type="button"
+      class="drop__btn"
+      (click)="toggle()"
+      [attr.data-testid]="'toggle_drop_txt_inputs'"
+    >
+      <div class="svg__md">
+        <ng-container *ngComponentOutlet="SvgDrop" />
+      </div>
+    </button>
+
+    <div #dropRef class="drop__content" [ngClass]="twd()">
+      @for(f of txtFieldsLessPresent(); track f.id){
+      <div
+        tabindex="0"
+        (click)="addField(f)"
+        (keydown.enter)="addField(f)"
+        class="content__item"
+        [attr.data-testid]="itemDropTestID(f)"
+      >
+        <span class="txt__md">{{ f.label }}</span>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+}

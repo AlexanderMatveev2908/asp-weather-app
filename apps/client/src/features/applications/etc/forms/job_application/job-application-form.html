@@ -1,0 +1,22 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="root" [attr.data-testid]="useIDs.testId()">
+  <div class="root__content">
+    <app-form-field-txt
+      appUseFormFieldDir
+      [ctrl]="getCtrl('companyName')"
+      [f]="txtInputs[0]"
+      [focusOnMount]="true"
+    />
+
+    <app-form-field-txt appUseFormFieldDir [ctrl]="getCtrl('positionName')" [f]="txtInputs[1]" />
+
+    <app-form-field-txt appUseFormFieldDir [ctrl]="getCtrl('notes')" [f]="txtInputs[2]" />
+
+    <app-application-statuses [ctrl]="getCtrl('status')" />
+
+    <div class="w-full max-w-[400px]">
+      <app-form-field-txt appUseFormFieldDir [ctrl]="getCtrl('appliedAt')" [f]="txtInputs[3]" />
+    </div>
+  </div>
+
+  <app-form-submit [isPending]="apiTracker.isPending()" appUseIDsDir [testId]="useIDs.testId()" />
+</form>

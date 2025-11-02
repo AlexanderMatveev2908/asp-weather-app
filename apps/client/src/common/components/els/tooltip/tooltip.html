@@ -1,0 +1,11 @@
+<div
+  [attr.data-testid]="useIDsDir.testId()"
+  class="root"
+  [ngClass]="[twdAnimation(), twdPosition()]"
+  [style.--clr]="eventMeta().css"
+  [style.min-width]="minW()"
+>
+  <span class="root__msg txt__sm" [style.--clr]="eventMeta().css">{{ msg() }}</span>
+
+  <div [ngClass]="twdArrow()" class="root__arrow" [style.--clr]="eventMeta().css"></div>
+</div>

@@ -1,0 +1,58 @@
+<div class="root z__header">
+  <div class="root__left">
+    <a routerLink="/" class="svg__2xl left__link">
+      <app-svg-fill-ghost />
+    </a>
+  </div>
+
+  <div class="root__right">
+    <app-wrap-txt-api
+      [spinSizeT]="'md'"
+      appUseWrapApiDir
+      [eventT]="'INFO'"
+      [isPending]="fetchingUser()"
+    >
+      <app-drop-abs
+        [spanProps]="spanDropProps()"
+        [spanSizesProps]="spanDropSizesProps"
+        [isOpen]="useDrop.isOpen()"
+        [closeOnMouseOut]="true"
+        [setIsOpen]="useDrop.setIsOpen"
+        appUseIDsDir
+        [testId]="'header__drop'"
+      >
+        <ng-template #dropContent>
+          <div class="right__drop_content">
+            @for(lk of dropLinks(); track lk.id){
+            <app-nav-link
+              appUseSpanDir
+              [spanProps]="lk"
+              [path]="lk.path"
+              [currPath]="currPath()"
+              [setIsDropOpen]="useDrop.setIsOpen"
+              appUseIDsDir
+              [testId]="testIdFromPath(lk.path)"
+            />
+            } @if(user()){
+            <app-logout-btn [closeSomethingCb]="useDrop.setIsOpen.bind(this, false)" />
+            }
+          </div>
+        </ng-template>
+      </app-drop-abs>
+    </app-wrap-txt-api>
+
+    <button
+      [ngClass]="
+        isSideOpen() ? 'text-red-600 svg__3xl' : 'text-gray-300 hover:text-blue-600 svg__4xl'
+      "
+      (click)="toggleSide()"
+      [attr.data-testid]="'toggle_side_btn'"
+    >
+      @if (isSideOpen()) {
+      <app-svg-fill-close />
+      } @else {
+      <app-svg-stroke-burger />
+      }
+    </button>
+  </div>
+</div>

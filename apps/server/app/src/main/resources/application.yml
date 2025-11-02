@@ -1,0 +1,76 @@
+app:
+  appName: ${APP_NAME}
+  nextPblEnv: ${ENV_MODE}
+  nextPblBackUrl: ${BACK_URL}
+  nextPblBackUrlDev: ${BACK_URL_DEV}
+  nextPblBackUrlTest: ${BACK_URL_TEST}
+  nextPblFrontUrl: ${FRONT_URL}
+  nextPblFrontUrlDev: ${FRONT_URL_DEV}
+  nextPblFrontUrlTest: ${FRONT_URL_TEST}
+  nextPblSmptFrom: ${SMTP_FROM}
+  redisUrl: ${REDIS_URL}
+  cloudName: ${CLOUD_NAME}
+  cloudKey: ${CLOUD_API_KEY}
+  cloudSecret: ${CLOUD_API_SECRET}
+  jwtSecret: ${JWT_SECRET}
+  jwePrivate: ${JWE_PRIVATE}
+  jwePublic: ${JWE_PUBLIC}
+  hkdfMaster: ${HKDF_MASTER}
+  hkdfSalt: ${HKDF_SALT}
+  dbHashKey: ${DB_HASH_KEY}
+  gcmKey: ${GCM_KEY}
+
+server:
+  address: 0.0.0.0
+  port: 3000
+  tomcat:
+    relaxed-query-chars: "[,]"
+
+spring:
+  jackson:
+    mapper:
+      sort-properties-alphabetically: false
+    serialization:
+      order-map-entries-by-keys: false
+  mail:
+    host: ${BREVO_SMPT_SERVER}
+    port: ${BREVO_SMPT_PORT}
+    username: ${BREVO_SMPT_USER}
+    password: ${BREVO_SMPT_PWD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+  # ? set with EnvLoader cls at runtime
+  r2dbc:
+    url: 👻
+    username: 👻
+    password: 👻
+    pool:
+      enabled: true
+      initial-size: 0
+      max-size: 20
+      max-acquire-time: 240s
+      validation-query: SELECT 1
+
+  main:
+    banner-mode: off
+
+  web:
+    resources:
+      add-mappings: false
+
+  webflux:
+    multipart:
+      max-in-memory-size: 50MB
+      max-disk-usage-per-part: 100MB
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/master.yaml
+
+logging:
+  level:
+    root: WARN
+    org.hibernate: WARN
+    org.flywaydb: WARN

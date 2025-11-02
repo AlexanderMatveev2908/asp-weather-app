@@ -1,0 +1,11 @@
+:host {
+  @apply block w-full;
+}
+
+.root {
+  @apply w-full flex justify-between items-center;
+
+  .root__btn {
+    @apply w-fit;
+  }
+}

@@ -1,0 +1,6 @@
+.root {
+  @apply w-full h-screen flex flex-col gap-12 justify-center items-center;
+  .root__wrap_btn {
+    @apply w-[350px];
+  }
+}

@@ -1,0 +1,15 @@
+<app-form-shape
+  [testId]="useIDsDir.testId()"
+  [fromGroup]="useFormShapeDir.fromGroup()"
+  [onSubmit]="useFormShapeDir.onSubmit()"
+  [isPending]="useFormShapeDir.isPending()"
+  [useFullPage]="true"
+  appUseIDsDir
+  appUseFormShapeDir
+>
+  <ng-content />
+
+  <ng-template #footer>
+    <app-auth-span-links />
+  </ng-template>
+</app-form-shape>

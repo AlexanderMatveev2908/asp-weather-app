@@ -1,0 +1,17 @@
+@use 'exports/shapes.scss' as shapes;
+
+:host {
+  @apply block w-full;
+}
+
+.root {
+  @extend .app__form__page;
+
+  .root__content {
+    @extend .app__form__container_size;
+  }
+}
+
+.root__content {
+  @extend .app__form__flex;
+}

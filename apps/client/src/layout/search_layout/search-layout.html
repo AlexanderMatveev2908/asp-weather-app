@@ -1,0 +1,39 @@
+<div class="root">
+  <app-search-bar
+    appUseSearchBarPropsDir
+    [txtInputsAvailable]="useSearchBarProps.txtInputsAvailable()"
+    [form]="useSearchBarProps.form()"
+    [defState]="useSearchBarProps.defState()"
+    [filtersAvailable]="useSearchBarProps.filtersAvailable()"
+    [sortersAvailable]="useSearchBarProps.sortersAvailable()"
+    [useDebounce]="useDebounce"
+    appUseSearchBarStrategyPropsDir
+    [usePagination]="usePagination"
+    [triggerStrategy]="triggerStrategy"
+    [isPending]="isPending()"
+  />
+
+  @if(!isPending()){ <app-hits-counter [nHits]="useSearchBarPaginationProps.nHits()" />}
+</div>
+<app-page-wrapper
+  [waitClient]="true"
+  [isPending]="isPending()"
+  [minH]="'min-h-[80vh]'"
+  [eventT]="'INFO'"
+>
+  <ng-template #contentRef>
+    <div class="grid_wrapper" [attr.data-testid]="'search__content'">
+      <ng-content />
+    </div>
+  </ng-template>
+</app-page-wrapper>
+
+@if(!isPending() && useSearchBarPaginationProps.nHits()){<app-page-counter
+  appUseSearchBarPaginationPropsDir
+  [nHits]="useSearchBarPaginationProps.nHits()"
+  [pages]="useSearchBarPaginationProps.pages()"
+  appUseSearchBarStrategyPropsDir
+  [usePagination]="usePagination"
+  [triggerStrategy]="triggerStrategy"
+  [isPending]="isPending()"
+/>}

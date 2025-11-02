@@ -1,0 +1,30 @@
+.trs {
+  @apply transition-all duration-300;
+}
+
+.app__link {
+  @apply relative cursor-pointer;
+  @extend .trs;
+
+  &::after {
+    @extend .trs;
+    @apply absolute content-[''] left-0 -bottom-2 w-full h-[3px] scale-0 bg-blue-600;
+  }
+
+  &:hover,
+  &.active {
+    @apply text-blue-600;
+    &::after {
+      @apply scale-100;
+    }
+  }
+}
+
+.app__clr {
+  @extend .trs;
+  @apply text-gray-300;
+
+  &:hover {
+    @apply text-blue-600;
+  }
+}

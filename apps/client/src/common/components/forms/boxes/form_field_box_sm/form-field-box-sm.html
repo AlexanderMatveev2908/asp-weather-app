@@ -1,0 +1,18 @@
+<div class="root">
+  <button
+    [attr.data-testid]="testId()"
+    (click)="onToggle()"
+    type="button"
+    #checkbox
+    class="root_checkbox"
+    [ngClass]="getTwd()"
+  >
+    <div #mark class="checkbox__mark"></div>
+  </button>
+
+  <span class="txt__lg">
+    {{ f().label }}
+  </span>
+
+  <app-form-field-err appUseIDsDir appUseFormFieldDir [ctrl]="ctrl()" [testId]="testId()" />
+</div>

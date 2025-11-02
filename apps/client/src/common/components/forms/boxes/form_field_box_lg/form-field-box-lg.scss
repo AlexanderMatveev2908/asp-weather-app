@@ -1,0 +1,19 @@
+.root {
+  transition: all 0.3s;
+  transform: var(--trs);
+  background: var(--bg);
+  color: var(--clr);
+
+  @apply flex w-full min-w-[200px] max-w-[225px] items-center justify-center border-2 rounded-xl px-5 py-2;
+
+  &:hover {
+    transform: var(--trs_hover);
+    background: var(--bg_hover);
+    color: var(--clr_hover);
+  }
+
+  &:active {
+    transition: all 0.1s;
+    transform: scale(0.75);
+  }
+}

@@ -1,0 +1,20 @@
+@use 'exports/mix.scss' as mix;
+
+.root {
+  @apply flex items-center justify-center gap-6;
+
+  .root__dot {
+    background: var(--clr);
+    @include mix.app__shadow(var(--clr));
+
+    @apply w-[25px] h-[25px] rounded-full;
+
+    @media (min-width: 350px) {
+      @apply w-[30px] h-[30px];
+    }
+
+    @media (min-width: 600px) {
+      @apply w-[35px] h-[35px];
+    }
+  }
+}

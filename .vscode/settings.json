@@ -1,0 +1,37 @@
+{
+  "editor.formatOnSave": true,
+  "[java]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.defaultFormatter": "redhat.java"
+  },
+  "java.format.enabled": true,
+  "java.format.onType.enabled": false,
+  "java.format.comments.enabled": false,
+  "java.format.settings.profile": "Default",
+  "java.format.settings.url": "",
+  "java.format.settings.use.editorconfig": true,
+  "java.compile.nullAnalysis.mode": "automatic",
+  "better-comments.tags": [
+    {
+      "tag": "?",
+      "color": "#2563EB",
+      "bold": true
+    },
+    {
+      "tag": "!",
+      "color": "#DC2626",
+      "bold": true
+    },
+    {
+      "tag": "|",
+      "color": "#CA8A04",
+      "bold": true
+    },
+    {
+      "tag": ">",
+      "color": "#16A34A",
+      "bold": true
+    }
+  ]
+}

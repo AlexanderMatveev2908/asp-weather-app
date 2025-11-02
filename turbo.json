@@ -1,0 +1,59 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "tasks": {
+    "install_pkg": {
+      "cache": false,
+      "persistent": false,
+      "dependsOn": ["^install_pkg"],
+      "outputs": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^dev"],
+      "outputs": []
+    },
+    "dev:test": {
+      "dependsOn": ["^dev:test"],
+      "cache": false,
+      "persistent": true,
+      "outputs": []
+    },
+    "check": {
+      "cache": false,
+      "persistent": false,
+      "dependsOn": [],
+      "outputs": []
+    },
+    "test": {
+      "cache": false,
+      "persistent": false,
+      "dependsOn": [],
+      "outputs": []
+    },
+    "start": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^start"],
+      "outputs": []
+    },
+    "build": {
+      "cache": false,
+      "persistent": false,
+      "dependsOn": ["^build"],
+      "outputs": ["apps/client/.next/**", "apps/server/dist/**"]
+    },
+    "build:dev": {
+      "cache": false,
+      "persistent": false,
+      "dependsOn": ["^build:dev"],
+      "outputs": ["apps/client/.next/**", "apps/server/dist/**"]
+    },
+    "build:test": {
+      "cache": false,
+      "persistent": false,
+      "dependsOn": ["^build:test"],
+      "outputs": ["apps/client/.next/**", "apps/server/dist/**"]
+    }
+  }
+}

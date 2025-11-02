@@ -1,0 +1,22 @@
+[project]
+name = "svg-ng-cli"
+version = "1.0.0"
+description = ""
+authors = [
+    {name = "AlexanderMatveev2908",email = "matveevalexander470@gmail.com"}
+]
+requires-python = ">=3.12"
+dependencies = [
+]
+
+packages = [
+    { include = "svg_ng_cli", from = "src" }
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.18.2"
+

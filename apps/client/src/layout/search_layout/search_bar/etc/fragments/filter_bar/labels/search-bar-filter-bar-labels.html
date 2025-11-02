@@ -1,0 +1,13 @@
+<div class="root">
+  @for(f of filters(); track f.id){
+  <button type="button" (click)="onClick(f)" class="root__item" [ngClass]="twd(f)">
+    <div class="svg__md">
+      <ng-container *ngComponentOutlet="f.Svg" />
+    </div>
+
+    <span class="txt__lg item__label">
+      {{ f.label }}
+    </span>
+  </button>
+  }
+</div>

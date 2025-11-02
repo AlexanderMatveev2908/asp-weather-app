@@ -1,0 +1,37 @@
+<div class="root" [attr.data-testid]="useIDsDir.swapperVarID()">
+  <div class="root__label">
+    <span class="txt__lg"> {{ label() }}</span>
+  </div>
+
+  <div class="root__content">
+    <app-form-field-err
+      appUseFormFieldDir
+      [ctrl]="ctrl()"
+      appUseIDsDir
+      [testId]="useIDsDir.testId()"
+    />
+
+    <div class="content__wrap">
+      <div class="wrap__swapper" [style.--grid_conf]="gridConf()" [style.--trs]="translate()">
+        @for(id of paginationState().swapsIDs; track id; let idx = $index){
+        <app-dynamic-swap-item
+          [fields]="getItems(idx)"
+          [paginationState]="paginationState()"
+          [currOpacity]="currOpacity(idx)"
+          [ctrl]="ctrl()"
+        />
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="root__btns">
+    <app-swap-btns
+      appUseIDsDir
+      [testId]="useIDsDir.swapperVarID()"
+      [swap]="swapState().swap"
+      [setSwap]="setSwap()"
+      [maxSwaps]="paginationState().swapsIDs.length"
+    />
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="root" [attr.data-testid]="'setup_2fa_form'">
+  @if(user()?.use2FA && !resSetup2FA()){
+  <app-notice-2fa appUseMetaEventDir [eventT]="'OK'" [txt]="'Account have 2FA setup'" />
+  } @else if (!user()?.isVerified) {
+  <app-notice-2fa
+    appUseMetaEventDir
+    [eventT]="'WARN'"
+    [txt]="'Account must be verified to setup 2FA'"
+  />
+  } @else {
+  <app-content-setup-2fa
+    [resSetup2FA]="resSetup2FA()"
+    [isPending]="useApiTracker.isPending()"
+    [onClick]="onClick"
+    [confSwap]="confSwap()"
+  />
+  }
+</div>

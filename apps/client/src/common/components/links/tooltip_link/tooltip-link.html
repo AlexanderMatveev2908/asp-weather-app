@@ -1,0 +1,24 @@
+<a
+  [routerLink]="lk().path"
+  (mouseover)="onHover()"
+  (mouseleave)="onLeave()"
+  (focus)="onHover()"
+  (blur)="onLeave()"
+  class="root"
+>
+  <div class="svg__2xl">
+    <ng-container *ngComponentOutlet="lk().Svg" />
+  </div>
+
+  <div class="root__wrap">
+    <app-tooltip
+      [isHover]="isHover()"
+      [msg]="lk().label"
+      [eventT]="lk().eventT"
+      [arrowOn]="arrowOn()"
+      [minW]="minW()"
+      appUseIDsDir
+      [testId]="useIDsDir.testId()"
+    />
+  </div>
+</a>

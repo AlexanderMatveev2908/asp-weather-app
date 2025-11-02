@@ -1,0 +1,18 @@
+@use 'exports/mix' as mix;
+
+.root {
+  @apply w-full grid grid-cols-[75px_1fr_75px] px-4 sm:px-8 py-6;
+
+  .root__pages {
+    @apply w-full flex justify-around items-center gap-6;
+
+    .pages__item {
+      @include mix.app__btn__scl(1.25);
+      @apply border-2 border-gray-300 rounded-xl py-1 px-5;
+    }
+  }
+
+  .root__btn_block_wrap {
+    @apply w-full flex justify-center items-center;
+  }
+}

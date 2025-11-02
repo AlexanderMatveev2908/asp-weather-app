@@ -1,0 +1,19 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.root {
+  @apply w-full h-full flex justify-center items-center;
+
+  .root__spin {
+    border-color: var(--clr);
+    animation: spin 1s linear infinite;
+    @apply w-full h-full rounded-full border-[4px] border-t-transparent border-b-transparent;
+  }
+}

@@ -1,0 +1,27 @@
+@if(useFullPage()){
+<div class="root">
+  <ng-container *ngTemplateOutlet="formContent" />
+  <ng-container *ngTemplateOutlet="footer" />
+</div>
+}@else {
+<div class="w-full">
+  <ng-container *ngTemplateOutlet="formContent" />
+</div>
+}
+
+<ng-template #formContent>
+  <form
+    [attr.data-testid]="useIDsDir.testId()"
+    class="root__content"
+    [formGroup]="useShapeDir.fromGroup()"
+    (ngSubmit)="useShapeDir.onSubmit()()"
+  >
+    <ng-content />
+
+    <app-form-submit
+      [isPending]="useShapeDir.isPending()"
+      appUseIDsDir
+      [testId]="useIDsDir.testId()"
+    />
+  </form>
+</ng-template>

@@ -1,0 +1,5 @@
+@use 'exports/shapes' as shapes;
+
+.root {
+  @extend .app__form__content_pad;
+}

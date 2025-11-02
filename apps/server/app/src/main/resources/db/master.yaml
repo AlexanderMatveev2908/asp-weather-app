@@ -1,0 +1,91 @@
+databaseChangeLog:
+  - changeSet:
+      id: "001_define_root_table"
+      author: ninja
+      changes:
+        - sqlFile:
+            path: sql/001_define_root_table.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+      rollback:
+        - sqlFile:
+            path: sql/rollbacks/001_define_root_table.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+  - changeSet:
+      id: "002_define_trigger_timestamps"
+      author: ninja
+      changes:
+        - sqlFile:
+            path: sql/002_define_trigger_timestamps.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+      rollback:
+        - sqlFile:
+            path: sql/rollbacks/002_define_trigger_timestamps.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+  - changeSet:
+      id: "003_define_users_table"
+      author: ninja
+      changes:
+        - sqlFile:
+            path: sql/003_define_users_table.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+      rollback:
+        - sqlFile:
+            path: sql/rollbacks/003_define_users_table.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+  - changeSet:
+      id: "004_define_tokens_table"
+      author: ninja
+      changes:
+        - sqlFile:
+            path: sql/004_define_tokens_table.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+      rollback:
+        - sqlFile:
+            path: sql/rollbacks/004_define_tokens_table.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+  - changeSet:
+      id: "005_define_backup_codes_table"
+      author: ninja
+      changes:
+        - sqlFile:
+            path: sql/005_define_backup_codes_table.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+      rollback:
+        - sqlFile:
+            path: sql/rollbacks/005_define_backup_codes_table.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+  - changeSet:
+      id: "006_define_applications_table"
+      author: ninja
+      changes:
+        - sqlFile:
+            path: sql/006_define_applications_table.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+      rollback:
+        - sqlFile:
+            path: sql/rollbacks/006_define_applications_table.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
