@@ -5,25 +5,25 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import server.conf.db.remote_dictionary.RD;
-import server.lib.combo.Kit;
-import server.lib.dev.MyLog;
+import server.lib.dev.lib_log.LibLog;
+import server.lib.kits.BaseKit;
 
 @Service
 @RequiredArgsConstructor
 public final class LifeSpawn {
-    private final Kit kit;
+    private final BaseKit kit;
     private final RD rd;
 
     @SuppressWarnings({ "UnnecessaryTemporaryOnConversionFromString" })
     public void lifeCheck(WebServerInitializedEvent e) {
         rd.dbSize().doOnNext(size -> {
 
-            MyLog.log(String.format("🚀 server running on => %d...", e.getWebServer().getPort()),
+            LibLog.log(String.format("🚀 server running on => %d...", e.getWebServer().getPort()),
                     String.format("⬜ whitelist => %s", kit.getEnvKeeper().getFrontUrl()),
                     String.format("🧮 redis keys => %d", size));
 
         }).subscribe(res -> {
-        }, err -> MyLog.logErr(err));
+        }, err -> LibLog.logErr(err));
 
     }
 }

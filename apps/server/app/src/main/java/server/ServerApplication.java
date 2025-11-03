@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 
 import lombok.RequiredArgsConstructor;
 import server.decorators.LifeSpawn;
-import server.lib.dev.MyLog;
+import server.lib.dev.lib_log.LibLog;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
@@ -23,7 +23,7 @@ public class ServerApplication {
         try {
             SpringApplication.run(ServerApplication.class, args);
         } catch (Exception err) {
-            MyLog.logErr(err);
+            LibLog.logErr(err);
         }
     }
 
@@ -34,7 +34,7 @@ public class ServerApplication {
             try {
                 lifeSpawn.lifeCheck(e);
             } catch (Exception err) {
-                MyLog.logErr(err);
+                LibLog.logErr(err);
             }
 
         };

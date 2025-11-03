@@ -14,7 +14,7 @@ import server.decorators.RootCls;
 import server.decorators.flow.ErrAPI;
 
 @Service
-public class RD implements RootCls {
+public final class RD implements RootCls {
     private final RedisClient client;
     private final StatefulRedisConnection<String, String> cnt;
     private final RedisReactiveCommands<String, String> cmd;
@@ -35,7 +35,6 @@ public class RD implements RootCls {
                 .map(res -> {
                     if (!"PONG".equals(res))
                         throw new ErrAPI("rd cnt failed");
-
                     return res;
                 });
     }

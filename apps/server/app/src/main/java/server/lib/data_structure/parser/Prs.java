@@ -16,7 +16,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 import server.decorators.flow.ErrAPI;
 import server.lib.data_structure.ShapeCheck;
-import server.lib.dev.MyLog;
+import server.lib.dev.lib_log.LibLog;
 
 public final class Prs {
 
@@ -29,7 +29,7 @@ public final class Prs {
         try {
             return jack.writeValueAsString(obj);
         } catch (Exception err) {
-            MyLog.logErr(err);
+            LibLog.logErr(err);
             return null;
         }
     }
@@ -39,7 +39,7 @@ public final class Prs {
             return jack.readValue(txt, new TypeReference<Map<String, Object>>() {
             });
         } catch (Exception err) {
-            MyLog.logErr(err);
+            LibLog.logErr(err);
             return null;
         }
     }

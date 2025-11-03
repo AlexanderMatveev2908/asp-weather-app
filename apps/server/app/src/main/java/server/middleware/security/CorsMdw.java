@@ -17,13 +17,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.api.Api;
-import server.lib.combo.Kit;
+import server.lib.kits.BaseKit;
 import server.lib.data_structure.parser.Prs;
 
-@Component @Order(10) @RequiredArgsConstructor
+@Component
+@Order(10)
+@RequiredArgsConstructor
 public class CorsMdw implements WebFilter {
 
-    private final Kit kit;
+    private final BaseKit kit;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exc, WebFilterChain chain) {

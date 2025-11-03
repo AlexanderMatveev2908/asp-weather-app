@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.res_api.ResAPI;
 import server.lib.data_structure.parser.Prs;
-import server.lib.dev.MyLog;
+import server.lib.dev.lib_log.LibLog;
 
 @Component
 @Order(-1)
@@ -29,7 +29,7 @@ public class ErrCatcher implements WebExceptionHandler {
     @Override
     public Mono<Void> handle(ServerWebExchange exc, Throwable err) {
 
-        MyLog.logErr(err);
+        LibLog.logErr(err);
 
         String msg = Optional.ofNullable(err.getMessage()).orElse("");
         boolean isRouteNotFound = msg.equals("404 NOT_FOUND");

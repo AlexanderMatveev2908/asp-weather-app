@@ -16,7 +16,7 @@ import server.decorators.AppFile;
 import server.decorators.flow.api.Api;
 import server.lib.data_structure.ShapeCheck;
 import server.lib.data_structure.parser.Prs;
-import server.lib.dev.MyLog;
+import server.lib.dev.lib_log.LibLog;
 
 @Component
 @Order(100)
@@ -43,10 +43,10 @@ public class LogMdw implements WebFilter {
             try {
                 arg.put("body", ShapeCheck.isStr(norm) ? Prs.jsonToMap((String) norm) : norm);
             } catch (Exception err) {
-                MyLog.logErr(err);
+                LibLog.logErr(err);
             }
 
-            MyLog.wOk(arg);
+            LibLog.wOk(arg);
         }).then(chain.filter(api));
 
     }

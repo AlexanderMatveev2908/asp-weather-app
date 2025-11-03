@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import reactor.core.publisher.Mono;
 import server.conf.env_conf.EnvKeeper;
-import server.lib.dev.MyLog;
+import server.lib.dev.lib_log.LibLog;
 
 public interface CloudSvcDelete {
 
@@ -61,7 +61,7 @@ public interface CloudSvcDelete {
         .flatMap(map -> {
           String result = map.get("result").toString();
           int count = "ok".equals(result) ? 1 : 0;
-          MyLog.log(String.format("✂️ deleted %d %s", count, resourceType));
+          LibLog.log(String.format("✂️ deleted %d %s", count, resourceType));
           return Mono.just(count);
         });
   }

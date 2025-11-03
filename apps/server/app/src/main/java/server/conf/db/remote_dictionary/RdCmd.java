@@ -12,10 +12,10 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.ErrAPI;
 import server.lib.data_structure.parser.Prs;
-import server.lib.dev.MyLog;
+import server.lib.dev.lib_log.LibLog;
 
 @Service
-public class RdCmd {
+public final class RdCmd {
     private final RedisReactiveCommands<String, String> cmd;
 
     public RdCmd(RD rd) {
@@ -28,13 +28,13 @@ public class RdCmd {
                 return Mono.error(new ErrAPI("key not found => " + k, 404));
 
             return Mono.just(v.intValue());
-        }).doOnNext(v -> MyLog.log("🔪 deleted " + v + " key"));
+        }).doOnNext(v -> LibLog.log("🔪 deleted " + v + " key"));
 
     }
 
     public Mono<String> typeOf(String key) {
         return cmd.type(key).switchIfEmpty(Mono.error(new ErrAPI("key not found => " + key, 404)))
-                .doOnNext(type -> MyLog.logKV(key, type));
+                .doOnNext(type -> LibLog.logKV(key, type));
     }
 
     public Mono<String> setStr(String k, String v) {
@@ -43,7 +43,7 @@ public class RdCmd {
 
     public Mono<String> getStr(String k) {
         return cmd.get(k).switchIfEmpty(Mono.error(new ErrAPI("key not found => " + k, 404)))
-                .doOnNext(val -> MyLog.logKV(k, val));
+                .doOnNext(val -> LibLog.logKV(k, val));
     }
 
     public Mono<String> setHash(String k, Map<String, String> m) {
@@ -52,7 +52,7 @@ public class RdCmd {
 
     public Mono<String> getHash(String k, String v) {
         return cmd.hget(k, v).switchIfEmpty(Mono.error(new ErrAPI(String.format("%s.%s not found", k, v), 404)))
-                .doOnNext((res) -> MyLog.logKV(k + "." + v, res));
+                .doOnNext((res) -> LibLog.logKV(k + "." + v, res));
     }
 
     public Mono<Integer> appendList(String k, String... v) {
@@ -65,7 +65,7 @@ public class RdCmd {
                 return Mono.error(new ErrAPI("key not found => " + k, 404));
 
             return Mono.just(list);
-        }).doOnNext(list -> MyLog.logKV(k, Prs.toJson(list)));
+        }).doOnNext(list -> LibLog.logKV(k, Prs.toJson(list)));
     }
 
     public Mono<Integer> addToSet(String k, String... v) {
@@ -78,7 +78,7 @@ public class RdCmd {
                 return Mono.error(new ErrAPI("key not found => " + k, 404));
 
             return Mono.just(Set.copyOf(list));
-        }).doOnNext(set -> MyLog.logKV(k, Prs.toJson(set)));
+        }).doOnNext(set -> LibLog.logKV(k, Prs.toJson(set)));
     }
 
     public Mono<Integer> addToScoredSet(String k, Map<String, Double> m) {
@@ -91,26 +91,26 @@ public class RdCmd {
             if (list.isEmpty())
                 return Mono.error(new ErrAPI("key not found => " + k, 404));
             return Mono.just(Set.copyOf(list));
-        }).doOnNext(set -> MyLog.logKV(k, Prs.toJson(set)));
+        }).doOnNext(set -> LibLog.logKV(k, Prs.toJson(set)));
     }
 
     public Mono<Object> grabAll() {
         return cmd.keys("*").flatMap(key -> cmd.type(key).flatMap(type -> switch (type.toLowerCase()) {
-        case "string" -> cmd.get(key).map(val -> Map.entry(key, val));
+            case "string" -> cmd.get(key).map(val -> Map.entry(key, val));
 
-        case "hash" -> cmd.hgetall(key).collectMap(kv -> kv.getKey(), kv -> kv.getValue())
-                .map(map -> Map.entry(key, Prs.toJson(map)));
+            case "hash" -> cmd.hgetall(key).collectMap(kv -> kv.getKey(), kv -> kv.getValue())
+                    .map(map -> Map.entry(key, Prs.toJson(map)));
 
-        case "list" -> cmd.lrange(key, 0, -1).collectList().map(list -> Map.entry(key, Prs.toJson(list)));
+            case "list" -> cmd.lrange(key, 0, -1).collectList().map(list -> Map.entry(key, Prs.toJson(list)));
 
-        case "set" -> cmd.smembers(key).collectList().map(list -> Map.entry(key, Prs.toJson(list)));
+            case "set" -> cmd.smembers(key).collectList().map(list -> Map.entry(key, Prs.toJson(list)));
 
-        case "zset" -> cmd.zrange(key, 0, -1).collectList().map(list -> Map.entry(key, Prs.toJson(list)));
+            case "zset" -> cmd.zrange(key, 0, -1).collectList().map(list -> Map.entry(key, Prs.toJson(list)));
 
-        default -> Mono.empty();
+            default -> Mono.empty();
         })).collectMap(Map.Entry::getKey, Map.Entry::getValue).map(res -> {
             System.out.println("🗃️ rd cache => ");
-            res.forEach((k, v) -> MyLog.logKV(k, v));
+            res.forEach((k, v) -> LibLog.logKV(k, v));
             return res;
         });
     }
@@ -120,7 +120,7 @@ public class RdCmd {
             if (!"OK".equals(res))
                 throw new ErrAPI("rd flush all failed");
 
-            MyLog.log("🔪 rd cleaned");
+            LibLog.log("🔪 rd cleaned");
 
             return res;
         }).onErrorMap(err -> new ErrAPI("rd flush all failed"));

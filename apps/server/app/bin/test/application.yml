@@ -1,0 +1,44 @@
+app:
+  appName: ${APP_NAME}
+  envMode: ${ENV_MODE}
+  backUrl: ${BACK_URL}
+  backUrlDev: ${BACK_URL_DEV}
+  backUrlTest: ${BACK_URL_TEST}
+  frontUrl: ${FRONT_URL}
+  frontUrlDev: ${FRONT_URL_DEV}
+  frontUrlTest: ${FRONT_URL_TEST}
+  redisUrl: ${REDIS_URL}
+  cloudName: ${CLOUD_NAME}
+  cloudKey: ${CLOUD_API_KEY}
+  cloudSecret: ${CLOUD_API_SECRET}
+
+server:
+  address: 0.0.0.0
+  port: 3000
+  tomcat:
+    relaxed-query-chars: "[,]"
+
+spring:
+  jackson:
+    mapper:
+      sort-properties-alphabetically: false
+    serialization:
+      order-map-entries-by-keys: false
+
+  main:
+    banner-mode: off
+
+  web:
+    resources:
+      add-mappings: false
+
+  webflux:
+    multipart:
+      max-in-memory-size: 50MB
+      max-disk-usage-per-part: 100MB
+
+logging:
+  level:
+    root: WARN
+    org.hibernate: WARN
+    org.flywaydb: WARN
