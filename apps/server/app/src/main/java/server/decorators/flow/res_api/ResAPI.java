@@ -19,6 +19,7 @@ import reactor.core.publisher.Mono;
 import server.decorators.flow.res_api.data_structure.ResApiJson;
 import server.decorators.messages.ActT;
 import server.decorators.messages.MapperMsg;
+import server.paperwork.Reg;
 
 @SuppressFBWarnings({ "EI" })
 @Getter
@@ -43,8 +44,15 @@ public final class ResAPI {
     public ResAPI() {
     }
 
-    private static String prependEmj(String msg, ActT act) {
-        return msg == null ? null : String.format("%s %s", act.getEmj());
+    private String getPrettyMsg() {
+        if (status == 204)
+            return null;
+
+        String safeMsg = msg != null ? msg : MapperMsg.fromCode(status).getMsg();
+        String prettyMsg = Reg.isFirstCharEmoji(safeMsg) ? msg
+                : String.format("%s %s", ActT.emjFromStatus(status), safeMsg);
+
+        return prettyMsg;
     }
 
     public static Map<String, Object> flatData(Map<String, Object> data) {
@@ -91,8 +99,6 @@ public final class ResAPI {
     }
 
     public Mono<ResponseEntity<ResAPI>> build() {
-        String safeMsg = status == 204 ? null : msg != null ? msg : MapperMsg.fromCode(status).getMsg();
-        ActT act = (status >= 200 && status < 300) ? ActT.OK : ActT.ERR;
 
         ResponseEntity.BodyBuilder builder = ResponseEntity.status(status);
         for (ResponseCookie cookie : cookies)
@@ -104,7 +110,9 @@ public final class ResAPI {
         if (status == 204)
             return Mono.just(builder.build());
 
-        ResAPI myRes = new ResAPI().status(status).msg(prependEmj(safeMsg, act)).data(data);
+        String prettyMsg = getPrettyMsg();
+
+        ResAPI myRes = new ResAPI().status(status).msg(prettyMsg).data(data);
 
         return Mono.just(builder.body(myRes));
     }

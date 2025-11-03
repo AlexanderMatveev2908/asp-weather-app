@@ -14,18 +14,17 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.ServerWebExchangeDecorator;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.sub.ApiAttr;
 import server.decorators.flow.api.sub.ApiInfo;
+import server.lib.data_structure.Jack;
 
 @SuppressWarnings({ "unused", "UseSpecificCatch" })
 public final class Api extends ServerWebExchangeDecorator implements ApiInfo, ApiAttr {
 
-    private static final ObjectMapper JACKSON = new ObjectMapper();
     private static final DefaultDataBufferFactory BUFFER_FACTORY = new DefaultDataBufferFactory();
 
     private final Mono<byte[]> cachedBody;
@@ -65,7 +64,7 @@ public final class Api extends ServerWebExchangeDecorator implements ApiInfo, Ap
             if (bytes.length == 0)
                 return Mono.empty();
 
-            return Mono.fromCallable(() -> JACKSON.readValue(bytes, type)).cache();
+            return Mono.fromCallable(() -> Jack.mapper.readValue(bytes, type)).cache();
         }).onErrorMap(err -> new ErrAPI("wrong data format", 400));
     }
 

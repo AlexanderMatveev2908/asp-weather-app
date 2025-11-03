@@ -16,19 +16,22 @@ import org.springframework.web.server.WebFilterChain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
+import server.conf.env_conf.EnvKeeper;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
+import server.lib.data_structure.Jack;
 import server.lib.data_structure.prs.Prs;
-import server.lib.kits.BaseKit;
 
 @Component
 @Order(10)
 @RequiredArgsConstructor
+@SuppressFBWarnings({ "EI2", "EI" })
 public class CorsMdw implements WebFilter {
 
-    private final BaseKit kit;
+    private final EnvKeeper envKeeper;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exc, WebFilterChain chain) {
@@ -36,7 +39,7 @@ public class CorsMdw implements WebFilter {
         ServerHttpResponse res = api.getResponse();
 
         String origin = api.getHeader(HttpHeaders.ORIGIN);
-        String allowed = kit.getEnvKeeper().getFrontUrl();
+        String allowed = envKeeper.getFrontUrl();
 
         if (!origin.isBlank() && !origin.startsWith(allowed))
             return writeForbidden(res, origin);
@@ -58,7 +61,7 @@ public class CorsMdw implements WebFilter {
         String msg = String.format("❌ %s not allowed", origin);
         String body;
         try {
-            body = kit.getJack().writeValueAsString(Map.of("msg", msg, "status", 403));
+            body = Jack.mapper.writeValueAsString(Map.of("msg", msg, "status", 403));
         } catch (JsonProcessingException err) {
             throw new ErrAPI("err writing json cors response");
         }

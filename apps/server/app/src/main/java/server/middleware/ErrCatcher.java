@@ -12,19 +12,17 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
 
 import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import reactor.core.publisher.Mono;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.res_api.ResAPI;
+import server.lib.data_structure.Jack;
 import server.lib.dev.lib_log.LibLog;
+import server.paperwork.Reg;
 
 @Component
 @Order(-1)
 public class ErrCatcher implements WebExceptionHandler {
-
-    private final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
     private record RouteFlags(boolean isRouteNotFound, boolean isMethodNotAllowed) {
         public boolean is404or405() {
@@ -39,22 +37,25 @@ public class ErrCatcher implements WebExceptionHandler {
         return new RouteFlags(isRouteNotFound, isMethodNotAllowed);
     }
 
-    private String getMsg(ServerWebExchange exc, Throwable err, RouteFlags flags, String originalMsg) {
+    private String get404or405Msg(ServerWebExchange exc, RouteFlags flags) {
+        String endpoint = exc.getRequest().getPath().value();
         String msg;
 
-        if (flags.is404or405()) {
-            String endpoint = exc.getRequest().getPath().value();
-
-            if (flags.isRouteNotFound())
-                msg = String.format("route %s not found 🚦", endpoint);
-            else
-                msg = String.format("route %s does not support %s requests", endpoint,
-                        exc.getRequest().getMethod().toString());
-        } else {
-            msg = String.format("%s %s", err instanceof ErrAPI ? "❌" : "💣", originalMsg);
-        }
+        if (flags.isRouteNotFound())
+            msg = String.format("❌ route %s not found 🚦", endpoint);
+        else
+            msg = String.format("❌ route %s does not support %s requests 🚦", endpoint,
+                    exc.getRequest().getMethod().toString());
 
         return msg;
+    }
+
+    private String getPrettyMsg(ServerWebExchange exc, Throwable err, RouteFlags flags, String originalMsg) {
+        if (flags.is404or405())
+            return get404or405Msg(exc, flags);
+        else
+            return Reg.isFirstCharEmoji(originalMsg) ? originalMsg
+                    : String.format("%s %s", err instanceof ErrAPI ? "❌" : "💣", originalMsg);
     }
 
     private int getStatus(Throwable err, RouteFlags flags) {
@@ -71,10 +72,10 @@ public class ErrCatcher implements WebExceptionHandler {
         String originalMsg = Optional.ofNullable(err.getMessage()).orElse("");
         RouteFlags flags = extractFlags(originalMsg);
 
-        String msg = getMsg(exc, err, flags, originalMsg);
+        String msg = getPrettyMsg(exc, err, flags, originalMsg);
         int status = getStatus(err, flags);
 
-        Map<String, Object> data = (err instanceof ErrAPI errInst) ? (errInst).getData() : null;
+        Map<String, Object> data = (err instanceof ErrAPI errInst) ? errInst.getData() : null;
 
         ServerHttpResponse res = exc.getResponse();
         res.setStatusCode(HttpStatus.valueOf(status));
@@ -84,8 +85,8 @@ public class ErrCatcher implements WebExceptionHandler {
 
         byte[] bytes;
         try {
-            bytes = mapper.writeValueAsBytes(apiBody);
-        } catch (JacksonException e) {
+            bytes = Jack.mapper.writeValueAsBytes(apiBody);
+        } catch (JacksonException errOfErr) {
             throw new ErrAPI("err build json err catcher");
         }
 
