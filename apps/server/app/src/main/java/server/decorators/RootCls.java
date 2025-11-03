@@ -15,9 +15,7 @@ public interface RootCls {
             while (curr != null && !curr.getName().startsWith("java.")) {
                 for (Field f : curr.getDeclaredFields()) {
                     int mods = f.getModifiers();
-                    if (Modifier.isStatic(mods))
-                        continue;
-                    if (Modifier.isTransient(mods))
+                    if (Modifier.isStatic(mods) || Modifier.isTransient(mods))
                         continue;
 
                     f.setAccessible(true);

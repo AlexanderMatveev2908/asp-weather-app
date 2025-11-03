@@ -20,8 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.ErrAPI;
-import server.decorators.flow.api.etc.ApiAttr;
-import server.decorators.flow.api.etc.ApiInfo;
+import server.decorators.flow.api.sub.ApiAttr;
+import server.decorators.flow.api.sub.ApiInfo;
 
 @SuppressWarnings({ "unused", "UseSpecificCatch" })
 public final class Api extends ServerWebExchangeDecorator implements ApiInfo, ApiAttr {
@@ -59,15 +59,6 @@ public final class Api extends ServerWebExchangeDecorator implements ApiInfo, Ap
                 });
             }
         };
-    }
-
-    public Mono<String> getBdCbcHmac() {
-        return getBd(new TypeReference<Map<String, Object>>() {
-        }).flatMap(body -> {
-            if (body.get("cbcHmacToken") instanceof String tokenStr && !tokenStr.isBlank())
-                return Mono.just(tokenStr);
-            return Mono.empty();
-        });
     }
 
     public <T> Mono<T> getBd(TypeReference<T> type) {

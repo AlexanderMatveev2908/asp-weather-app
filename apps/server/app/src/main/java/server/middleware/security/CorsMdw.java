@@ -3,10 +3,12 @@ package server.middleware.security;
 import java.util.Map;
 
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -16,6 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
+import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 import server.lib.data_structure.prs.Prs;
 import server.lib.kits.BaseKit;
@@ -29,8 +32,8 @@ public class CorsMdw implements WebFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exc, WebFilterChain chain) {
-        var api = (Api) exc;
-        var res = api.getResponse();
+        Api api = (Api) exc;
+        ServerHttpResponse res = api.getResponse();
 
         String origin = api.getHeader(HttpHeaders.ORIGIN);
         String allowed = kit.getEnvKeeper().getFrontUrl();
@@ -48,7 +51,7 @@ public class CorsMdw implements WebFilter {
         return chain.filter(api);
     }
 
-    private Mono<Void> writeForbidden(org.springframework.http.server.reactive.ServerHttpResponse res, String origin) {
+    private Mono<Void> writeForbidden(ServerHttpResponse res, String origin) {
         res.setStatusCode(HttpStatus.FORBIDDEN);
         res.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
@@ -57,17 +60,17 @@ public class CorsMdw implements WebFilter {
         try {
             body = kit.getJack().writeValueAsString(Map.of("msg", msg, "status", 403));
         } catch (JsonProcessingException err) {
-            body = String.format("{ \"msg\": \"%s\", \"status\": 403 }", msg);
+            throw new ErrAPI("err writing json cors response");
         }
 
-        var buff = res.bufferFactory().wrap(Prs.binaryFromUtf8(body));
+        DataBuffer buff = res.bufferFactory().wrap(Prs.binaryFromUtf8(body));
         return res.writeWith(Mono.just(buff));
     }
 
-    private void setCorsHeaders(org.springframework.http.server.reactive.ServerHttpResponse res, String allowed) {
+    private void setCorsHeaders(ServerHttpResponse res, String allowed) {
         String allowedHdr = "Origin, Content-Type, Accept, Authorization";
 
-        var resHdr = res.getHeaders();
+        HttpHeaders resHdr = res.getHeaders();
         resHdr.set(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, allowedHdr);
         resHdr.set(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, allowed);
         resHdr.set(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, PUT, PATCH, DELETE, OPTIONS");

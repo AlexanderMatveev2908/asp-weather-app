@@ -1,4 +1,4 @@
-package server.decorators.flow.api.etc;
+package server.decorators.flow.api.sub;
 
 import java.util.Map;
 import java.util.Optional;
@@ -32,18 +32,9 @@ public interface ApiAttr {
     setAttr("parsedQuery", parsed);
   }
 
-  @SuppressWarnings({ "unused", })
   default Optional<Map<String, Object>> getParsedQuery() {
     Map<String, Object> val = getExch().getAttribute("parsedQuery");
-
     return val != null ? Optional.of(val) : Optional.empty();
-  }
-
-  default String getQueryCbcHmac() {
-    if (getParsedQuery().orElse(Map.of()).get("cbcHmacToken") instanceof String cbcHmac)
-      return cbcHmac;
-
-    return "";
   }
 
   // ? parsed form
@@ -53,9 +44,7 @@ public interface ApiAttr {
 
   default Optional<Map<String, Object>> getParsedForm() {
     Map<String, Object> val = getExch().getAttribute("parsedForm");
-
     return val != null ? Optional.of(val) : Optional.empty();
-
   }
 
 }

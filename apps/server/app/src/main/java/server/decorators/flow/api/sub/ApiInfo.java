@@ -1,4 +1,4 @@
-package server.decorators.flow.api.etc;
+package server.decorators.flow.api.sub;
 
 import java.util.Map;
 import java.util.Optional;
@@ -64,20 +64,6 @@ public interface ApiInfo {
     return Optional.ofNullable(getExch().getRequest().getURI().getQuery()).orElse("");
   }
 
-  // ? tokens
-  default String getJwt() {
-    String auth = getHeader("authorization");
-    String token = auth.startsWith("Bearer ") ? auth.substring("Bearer ".length()) : "";
-
-    return token;
-  }
-
-  default String getJwe() {
-    String jwe = getCookie("refreshToken");
-
-    return jwe;
-  }
-
   // ? general
   default String getPath() {
     return getExch().getRequest().getPath().toString().split("\\?", 2)[0];
@@ -97,16 +83,12 @@ public interface ApiInfo {
     return getPath().startsWith(arg);
   }
 
-  default boolean isSubPathOf(String arg, HttpMethod method) {
-    return getPath().startsWith(arg) && getMethod().equals(method);
-  }
-
   default boolean matchPath(String arg, HttpMethod method) {
     String original = getPath();
-    String cut;
     String[] parts = original.split("\\/", -1);
     int lastIdx = parts.length - 1;
     String lastPart = parts[lastIdx];
+    String cut;
 
     if (lastPart.isBlank())
       cut = original.replaceFirst("\\/+$", "");

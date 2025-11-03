@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping
 public @interface RouterAPI {
-
     @AliasFor(annotation = RequestMapping.class, attribute = "value")
     String[] value() default { "/api/v1" };
 }

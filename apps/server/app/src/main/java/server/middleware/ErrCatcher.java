@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
@@ -17,7 +18,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.res_api.ResAPI;
-import server.lib.data_structure.prs.Prs;
 import server.lib.dev.lib_log.LibLog;
 
 @Component
@@ -26,39 +26,67 @@ public class ErrCatcher implements WebExceptionHandler {
 
     private final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
+    private record RouteFlags(boolean isRouteNotFound, boolean isMethodNotAllowed) {
+        public boolean is404or405() {
+            return isRouteNotFound || isMethodNotAllowed;
+        }
+    }
+
+    private RouteFlags extractFlags(String msg) {
+        boolean isRouteNotFound = msg.contains("404 NOT_FOUND");
+        boolean isMethodNotAllowed = msg.contains("405 METHOD_NOT_ALLOWED");
+
+        return new RouteFlags(isRouteNotFound, isMethodNotAllowed);
+    }
+
+    private String getMsg(ServerWebExchange exc, Throwable err, RouteFlags flags, String originalMsg) {
+        String msg;
+
+        if (flags.is404or405()) {
+            String endpoint = exc.getRequest().getPath().value();
+
+            if (flags.isRouteNotFound())
+                msg = String.format("route %s not found 🚦", endpoint);
+            else
+                msg = String.format("route %s does not support %s requests", endpoint,
+                        exc.getRequest().getMethod().toString());
+        } else {
+            msg = String.format("%s %s", err instanceof ErrAPI ? "❌" : "💣", originalMsg);
+        }
+
+        return msg;
+    }
+
+    private int getStatus(Throwable err, RouteFlags flags) {
+        int status = (err instanceof ErrAPI errInst) ? errInst.getStatus()
+                : flags.isRouteNotFound() ? 404 : flags.isMethodNotAllowed() ? 405 : 500;
+        return status;
+    }
+
     @Override
     public Mono<Void> handle(ServerWebExchange exc, Throwable err) {
 
         LibLog.logErr(err);
 
-        String msg = Optional.ofNullable(err.getMessage()).orElse("");
-        boolean isRouteNotFound = msg.equals("404 NOT_FOUND");
-        boolean isMethodNotAllowed = msg.contains("405 METHOD_NOT_ALLOWED");
-        if (isRouteNotFound || isMethodNotAllowed) {
-            String endpoint = exc.getRequest().getPath().value();
-            if (isRouteNotFound)
-                msg = String.format("route %s not found 🚦", endpoint);
-            else
-                msg = String.format("route %s does not support %s requests", endpoint,
-                        exc.getRequest().getMethod().toString());
-        }
-        msg = String.format("%s %s", err instanceof ErrAPI ? "❌" : "💣", msg.replace("❌ ", ""));
-        int status = (err instanceof ErrAPI errInst) ? errInst.getStatus()
-                : isRouteNotFound ? 404 : isMethodNotAllowed ? 405 : 500;
-        Map<String, Object> data = (err instanceof ErrAPI) ? ((ErrAPI) err).getData() : null;
+        String originalMsg = Optional.ofNullable(err.getMessage()).orElse("");
+        RouteFlags flags = extractFlags(originalMsg);
 
-        var res = exc.getResponse();
+        String msg = getMsg(exc, err, flags, originalMsg);
+        int status = getStatus(err, flags);
+
+        Map<String, Object> data = (err instanceof ErrAPI errInst) ? (errInst).getData() : null;
+
+        ServerHttpResponse res = exc.getResponse();
         res.setStatusCode(HttpStatus.valueOf(status));
         res.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
-        var apiBody = new ResAPI(status, msg, data);
+        ResAPI apiBody = new ResAPI(status, msg, data);
 
         byte[] bytes;
         try {
             bytes = mapper.writeValueAsBytes(apiBody);
         } catch (JacksonException e) {
-            bytes = Prs.binaryFromUtf8("{\"msg\":\"serialization failed\",\"status\":500,\"data\":null}");
-
+            throw new ErrAPI("err build json err catcher");
         }
 
         return res.writeWith(Mono.just(res.bufferFactory().wrap(bytes)));

@@ -1,4 +1,4 @@
-package server.decorators.flow.res_api.etc;
+package server.decorators.flow.res_api.data_structure;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 import server.decorators.flow.res_api.ResAPI;
 
-public class ResApiJson extends JsonSerializer<ResAPI> {
+public final class ResApiJson extends JsonSerializer<ResAPI> {
     @Override
     public void serialize(ResAPI res, JsonGenerator gen, SerializerProvider serializers) throws IOException {
 

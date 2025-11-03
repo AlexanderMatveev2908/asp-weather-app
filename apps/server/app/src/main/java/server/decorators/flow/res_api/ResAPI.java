@@ -16,11 +16,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import reactor.core.publisher.Mono;
-import server.decorators.flow.res_api.etc.ResApiJson;
+import server.decorators.flow.res_api.data_structure.ResApiJson;
 import server.decorators.messages.ActT;
 import server.decorators.messages.MapperMsg;
 
-@SuppressFBWarnings({ "EI" }) @Getter @JsonSerialize(using = ResApiJson.class)
+@SuppressFBWarnings({ "EI" })
+@Getter
+@JsonSerialize(using = ResApiJson.class)
 public final class ResAPI {
     private String msg;
     private Integer status;
@@ -42,7 +44,7 @@ public final class ResAPI {
     }
 
     private static String prependEmj(String msg, ActT act) {
-        return msg == null ? null : String.format("%s %s", act.getEmj(), msg.replace("❌ ", ""));
+        return msg == null ? null : String.format("%s %s", act.getEmj());
     }
 
     public static Map<String, Object> flatData(Map<String, Object> data) {
@@ -102,7 +104,7 @@ public final class ResAPI {
         if (status == 204)
             return Mono.just(builder.build());
 
-        var myRes = new ResAPI().status(status).msg(prependEmj(safeMsg, act)).data(data);
+        ResAPI myRes = new ResAPI().status(status).msg(prependEmj(safeMsg, act)).data(data);
 
         return Mono.just(builder.body(myRes));
     }
