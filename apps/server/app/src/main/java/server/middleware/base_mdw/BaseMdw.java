@@ -17,16 +17,15 @@ import reactor.core.publisher.Mono;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 import server.lib.data_structure.prs.Prs;
-import server.middleware.base_mdw.etc.interfaces.BaseLimitMdw;
-import server.middleware.base_mdw.etc.services_mdw.FormCheckerSvcMdw;
-import server.middleware.base_mdw.etc.services_mdw.RateLimitSvcMdw;
+import server.middleware.base_mdw.etc.services.FormChecker;
+import server.middleware.base_mdw.etc.services.RateLimitSvc;
 
-public abstract class BaseMdw implements WebFilter, BaseLimitMdw {
+public abstract class BaseMdw implements WebFilter {
 
     @Autowired
-    private RateLimitSvcMdw rl;
+    private RateLimitSvc rl;
     @Autowired
-    private FormCheckerSvcMdw formCk;
+    private FormChecker formCk;
 
     protected abstract Mono<Void> handle(Api api, WebFilterChain chain);
 
@@ -36,25 +35,22 @@ public abstract class BaseMdw implements WebFilter, BaseLimitMdw {
         return handle(api, chain);
     }
 
-    @Override
-    public RateLimitSvcMdw useLimit() {
-        return rl;
-    }
-
-    @Override
-    public Mono<Map<String, Object>> grabBody(Api api) {
-        return api.getBd(new TypeReference<Map<String, Object>>() {
-        }).switchIfEmpty(Mono.error(new ErrAPI("data not provided", 400)));
-    }
-
     private <T> Mono<Void> checkForm(Api api, T form) {
         return formCk.check(api, form);
     }
 
     private <T> Mono<T> convertAndCheckForm(Api api, Map<String, Object> arg, Class<T> cls) {
         T form = Prs.tFromMap(arg, cls);
-
         return checkForm(api, form).thenReturn(form);
+    }
+
+    private Mono<Map<String, Object>> grabBody(Api api) {
+        return api.getBd(new TypeReference<Map<String, Object>>() {
+        }).switchIfEmpty(Mono.error(new ErrAPI("data not provided", 400)));
+    }
+
+    protected Mono<Void> limit(Api api, int limit, int minutes) {
+        return rl.limit(api, limit, minutes);
     }
 
     protected <T> Mono<T> checkBodyForm(Api api, Class<T> cls) {
@@ -69,7 +65,6 @@ public abstract class BaseMdw implements WebFilter, BaseLimitMdw {
 
     protected <T> Mono<T> checkQueryForm(Api api, Class<T> cls) {
         Optional<Map<String, Object>> parsedQuery = api.getParsedQuery();
-
         return Mono.defer(() -> !parsedQuery.isPresent() ? Mono.error(new ErrAPI("data not provided", 400))
                 : convertAndCheckForm(api, parsedQuery.get(), cls));
     }
@@ -78,7 +73,6 @@ public abstract class BaseMdw implements WebFilter, BaseLimitMdw {
         if (!api.hasPathUUID())
             return Mono.error(new ErrAPI("invalid id", 400));
         return Mono.just(api.getPathVarId().get());
-
     }
 
     protected Mono<Void> isTarget(Api api, WebFilterChain chain, String path, Supplier<Mono<Void>> cb) {

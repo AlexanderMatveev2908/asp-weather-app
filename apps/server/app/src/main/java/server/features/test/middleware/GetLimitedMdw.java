@@ -7,12 +7,13 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.api.Api;
 import server.middleware.base_mdw.BaseMdw;
-import server.middleware.base_mdw.etc.services_mdw.RateLimitSvcMdw;
+import server.middleware.base_mdw.etc.services.RateLimitSvc;
 
-@Component @RequiredArgsConstructor
+@Component
+@RequiredArgsConstructor
 public class GetLimitedMdw extends BaseMdw {
 
-    private final RateLimitSvcMdw rl;
+    private final RateLimitSvc rl;
 
     @Override
     public Mono<Void> handle(Api api, WebFilterChain chain) {
