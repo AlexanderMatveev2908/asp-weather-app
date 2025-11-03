@@ -18,7 +18,7 @@ import server.lib.data_structure.parser.Prs;
 
 @Service
 @RequiredArgsConstructor
-@SuppressFBWarnings({ "EI2" })
+@SuppressFBWarnings({ "EI2", "EI" })
 public final class CloudSvc implements CloudSvcUpload, CloudSvcDelete {
     private final WebClient.Builder webClientBuilder;
     private final EnvKeeper envKeeper;
