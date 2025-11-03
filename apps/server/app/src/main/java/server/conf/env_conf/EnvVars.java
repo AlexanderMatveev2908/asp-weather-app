@@ -51,6 +51,10 @@ public final class EnvVars {
 
     @NotBlank
     @Resolved
+    private String weatherApiKey;
+
+    @NotBlank
+    @Resolved
     private String redisUrl;
 
     public EnvModeT getMode() {

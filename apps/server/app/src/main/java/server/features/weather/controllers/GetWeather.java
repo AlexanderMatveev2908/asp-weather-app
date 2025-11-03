@@ -8,13 +8,15 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.api.Api;
 import server.decorators.flow.res_api.ResAPI;
+import server.features.weather.services.WeatherSvc;
 
 @SuppressFBWarnings({ "EI2" })
 @Component
 @RequiredArgsConstructor
 public class GetWeather {
+  private final WeatherSvc weatherSvc;
 
   public Mono<ResponseEntity<ResAPI>> main(Api api) {
-    return new ResAPI(200).msg("Get Weather endpoint").build();
+    return weatherSvc.main().flatMap(bodyWeather -> new ResAPI(200).data(bodyWeather).build());
   }
 }

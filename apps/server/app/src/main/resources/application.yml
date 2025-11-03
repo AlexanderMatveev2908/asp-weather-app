@@ -11,6 +11,7 @@ app:
   cloudName: ${CLOUD_NAME}
   cloudKey: ${CLOUD_API_KEY}
   cloudSecret: ${CLOUD_API_SECRET}
+  weatherApiKey: ${WEATHER_API_KEY}
 
 server:
   address: 0.0.0.0

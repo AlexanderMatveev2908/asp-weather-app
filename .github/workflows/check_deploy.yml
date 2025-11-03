@@ -28,6 +28,7 @@ jobs:
       CLOUD_NAME: ${{secrets.CLOUD_NAME}}
       CLOUD_API_KEY: ${{secrets.CLOUD_API_KEY}}
       CLOUD_API_SECRET: ${{secrets.CLOUD_API_SECRET}}
+      WEATHER_API_KEY: ${{secrets.WEATHER_API_KEY}}
 
     steps:
       - name: 📂 clone code
