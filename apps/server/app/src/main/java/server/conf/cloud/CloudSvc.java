@@ -14,7 +14,7 @@ import server.conf.cloud.etc.sub.CloudSvcDelete;
 import server.conf.cloud.etc.sub.CloudSvcUpload;
 import server.conf.env_conf.EnvKeeper;
 import server.decorators.flow.ErrAPI;
-import server.lib.data_structure.parser.Prs;
+import server.lib.data_structure.prs.Prs;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +46,7 @@ public final class CloudSvc implements CloudSvcUpload, CloudSvcDelete {
     private String sign(String params) {
         try {
             MessageDigest sha1 = MessageDigest.getInstance("SHA-1");
-            byte[] digest = sha1.digest(Prs.utf8ToBinary(params));
+            byte[] digest = sha1.digest(Prs.binaryFromUtf8(params));
             String sig = HexFormat.of().formatHex(digest);
 
             return sig;

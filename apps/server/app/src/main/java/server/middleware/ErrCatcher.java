@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.res_api.ResAPI;
-import server.lib.data_structure.parser.Prs;
+import server.lib.data_structure.prs.Prs;
 import server.lib.dev.lib_log.LibLog;
 
 @Component
@@ -57,7 +57,7 @@ public class ErrCatcher implements WebExceptionHandler {
         try {
             bytes = mapper.writeValueAsBytes(apiBody);
         } catch (JacksonException e) {
-            bytes = Prs.utf8ToBinary("{\"msg\":\"serialization failed\",\"status\":500,\"data\":null}");
+            bytes = Prs.binaryFromUtf8("{\"msg\":\"serialization failed\",\"status\":500,\"data\":null}");
 
         }
 

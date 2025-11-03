@@ -17,8 +17,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.api.Api;
+import server.lib.data_structure.prs.Prs;
 import server.lib.kits.BaseKit;
-import server.lib.data_structure.parser.Prs;
 
 @Component
 @Order(10)
@@ -60,7 +60,7 @@ public class CorsMdw implements WebFilter {
             body = String.format("{ \"msg\": \"%s\", \"status\": 403 }", msg);
         }
 
-        var buff = res.bufferFactory().wrap(Prs.utf8ToBinary(body));
+        var buff = res.bufferFactory().wrap(Prs.binaryFromUtf8(body));
         return res.writeWith(Mono.just(buff));
     }
 
