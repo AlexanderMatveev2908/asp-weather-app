@@ -2,6 +2,7 @@ package server.conf.env_conf.etc;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import server.decorators.flow.ErrAPI;
 
 @Getter
 @RequiredArgsConstructor
@@ -17,6 +18,6 @@ public enum EnvMode {
             if (mode.val.equalsIgnoreCase(val))
                 return mode;
 
-        throw new IllegalArgumentException("❌ unknown env mode => " + val);
+        throw new ErrAPI("Invalid mode => " + val);
     }
 }

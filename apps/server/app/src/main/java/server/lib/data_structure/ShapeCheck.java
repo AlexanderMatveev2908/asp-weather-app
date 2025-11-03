@@ -3,7 +3,7 @@ package server.lib.data_structure;
 import java.util.List;
 import java.util.UUID;
 
-import server.conf.Reg;
+import server.paperwork.Reg;
 
 public final class ShapeCheck {
     public static boolean isStr(Object val) {

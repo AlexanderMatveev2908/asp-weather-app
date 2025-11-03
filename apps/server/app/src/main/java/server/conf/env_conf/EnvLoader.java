@@ -2,6 +2,7 @@ package server.conf.env_conf;
 
 import java.nio.file.Path;
 import java.util.Properties;
+import java.util.Set;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -10,31 +11,26 @@ import org.springframework.core.env.PropertiesPropertySource;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvEntry;
-import server.decorators.flow.ErrAPI;
 import server.lib.paths.Hiker;
 
 public final class EnvLoader implements EnvironmentPostProcessor {
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment env, SpringApplication app) {
-        try {
-            Path serverDir = Hiker.SERVER_DIR;
+        Path serverDir = Hiker.SERVER_DIR;
 
-            Dotenv dotenv = Dotenv.configure()
-                    .directory(serverDir.toString())
-                    .filename(".env")
-                    .ignoreIfMissing()
-                    .load();
+        Dotenv dotenv = Dotenv.configure()
+                .directory(serverDir.toString())
+                .filename(".env")
+                .ignoreIfMissing()
+                .load();
 
-            Properties props = new Properties();
-            var existingVars = dotenv.entries();
-            for (DotenvEntry pair : existingVars)
-                props.put(pair.getKey(), pair.getValue());
+        Properties props = new Properties();
+        Set<DotenvEntry> existingVars = dotenv.entries();
 
-            env.getPropertySources().addFirst(new PropertiesPropertySource("dotenv", props));
+        for (DotenvEntry pair : existingVars)
+            props.put(pair.getKey(), pair.getValue());
 
-        } catch (ErrAPI err) {
-            throw new ErrAPI(err.getMessage());
-        }
+        env.getPropertySources().addFirst(new PropertiesPropertySource("dotenv", props));
     }
 }

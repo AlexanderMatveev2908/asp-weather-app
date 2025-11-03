@@ -124,7 +124,6 @@ jobs:
             --config fly.toml \
             --build-arg ENV_MODE=${{ secrets.ENV_MODE }} \
             --build-arg FRONT_URL=${{ secrets.FRONT_URL }} \
-            --build-arg BACK_URL=${{ secrets.BACK_URL }} \
-            --build-arg SMTP_FROM=${{ secrets.SMTP_FROM }}
+            --build-arg BACK_URL=${{ secrets.BACK_URL }}
         env:
           FLY_API_TOKEN: ${{ secrets.ASP_WEATHER_APP__CLIENT }}

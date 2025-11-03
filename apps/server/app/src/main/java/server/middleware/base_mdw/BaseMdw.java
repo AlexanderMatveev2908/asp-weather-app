@@ -20,7 +20,6 @@ import server.lib.data_structure.parser.Prs;
 import server.middleware.base_mdw.etc.interfaces.BaseLimitMdw;
 import server.middleware.base_mdw.etc.services_mdw.FormCheckerSvcMdw;
 import server.middleware.base_mdw.etc.services_mdw.RateLimitSvcMdw;
-import server.paperwork.user_validation.pwd_form.PwdForm;
 
 public abstract class BaseMdw implements WebFilter, BaseLimitMdw {
 
@@ -75,10 +74,6 @@ public abstract class BaseMdw implements WebFilter, BaseLimitMdw {
 
         return Mono.defer(() -> !parsedQuery.isPresent() ? Mono.error(new ErrAPI("data not provided", 400))
                 : convertAndCheckForm(api, parsedQuery.get(), cls));
-    }
-
-    protected Mono<String> checkPwdForm(Api api) {
-        return checkBodyForm(api, PwdForm.class).map(form -> form.getPassword());
     }
 
     protected Mono<UUID> withPathId(Api api) {

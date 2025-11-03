@@ -10,8 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.server.ServerWebExchange;
 
-import server.conf.Reg;
 import server.lib.data_structure.ShapeCheck;
+import server.paperwork.Reg;
 
 public interface ApiInfo {
 
