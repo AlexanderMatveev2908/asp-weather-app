@@ -9,22 +9,22 @@ import server.lib.dev.lib_log.LibLog;
 
 public class A_PrsBase {
 
-  public static String toJson(Object obj) {
+  public static String jsonFromObj(Object obj) {
     try {
       return Jack.mapper.writeValueAsString(obj);
     } catch (Exception err) {
       LibLog.logErr(err);
-      return null;
+      return "";
     }
   }
 
-  public static Map<String, Object> jsonToMap(String txt) {
+  public static Map<String, Object> mapFromJson(String txt) {
     try {
       return Jack.mapper.readValue(txt, new TypeReference<Map<String, Object>>() {
       });
     } catch (Exception err) {
       LibLog.logErr(err);
-      return null;
+      return Map.of();
     }
   }
 }

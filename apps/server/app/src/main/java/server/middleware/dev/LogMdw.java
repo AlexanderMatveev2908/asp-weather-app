@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 import server.decorators.AppFile;
 import server.decorators.flow.api.Api;
 import server.lib.data_structure.LibShapeCheck;
-import server.lib.data_structure.prs.Prs;
+import server.lib.data_structure.prs.LibPrs;
 import server.lib.dev.lib_log.LibLog;
 
 @Component
@@ -41,7 +41,7 @@ public final class LogMdw implements WebFilter {
             var norm = api.getContentType().contains("multipart/form-data") ? null : normalizeEmpty(body);
 
             try {
-                arg.put("body", LibShapeCheck.isStr(norm) ? Prs.jsonToMap((String) norm) : norm);
+                arg.put("body", LibShapeCheck.isStr(norm) ? LibPrs.mapFromJson((String) norm) : norm);
             } catch (Exception err) {
                 LibLog.logErr(err);
             }

@@ -13,6 +13,6 @@ public class B_PrsUtf8 extends A_PrsBase {
   }
 
   public static byte[] binaryFromMap(Map<String, Object> arg) {
-    return binaryFromUtf8(toJson(arg));
+    return binaryFromUtf8(jsonFromObj(arg));
   }
 }

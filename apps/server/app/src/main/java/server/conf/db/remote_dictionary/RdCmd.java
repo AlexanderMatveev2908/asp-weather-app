@@ -1,8 +1,8 @@
 package server.conf.db.remote_dictionary;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import io.lettuce.core.api.reactive.RedisReactiveCommands;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.ErrAPI;
-import server.lib.data_structure.prs.Prs;
+import server.lib.data_structure.prs.LibPrs;
 import server.lib.dev.lib_log.LibLog;
 
 @Service
@@ -36,13 +36,16 @@ public final class RdCmd {
                 .doOnNext(type -> LibLog.logKV(key, type));
     }
 
+    public Mono<Boolean> expire(String key, int minutes) {
+        return cmd.expire(key, Duration.ofMinutes(minutes));
+    }
+
     public Mono<String> setStr(String k, String v) {
         return cmd.set(k, v);
     }
 
     public Mono<String> getStr(String k) {
-        return cmd.get(k).switchIfEmpty(Mono.error(new ErrAPI("key not found => " + k, 404)))
-                .doOnNext(val -> LibLog.logKV(k, val));
+        return cmd.get(k);
     }
 
     public Mono<String> setHash(String k, Map<String, String> m) {
@@ -50,8 +53,7 @@ public final class RdCmd {
     }
 
     public Mono<String> getHash(String k, String v) {
-        return cmd.hget(k, v).switchIfEmpty(Mono.error(new ErrAPI(String.format("%s.%s not found", k, v), 404)))
-                .doOnNext((res) -> LibLog.logKV(k + "." + v, res));
+        return cmd.hget(k, v);
     }
 
     public Mono<Integer> appendList(String k, String... v) {
@@ -59,25 +61,15 @@ public final class RdCmd {
     }
 
     public Mono<List<String>> getList(String k, int start, int end) {
-        return cmd.lrange(k, start, end).collectList().flatMap(list -> {
-            if (list.isEmpty())
-                return Mono.error(new ErrAPI("key not found => " + k, 404));
-
-            return Mono.just(list);
-        }).doOnNext(list -> LibLog.logKV(k, Prs.toJson(list)));
+        return cmd.lrange(k, start, end).collectList();
     }
 
     public Mono<Integer> addToSet(String k, String... v) {
         return cmd.sadd(k, v).map(Long::intValue);
     }
 
-    public Mono<Set<String>> getSet(String k) {
-        return cmd.smembers(k).collectList().flatMap(list -> {
-            if (list.isEmpty())
-                return Mono.error(new ErrAPI("key not found => " + k, 404));
-
-            return Mono.just(Set.copyOf(list));
-        }).doOnNext(set -> LibLog.logKV(k, Prs.toJson(set)));
+    public Mono<List<String>> getSet(String k) {
+        return cmd.smembers(k).collectList();
     }
 
     public Mono<Integer> addToScoredSet(String k, Map<String, Double> m) {
@@ -85,12 +77,8 @@ public final class RdCmd {
                 (acc, curr) -> acc + curr.intValue());
     }
 
-    public Mono<Set<ScoredValue<String>>> getScoredSet(String k, int start, int end) {
-        return cmd.zrangeWithScores(k, start, end).collectList().flatMap(list -> {
-            if (list.isEmpty())
-                return Mono.error(new ErrAPI("key not found => " + k, 404));
-            return Mono.just(Set.copyOf(list));
-        }).doOnNext(set -> LibLog.logKV(k, Prs.toJson(set)));
+    public Mono<List<ScoredValue<String>>> getScoredSet(String k, int start, int end) {
+        return cmd.zrangeWithScores(k, start, end).collectList();
     }
 
     public Mono<Object> grabAll() {
@@ -98,13 +86,13 @@ public final class RdCmd {
             case "string" -> cmd.get(key).map(val -> Map.entry(key, val));
 
             case "hash" -> cmd.hgetall(key).collectMap(kv -> kv.getKey(), kv -> kv.getValue())
-                    .map(map -> Map.entry(key, Prs.toJson(map)));
+                    .map(map -> Map.entry(key, LibPrs.jsonFromObj(map)));
 
-            case "list" -> cmd.lrange(key, 0, -1).collectList().map(list -> Map.entry(key, Prs.toJson(list)));
+            case "list" -> cmd.lrange(key, 0, -1).collectList().map(list -> Map.entry(key, LibPrs.jsonFromObj(list)));
 
-            case "set" -> cmd.smembers(key).collectList().map(list -> Map.entry(key, Prs.toJson(list)));
+            case "set" -> cmd.smembers(key).collectList().map(list -> Map.entry(key, LibPrs.jsonFromObj(list)));
 
-            case "zset" -> cmd.zrange(key, 0, -1).collectList().map(list -> Map.entry(key, Prs.toJson(list)));
+            case "zset" -> cmd.zrange(key, 0, -1).collectList().map(list -> Map.entry(key, LibPrs.jsonFromObj(list)));
 
             default -> Mono.empty();
         })).collectMap(Map.Entry::getKey, Map.Entry::getValue).map(res -> {
