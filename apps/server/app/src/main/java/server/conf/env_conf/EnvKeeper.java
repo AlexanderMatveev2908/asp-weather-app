@@ -5,8 +5,8 @@ import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import server.conf.env_conf.etc.EnvMode;
-import server.conf.env_conf.etc.Resolved;
+import server.conf.env_conf.etc.data_structure.EnvModeT;
+import server.conf.env_conf.etc.paperwork.Resolved;
 
 @Data
 @Validated
@@ -53,8 +53,8 @@ public final class EnvKeeper {
     @Resolved
     private String redisUrl;
 
-    public EnvMode getMode() {
-        return EnvMode.fromValue(this.envMode);
+    public EnvModeT getMode() {
+        return EnvModeT.fromValue(this.envMode);
     }
 
     public String getFrontUrl() {

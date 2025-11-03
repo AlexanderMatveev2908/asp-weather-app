@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 import server.conf.cloud.CloudSvc;
-import server.conf.cloud.etc.CloudAsset;
+import server.conf.cloud.etc.data_structure.CloudAsset;
 import server.decorators.AppFile;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;

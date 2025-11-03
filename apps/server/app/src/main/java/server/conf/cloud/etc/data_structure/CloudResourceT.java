@@ -1,4 +1,4 @@
-package server.conf.cloud.etc;
+package server.conf.cloud.etc.data_structure;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
