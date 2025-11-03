@@ -12,7 +12,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.RequiredArgsConstructor;
 import server.conf.cloud.etc.sub.CloudSvcDelete;
 import server.conf.cloud.etc.sub.CloudSvcUpload;
-import server.conf.env_conf.EnvKeeper;
+import server.conf.env_conf.EnvVars;
 import server.decorators.flow.ErrAPI;
 import server.lib.data_structure.prs.Prs;
 
@@ -21,10 +21,10 @@ import server.lib.data_structure.prs.Prs;
 @SuppressFBWarnings({ "EI2", "EI" })
 public final class CloudSvc implements CloudSvcUpload, CloudSvcDelete {
     private final WebClient.Builder webClientBuilder;
-    private final EnvKeeper envKeeper;
+    private final EnvVars envKeeper;
 
     // ? expected as abstract
-    public EnvKeeper getEnvKeeper() {
+    public EnvVars getEnvKeeper() {
         return envKeeper;
     }
 

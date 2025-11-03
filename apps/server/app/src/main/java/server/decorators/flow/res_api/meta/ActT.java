@@ -1,4 +1,4 @@
-package server.decorators.messages;
+package server.decorators.flow.res_api.meta;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,4 +15,5 @@ public enum ActT {
         ActT act = (status >= 200 && status < 300) ? ActT.OK : ActT.ERR;
         return act.getEmj();
     }
+
 }

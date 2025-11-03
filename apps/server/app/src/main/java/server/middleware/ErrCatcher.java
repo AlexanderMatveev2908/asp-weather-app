@@ -22,37 +22,11 @@ import server.paperwork.Reg;
 
 @Component
 @Order(-1)
-public class ErrCatcher implements WebExceptionHandler {
-
-    private record RouteFlags(boolean isRouteNotFound, boolean isMethodNotAllowed) {
-        public boolean is404or405() {
-            return isRouteNotFound || isMethodNotAllowed;
-        }
-    }
-
-    private RouteFlags extractFlags(String msg) {
-        boolean isRouteNotFound = msg.contains("404 NOT_FOUND");
-        boolean isMethodNotAllowed = msg.contains("405 METHOD_NOT_ALLOWED");
-
-        return new RouteFlags(isRouteNotFound, isMethodNotAllowed);
-    }
-
-    private String get404or405Msg(ServerWebExchange exc, RouteFlags flags) {
-        String endpoint = exc.getRequest().getPath().value();
-        String msg;
-
-        if (flags.isRouteNotFound())
-            msg = String.format("❌ route %s not found 🚦", endpoint);
-        else
-            msg = String.format("❌ route %s does not support %s requests 🚦", endpoint,
-                    exc.getRequest().getMethod().toString());
-
-        return msg;
-    }
+public final class ErrCatcher implements WebExceptionHandler {
 
     private String getPrettyMsg(ServerWebExchange exc, Throwable err, RouteFlags flags, String originalMsg) {
         if (flags.is404or405())
-            return get404or405Msg(exc, flags);
+            return flags.get404or405Msg(exc);
         else
             return Reg.isFirstCharEmoji(originalMsg) ? originalMsg
                     : String.format("%s %s", err instanceof ErrAPI ? "❌" : "💣", originalMsg);
@@ -70,7 +44,7 @@ public class ErrCatcher implements WebExceptionHandler {
         LibLog.logErr(err);
 
         String originalMsg = Optional.ofNullable(err.getMessage()).orElse("");
-        RouteFlags flags = extractFlags(originalMsg);
+        RouteFlags flags = RouteFlags.fromMsg(originalMsg);
 
         String msg = getPrettyMsg(exc, err, flags, originalMsg);
         int status = getStatus(err, flags);
@@ -87,10 +61,36 @@ public class ErrCatcher implements WebExceptionHandler {
         try {
             bytes = Jack.mapper.writeValueAsBytes(apiBody);
         } catch (JacksonException errOfErr) {
-            throw new ErrAPI("err build json err catcher");
+            throw new ErrAPI("err build json for err catcher");
         }
 
         return res.writeWith(Mono.just(res.bufferFactory().wrap(bytes)));
     }
 
+}
+
+final record RouteFlags(boolean isRouteNotFound, boolean isMethodNotAllowed) {
+    public static RouteFlags fromMsg(String msg) {
+        boolean isRouteNotFound = msg.contains("404 NOT_FOUND");
+        boolean isMethodNotAllowed = msg.contains("405 METHOD_NOT_ALLOWED");
+
+        return new RouteFlags(isRouteNotFound, isMethodNotAllowed);
+    }
+
+    public boolean is404or405() {
+        return isRouteNotFound || isMethodNotAllowed;
+    }
+
+    public String get404or405Msg(ServerWebExchange exc) {
+        String endpoint = exc.getRequest().getPath().value();
+        String msg;
+
+        if (isRouteNotFound)
+            msg = String.format("❌ route %s not found 🚦", endpoint);
+        else
+            msg = String.format("❌ route %s does not support %s requests 🚦", endpoint,
+                    exc.getRequest().getMethod().toString());
+
+        return msg;
+    }
 }

@@ -84,6 +84,7 @@ public final class Api extends ServerWebExchangeDecorator implements ApiInfo, Ap
         return cachedBody.map(bytes -> bytes.clone()).cache();
     }
 
+    // ? commit response
     public boolean isResCmt() {
         return getResponse().isCommitted();
     }

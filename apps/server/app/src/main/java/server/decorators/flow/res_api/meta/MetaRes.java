@@ -1,11 +1,12 @@
-package server.decorators.messages;
+package server.decorators.flow.res_api.meta;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import server.paperwork.Reg;
 
 @Getter
 @RequiredArgsConstructor
-public enum MapperMsg {
+public enum MetaRes {
     OK_200(200, "ok"),
     OK_201(201, "ok 201"),
 
@@ -20,11 +21,22 @@ public enum MapperMsg {
     private final int code;
     private final String msg;
 
-    public static MapperMsg fromCode(int code) {
-        for (MapperMsg m : values())
+    public static MetaRes fromCode(int code) {
+        for (MetaRes m : values())
             if (m.code == code)
                 return m;
 
         return null;
     }
+
+    public static String prettyMsg(String msg, int status) {
+        String emj = ActT.emjFromStatus(status);
+        String safeMsg = msg != null ? msg : fromCode(status).getMsg();
+
+        String prettyMsg = Reg.isFirstCharEmoji(safeMsg) ? msg
+                : String.format("%s %s", emj, safeMsg);
+
+        return prettyMsg;
+    }
+
 }

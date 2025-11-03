@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 import server.conf.db.remote_dictionary.RD;
-import server.conf.env_conf.EnvKeeper;
+import server.conf.env_conf.EnvVars;
 import server.conf.env_conf.etc.data_structure.EnvModeT;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
@@ -21,9 +21,9 @@ import server.decorators.flow.api.Api;
 @SuppressFBWarnings({ "EI2" })
 public final class RateLimitSvc {
     private final RedisReactiveCommands<String, String> cmd;
-    private final EnvKeeper envKeeper;
+    private final EnvVars envKeeper;
 
-    public RateLimitSvc(RD rd, EnvKeeper envKeeper) {
+    public RateLimitSvc(RD rd, EnvVars envKeeper) {
         this.cmd = rd.getCmd();
         this.envKeeper = envKeeper;
     }
@@ -92,9 +92,6 @@ public final class RateLimitSvc {
                 });
     }
 
-    public Mono<Void> limit(Api api) {
-        return limit(api, 5, 15);
-    }
 }
 
 @Getter

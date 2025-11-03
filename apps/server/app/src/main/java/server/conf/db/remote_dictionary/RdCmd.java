@@ -29,7 +29,6 @@ public final class RdCmd {
 
             return Mono.just(v.intValue());
         }).doOnNext(v -> LibLog.log("🔪 deleted " + v + " key"));
-
     }
 
     public Mono<String> typeOf(String key) {

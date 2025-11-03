@@ -55,8 +55,7 @@ public class PostFormSvc {
           List<Integer> deleted = tpl.getT2();
 
           int savedCount = saved.size();
-          @SuppressWarnings("null")
-          int deletedCount = deleted.stream().reduce(0, Integer::sum);
+          int deletedCount = deleted.stream().mapToInt(Integer::intValue).sum();
 
           return Tuples.of(savedCount, deletedCount);
         });

@@ -21,9 +21,11 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import server.decorators.AppFile;
 import server.decorators.flow.api.Api;
+import server.middleware.parsers.sub.ParserManager;
 
-@Component @Order(20)
-public class FormDataParser implements WebFilter {
+@Component
+@Order(20)
+public final class FormDataParser extends ParserManager implements WebFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exc, WebFilterChain chain) {
@@ -36,7 +38,7 @@ public class FormDataParser implements WebFilter {
             if (ctx.sb.length() > 0)
                 ctx.sb.setLength(ctx.sb.length() - 1);
 
-            Map<String, Object> parsedForm = ParserManager.nestDict(ctx.sb.toString());
+            Map<String, Object> parsedForm = nestDict(ctx.sb.toString());
             parsedForm.put("images", ctx.images);
             parsedForm.put("videos", ctx.videos);
 
@@ -50,7 +52,6 @@ public class FormDataParser implements WebFilter {
         // ? • form actually exists but returning Mono.empty() or Mono<Void> trigger
         // ? flatMap to fallback to another Publisher
         api.isResCmt() ? Mono.empty() : chain.filter(api)));
-
     }
 
     private Mono<String[]> splitParts(Api api) {

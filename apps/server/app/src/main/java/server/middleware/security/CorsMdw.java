@@ -19,7 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
-import server.conf.env_conf.EnvKeeper;
+import server.conf.env_conf.EnvVars;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 import server.lib.data_structure.Jack;
@@ -29,9 +29,8 @@ import server.lib.data_structure.prs.Prs;
 @Order(10)
 @RequiredArgsConstructor
 @SuppressFBWarnings({ "EI2", "EI" })
-public class CorsMdw implements WebFilter {
-
-    private final EnvKeeper envKeeper;
+public final class CorsMdw implements WebFilter {
+    private final EnvVars envKeeper;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exc, WebFilterChain chain) {
@@ -63,7 +62,7 @@ public class CorsMdw implements WebFilter {
         try {
             body = Jack.mapper.writeValueAsString(Map.of("msg", msg, "status", 403));
         } catch (JsonProcessingException err) {
-            throw new ErrAPI("err writing json cors response");
+            throw new ErrAPI("err writing json for cors response");
         }
 
         DataBuffer buff = res.bufferFactory().wrap(Prs.binaryFromUtf8(body));

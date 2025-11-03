@@ -1,4 +1,4 @@
-package server.middleware.parsers;
+package server.middleware.parsers.sub;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -9,8 +9,7 @@ import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class ParserManager {
-
-    public static Map<String, Object> nestDict(String query) {
+    protected static Map<String, Object> nestDict(String query) {
         if (query == null || query.isBlank())
             return null;
 

@@ -17,9 +17,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.res_api.data_structure.ResApiJson;
-import server.decorators.messages.ActT;
-import server.decorators.messages.MapperMsg;
-import server.paperwork.Reg;
+import server.decorators.flow.res_api.meta.MetaRes;
 
 @SuppressFBWarnings({ "EI" })
 @Getter
@@ -42,17 +40,6 @@ public final class ResAPI {
     }
 
     public ResAPI() {
-    }
-
-    private String getPrettyMsg() {
-        if (status == 204)
-            return null;
-
-        String safeMsg = msg != null ? msg : MapperMsg.fromCode(status).getMsg();
-        String prettyMsg = Reg.isFirstCharEmoji(safeMsg) ? msg
-                : String.format("%s %s", ActT.emjFromStatus(status), safeMsg);
-
-        return prettyMsg;
     }
 
     public static Map<String, Object> flatData(Map<String, Object> data) {
@@ -110,7 +97,7 @@ public final class ResAPI {
         if (status == 204)
             return Mono.just(builder.build());
 
-        String prettyMsg = getPrettyMsg();
+        String prettyMsg = MetaRes.prettyMsg(msg, status);
 
         ResAPI myRes = new ResAPI().status(status).msg(prettyMsg).data(data);
 

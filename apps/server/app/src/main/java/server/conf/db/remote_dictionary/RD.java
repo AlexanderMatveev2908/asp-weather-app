@@ -9,7 +9,7 @@ import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.reactive.RedisReactiveCommands;
 import reactor.core.publisher.Mono;
-import server.conf.env_conf.EnvKeeper;
+import server.conf.env_conf.EnvVars;
 import server.decorators.RootCls;
 import server.decorators.flow.ErrAPI;
 
@@ -19,7 +19,7 @@ public final class RD implements RootCls {
     private final StatefulRedisConnection<String, String> cnt;
     private final RedisReactiveCommands<String, String> cmd;
 
-    public RD(EnvKeeper envKeeper) {
+    public RD(EnvVars envKeeper) {
         this.client = RedisClient.create(envKeeper.getRedisUrl());
         this.cnt = client.connect();
         this.cmd = cnt.reactive();

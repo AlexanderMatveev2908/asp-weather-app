@@ -13,14 +13,14 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import reactor.core.publisher.Mono;
-import server.conf.env_conf.EnvKeeper;
+import server.conf.env_conf.EnvVars;
 import server.lib.dev.lib_log.LibLog;
 
 public interface CloudSvcDelete {
 
   public abstract String genSign(Map<String, String> params);
 
-  public abstract EnvKeeper getEnvKeeper();
+  public abstract EnvVars getEnvKeeper();
 
   public abstract WebClient getClient();
 

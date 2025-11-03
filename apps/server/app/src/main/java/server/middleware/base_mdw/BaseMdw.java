@@ -49,10 +49,12 @@ public abstract class BaseMdw implements WebFilter {
         }).switchIfEmpty(Mono.error(new ErrAPI("data not provided", 400)));
     }
 
+    // ? rate limit
     protected Mono<Void> limit(Api api, int limit, int minutes) {
         return rl.limit(api, limit, minutes);
     }
 
+    // ? forms & data
     protected <T> Mono<T> checkBodyForm(Api api, Class<T> cls) {
         return grabBody(api).flatMap(body -> convertAndCheckForm(api, body, cls));
     }
@@ -69,6 +71,7 @@ public abstract class BaseMdw implements WebFilter {
                 : convertAndCheckForm(api, parsedQuery.get(), cls));
     }
 
+    // ? path & variables path
     protected Mono<UUID> withPathId(Api api) {
         if (!api.hasPathUUID())
             return Mono.error(new ErrAPI("invalid id", 400));

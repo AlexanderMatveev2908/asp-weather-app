@@ -21,7 +21,7 @@ import server.lib.dev.lib_log.LibLog;
 @Component
 @Order(100)
 @SuppressWarnings({ "unchecked" })
-public class LogMdw implements WebFilter {
+public final class LogMdw implements WebFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exc, WebFilterChain chain) {

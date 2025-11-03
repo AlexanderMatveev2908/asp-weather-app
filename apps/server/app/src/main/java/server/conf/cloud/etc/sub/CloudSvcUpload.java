@@ -15,14 +15,14 @@ import lombok.experimental.SuperBuilder;
 import reactor.core.publisher.Mono;
 import server.conf.cloud.etc.data_structure.CloudAsset;
 import server.conf.cloud.etc.data_structure.CloudResourceT;
-import server.conf.env_conf.EnvKeeper;
+import server.conf.env_conf.EnvVars;
 import server.decorators.AppFile;
 
 public interface CloudSvcUpload {
 
   public abstract String genSign(Map<String, String> params);
 
-  public abstract EnvKeeper getEnvKeeper();
+  public abstract EnvVars getEnvKeeper();
 
   public abstract WebClient getClient();
 

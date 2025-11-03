@@ -11,7 +11,7 @@ import server.conf.env_conf.etc.paperwork.Resolved;
 @Data
 @Validated
 @ConfigurationProperties(prefix = "app")
-public final class EnvKeeper {
+public final class EnvVars {
 
     @NotBlank
     @Resolved

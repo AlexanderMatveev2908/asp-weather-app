@@ -6,14 +6,14 @@ import org.springframework.stereotype.Service;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.RequiredArgsConstructor;
 import server.conf.db.remote_dictionary.RD;
-import server.conf.env_conf.EnvKeeper;
+import server.conf.env_conf.EnvVars;
 import server.lib.dev.lib_log.LibLog;
 
 @Service
 @RequiredArgsConstructor
 @SuppressFBWarnings({ "EI2", "EI" })
 public final class LifeSpawn {
-    private final EnvKeeper envKeeper;
+    private final EnvVars envKeeper;
     private final RD rd;
 
     @SuppressWarnings({ "UnnecessaryTemporaryOnConversionFromString" })
