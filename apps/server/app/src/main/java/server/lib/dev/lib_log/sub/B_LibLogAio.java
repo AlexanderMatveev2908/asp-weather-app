@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import server.lib.data_structure.prs.Prs;
-import server.lib.paths.Hiker;
+import server.lib.paths.LibPath;
 
 public class B_LibLogAio extends A_LibLogBase {
   private static final ExecutorService logThread = Executors.newSingleThreadExecutor();
@@ -38,11 +38,11 @@ public class B_LibLogAio extends A_LibLogBase {
   }
 
   public static void wOk(Object arg) {
-    asyncLog(Hiker.LOG_FILE, arg);
+    asyncLog(LibPath.LOG_FILE, arg);
   }
 
   public static void wErr(Object arg) {
-    asyncLog(Hiker.LOG_FILE_ERR, arg);
+    asyncLog(LibPath.LOG_FILE_ERR, arg);
   }
 
 }

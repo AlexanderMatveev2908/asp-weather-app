@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import server.paperwork.Reg;
 
-public final class ShapeCheck {
+public final class LibShapeCheck {
     public static boolean isStr(Object val) {
         if (val instanceof String str)
             return !str.isBlank();

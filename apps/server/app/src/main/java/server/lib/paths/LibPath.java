@@ -4,10 +4,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import server.decorators.flow.ErrAPI;
+import server.lib.paths.sub.LibPathServerDir;
 
-public final class Hiker {
+public final class LibPath {
 
-    public static final Path SERVER_DIR = Seeker.grabDir();
+    public static final Path SERVER_DIR = LibPathServerDir.grabDir();
     public static final Path ASSETS_DIR;
     public static final Path IMAGES_DIR;
     public static final Path VIDEOS_DIR;
@@ -26,7 +27,7 @@ public final class Hiker {
         ensureDirs();
     }
 
-    private Hiker() {
+    public LibPath() {
         throw new ErrAPI("do not instantiate");
     }
 
@@ -42,7 +43,7 @@ public final class Hiker {
                 Files.createFile(LOG_FILE_ERR);
 
         } catch (Exception err) {
-            throw new ErrAPI(err.getMessage());
+            throw new ErrAPI("err creating required dir/files");
         }
     }
 

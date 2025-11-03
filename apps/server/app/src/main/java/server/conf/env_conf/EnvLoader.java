@@ -11,13 +11,13 @@ import org.springframework.core.env.PropertiesPropertySource;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvEntry;
-import server.lib.paths.Hiker;
+import server.lib.paths.LibPath;
 
 public final class EnvLoader implements EnvironmentPostProcessor {
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment env, SpringApplication app) {
-        Path serverDir = Hiker.SERVER_DIR;
+        Path serverDir = LibPath.SERVER_DIR;
 
         Dotenv dotenv = Dotenv.configure()
                 .directory(serverDir.toString())

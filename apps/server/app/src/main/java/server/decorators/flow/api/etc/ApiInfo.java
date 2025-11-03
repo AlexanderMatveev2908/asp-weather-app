@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.server.ServerWebExchange;
 
-import server.lib.data_structure.ShapeCheck;
+import server.lib.data_structure.LibShapeCheck;
 import server.paperwork.Reg;
 
 public interface ApiInfo {
@@ -52,7 +52,7 @@ public interface ApiInfo {
     int lastIdx = parts.length - 1;
     String pathId;
 
-    return ShapeCheck.isV4((pathId = parts[lastIdx])) ? Optional.of(UUID.fromString(pathId)) : Optional.empty();
+    return LibShapeCheck.isV4((pathId = parts[lastIdx])) ? Optional.of(UUID.fromString(pathId)) : Optional.empty();
   }
 
   default boolean hasPathUUID() {

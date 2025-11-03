@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Getter;
 import server.decorators.flow.ErrAPI;
-import server.lib.paths.Hiker;
+import server.lib.paths.LibPath;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE)
 @SuppressFBWarnings("EI_EXPOSE_REP")
@@ -46,7 +46,7 @@ public final class AppFile {
         }
 
         this.filename = UUID.randomUUID().toString() + ext;
-        this.filePath = Hiker.ASSETS_DIR.resolve(this.field).resolve(this.filename);
+        this.filePath = LibPath.ASSETS_DIR.resolve(this.field).resolve(this.filename);
     }
 
     public void saveLocally() {
