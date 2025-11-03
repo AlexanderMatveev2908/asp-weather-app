@@ -12,6 +12,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 import server.conf.env_conf.EnvVars;
+import server.decorators.flow.api.Api;
+import server.features.weather.paperwork.FormWeather;
 import server.lib.dev.lib_log.LibLog;
 
 @Service
@@ -30,18 +32,20 @@ public class WeatherSvc {
     return envVars.getWeatherApiKey();
   }
 
-  private URI buildQuery(UriBuilder uriBuilder) {
+  private URI buildQuery(UriBuilder uriBuilder, FormWeather form) {
     return uriBuilder
-        .queryParam("lat", 50.00)
-        .queryParam("lon", 50.00)
+        .queryParam("lat", form.getLat())
+        .queryParam("lon", form.getLon())
         .queryParam("exclude", "hourly")
         .queryParam("appid", getApiKey())
         .build();
   }
 
-  public Mono<Map<String, Object>> main() {
+  public Mono<Map<String, Object>> main(Api api) {
 
-    return getWebCLient().get().uri(uriBuilder -> buildQuery(uriBuilder)).retrieve()
+    FormWeather form = api.getMappedData();
+
+    return getWebCLient().get().uri(uriBuilder -> buildQuery(uriBuilder, form)).retrieve()
         .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
         }).flatMap(body -> {
 

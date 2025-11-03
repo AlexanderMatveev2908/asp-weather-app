@@ -17,6 +17,6 @@ public class GetWeather {
   private final WeatherSvc weatherSvc;
 
   public Mono<ResponseEntity<ResAPI>> main(Api api) {
-    return weatherSvc.main().flatMap(bodyWeather -> new ResAPI(200).data(bodyWeather).build());
+    return weatherSvc.main(api).flatMap(bodyWeather -> new ResAPI(200).data(bodyWeather).build());
   }
 }
