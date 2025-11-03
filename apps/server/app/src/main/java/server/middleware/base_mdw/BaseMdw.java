@@ -28,8 +28,6 @@ public abstract class BaseMdw implements WebFilter, BaseLimitMdw {
     @Autowired
     private FormCheckerSvcMdw formCk;
 
-    @Autowired
-
     protected abstract Mono<Void> handle(Api api, WebFilterChain chain);
 
     @Override

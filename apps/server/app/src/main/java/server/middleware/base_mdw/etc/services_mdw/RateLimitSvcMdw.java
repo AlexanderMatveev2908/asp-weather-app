@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.lettuce.core.Range;
 import io.lettuce.core.api.reactive.RedisReactiveCommands;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 import server.conf.db.remote_dictionary.RD;
 import server.conf.env_conf.EnvKeeper;
@@ -24,7 +26,6 @@ public class RateLimitSvcMdw {
     public RateLimitSvcMdw(RD rd, EnvKeeper envKeeper) {
         this.cmd = rd.getCmd();
         this.envKeeper = envKeeper;
-
     }
 
     private String getClientIp(Api api) {
@@ -36,11 +37,7 @@ public class RateLimitSvcMdw {
         return api.getIp();
     }
 
-    public Mono<Void> limit(Api api, int limit, int minutes) {
-
-        if (envKeeper.getMode().equals(EnvModeT.TEST))
-            return Mono.empty();
-
+    private LimitData extractLimitData(Api api, Integer minutes) {
         long now = System.currentTimeMillis();
         long windowMs = Duration.ofMinutes(minutes).toMillis();
 
@@ -51,31 +48,68 @@ public class RateLimitSvcMdw {
         String key = String.format("rl:%s:%s__%s", ip, path, method);
         String val = now + ":" + UUID.randomUUID();
 
-        return cmd.zremrangebyscore(key, Range.create(0, now - windowMs)).then(cmd.zadd(key, now, val))
-                .then(cmd.zcard(key)).flatMap(count -> cmd.pexpire(key, windowMs + 1).thenReturn(count))
+        return new LimitData(now, windowMs, key, val);
+    }
+
+    private Mono<Long> getIpCount(LimitData data) {
+        return cmd.zremrangebyscore(data.getKey(), Range.create(0, data.expired()))
+                .then(cmd.zadd(data.getKey(), data.getNow(), data.getVal()))
+                .then(cmd.zcard(data.getKey()))
+                .flatMap(count -> cmd.pexpire(data.getKey(), data.getWindowMs() + 1).thenReturn(count));
+    }
+
+    private Mono<Void> withError(Api api, LimitData data) {
+        return cmd.zrangeWithScores(data.getKey(), 0, 0).singleOrEmpty().flatMap(tuple -> {
+            long oldest = (long) tuple.getScore();
+            long resetMs = data.reset(oldest);
+
+            api.addHeader("RateLimit-Reset", resetMs);
+
+            return Mono.error(
+                    new ErrAPI("🐹 Our hamster-powered server took a break — try again later!", 429));
+        });
+    }
+
+    public Mono<Void> limit(Api api, int limit, int minutes) {
+        if (envKeeper.getMode().equals(EnvModeT.TEST))
+            return Mono.empty();
+
+        LimitData data = extractLimitData(api, minutes);
+
+        return getIpCount(data)
                 .flatMap(count -> {
                     int remaining = Math.max(0, limit - count.intValue());
 
                     // ? method itself use String.valueOf on 2 arg
                     api.addHeader("RateLimit-Limit", limit);
                     api.addHeader("RateLimit-Remaining", remaining);
-                    api.addHeader("RateLimit-Window", windowMs);
+                    api.addHeader("RateLimit-Window", data.getWindowMs());
 
                     if (count < limit)
                         return Mono.empty();
 
-                    return cmd.zrangeWithScores(key, 0, 0).singleOrEmpty().flatMap(tuple -> {
-                        long oldest = (long) tuple.getScore();
-                        long resetMs = Math.max(0, (windowMs - (now - oldest)));
-                        api.addHeader("RateLimit-Reset", resetMs);
-
-                        return Mono.error(
-                                new ErrAPI("🐹 Our hamster-powered server took a break — try again later!", 429));
-                    });
+                    return withError(api, data);
                 });
     }
 
     public Mono<Void> limit(Api api) {
         return limit(api, 5, 15);
+    }
+}
+
+@Getter
+@RequiredArgsConstructor
+class LimitData {
+    private final long now;
+    private final long windowMs;
+    private final String key;
+    private final String val;
+
+    public long expired() {
+        return now - windowMs;
+    }
+
+    public long reset(long oldest) {
+        return Math.max(0, (windowMs - (now - oldest)));
     }
 }

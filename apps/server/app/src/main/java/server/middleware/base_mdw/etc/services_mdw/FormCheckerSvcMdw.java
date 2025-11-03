@@ -13,7 +13,8 @@ import reactor.core.publisher.Mono;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 
-@Service @RequiredArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class FormCheckerSvcMdw {
     private final Validator checker;
 
@@ -29,15 +30,4 @@ public class FormCheckerSvcMdw {
         return Mono.error(new ErrAPI(errors.get(0).get("msg"), 422, Map.of("errs", errors)));
     }
 
-    public <T> void checkFormTest(T form) {
-        Set<ConstraintViolation<T>> errs = checker.validate(form);
-
-        if (errs.isEmpty())
-            return;
-
-        List<Map<String, String>> errors = errs.stream()
-                .map(err -> Map.of("field", err.getPropertyPath().toString(), "msg", err.getMessage())).toList();
-
-        throw new ErrAPI(errors.get(0).get("msg"), 422, Map.of("errs", errors));
-    }
 }
