@@ -18,7 +18,6 @@
     <rule ref="category/java/errorprone.xml/EmptyCatchBlock"/>
 
     <!-- ! java naming style -->
-    <rule ref="category/java/codestyle.xml/ClassNamingConventions"/>
     <rule ref="category/java/codestyle.xml/MethodNamingConventions"/>
 
     <!-- ! avoid slowing down performance -->
