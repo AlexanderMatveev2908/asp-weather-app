@@ -1,5 +1,6 @@
 package server.features.test.middleware;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.WebFilterChain;
 
@@ -11,8 +12,8 @@ import server.middleware.base_mdw.BaseMdw;
 public class GetLimitedMdw extends BaseMdw {
     @Override
     public Mono<Void> handle(Api api, WebFilterChain chain) {
-        if (!api.isSamePath("/api/v1/test/limited"))
-            return chain.filter(api);
-        return limit(api, 3, 15).then(chain.filter(api));
+        return isTarget(api, chain, "/test/limited", HttpMethod.GET, () -> {
+            return limit(api, 3, 15).then(chain.filter(api));
+        });
     }
 }

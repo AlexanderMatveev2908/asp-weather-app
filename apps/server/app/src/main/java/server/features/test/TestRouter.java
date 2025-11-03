@@ -20,8 +20,8 @@ public class TestRouter {
     private final GetTestCtrl getCtrl;
 
     @GetMapping("/limited")
-    public Mono<ResponseEntity<ResAPI>> getLimited(Api exc) {
-        return getCtrl.getLimited(exc);
+    public Mono<ResponseEntity<ResAPI>> getLimited(Api api) {
+        return getCtrl.getLimited(api);
     }
 
     @GetMapping
