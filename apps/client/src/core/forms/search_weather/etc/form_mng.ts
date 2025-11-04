@@ -15,12 +15,16 @@ export class SearchWeatherFormMng extends RootFormMng {
       .regex(Reg.CITY),
   });
 
-  public static readonly form: FormGroup = new FormGroup(
+  public static readonly form: FormWeatherGroupT = new FormGroup<{
+    city: FormControl<string>;
+  }>(
     {
-      city: new FormControl(''),
+      city: new FormControl<string>('', { nonNullable: true }),
     },
     { validators: this.validate(this.schema) }
   );
 }
+
+export type FormWeatherGroupT = FormGroup<{ city: FormControl<string> }>;
 
 export type FormWeatherT = z.infer<typeof SearchWeatherFormMng.schema>;
