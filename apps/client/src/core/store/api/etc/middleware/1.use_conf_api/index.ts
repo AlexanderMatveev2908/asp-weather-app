@@ -2,7 +2,7 @@ import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angul
 import { Observable, tap } from 'rxjs';
 import { inject } from '@angular/core';
 import { UseApiConfSvc } from '../../services/use_api_conf';
-import { UseConfApiMng } from './etc/mng';
+import { ConfApiMdwMng } from './etc/mng';
 
 export const useConfApiMdw: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
@@ -12,8 +12,8 @@ export const useConfApiMdw: HttpInterceptorFn = (
 
   return next(req).pipe(
     tap({
-      next: (e: HttpEvent<unknown>) => UseConfApiMng.main(req, e, confApi),
-      error: (e: HttpEvent<unknown>) => UseConfApiMng.main(req, e, confApi),
+      next: (e: HttpEvent<unknown>) => ConfApiMdwMng.main(req, e, confApi),
+      error: (e: HttpEvent<unknown>) => ConfApiMdwMng.main(req, e, confApi),
     })
   );
 };

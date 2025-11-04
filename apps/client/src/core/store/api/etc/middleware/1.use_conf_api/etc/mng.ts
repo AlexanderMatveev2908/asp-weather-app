@@ -6,7 +6,7 @@ import { HttpMethod, HttpResT } from '../../../types';
 import { UseApiConfSvc } from '../../../services/use_api_conf';
 import { ConfApiT } from '../../../services/use_api_conf/etc/types';
 
-export class UseConfApiMng {
+export class ConfApiMdwMng {
   private static getRequestBody(req: HttpRequest<unknown>): Nullable<Dict> {
     let dataSent: Nullable<Dict>;
     if (['GET', 'DELETE'].some((str: string) => str === req.method)) dataSent = null;
