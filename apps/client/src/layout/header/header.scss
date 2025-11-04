@@ -1,0 +1,20 @@
+@use 'exports/mix' as mix;
+
+.root {
+  @apply w-full flex flex-col gap-[16px] mt-[16px] px-[18px];
+
+  .root__span {
+    @apply w-full flex justify-start items-center gap-[12px];
+
+    .span__svg {
+      @include mix.sqr(37.5px);
+      @apply text-white_smoke;
+    }
+
+    .span__label {
+      .label__txt {
+        @apply text-[24px];
+      }
+    }
+  }
+}

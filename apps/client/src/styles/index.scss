@@ -3,6 +3,7 @@
 @use './tokens/twd_hex.scss';
 @use './tokens/fonts.scss';
 @use './tokens/txt.scss';
+@use './tokens/etc.scss';
 
 // ? all files inside tokens are imported here
 // ! exports are never imported here
@@ -13,7 +14,7 @@
 }
 
 html {
-  @apply bg-neutral-950;
+  @apply bg-blue__prm text-white_smoke;
   scroll-behavior: smooth;
 }
 
