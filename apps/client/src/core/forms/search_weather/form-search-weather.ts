@@ -7,7 +7,7 @@ import { Nullable, SvgT } from '@/common/types/etc';
 import { TxtFieldT } from '@/common/types/forms';
 import { FormWeatherUiFkt } from './etc/ui_fkt';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { FormWeatherGroupT, SearchWeatherFormMng } from './etc/form_mng';
+import { FormWeatherGroupT, SearchWeatherFormMng } from './etc/paperwork/form_mng';
 import { RootFormMng } from '@/core/paperwork/root_form_mng/root_form_mng';
 import { LibLog } from '@/core/lib/dev/log';
 
