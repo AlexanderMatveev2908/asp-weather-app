@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { None, Nullable, OrNone } from '@/common/types/etc';
+import { Dict, None, Nullable, OrNone } from '@/common/types/etc';
 import { OptErrApiT, OptToastApiT } from '../../types';
 import { ErrApp } from '@/core/lib/etc/err';
 import { LibFormPrs } from '@/core/lib/prs/form_prs';
@@ -100,8 +100,8 @@ export class LibApiArgs<T> {
     return this._optErr;
   }
 
-  public httpOptions(): Record<string, unknown> {
-    const options: Record<string, unknown> =
+  public httpOptions(): Dict {
+    const options: Dict =
       !this._body || this._body instanceof FormData
         ? {}
         : { headers: { 'Content-Type': 'application/json' } };

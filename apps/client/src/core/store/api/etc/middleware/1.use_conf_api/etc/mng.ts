@@ -8,7 +8,7 @@ import { ConfApiT } from '../../../services/use_api_conf/etc/types';
 
 export class UseConfApiMng {
   private static getRequestBody(req: HttpRequest<unknown>): Nullable<Dict> {
-    let dataSent: Nullable<Record<string, unknown>>;
+    let dataSent: Nullable<Dict>;
     if (['GET', 'DELETE'].some((str: string) => str === req.method)) dataSent = null;
     else dataSent = (req.body || null) as Nullable<Dict>;
 
@@ -16,7 +16,7 @@ export class UseConfApiMng {
   }
   private static getRequestQuery(req: HttpRequest<unknown>): Nullable<Dict> {
     const reqParams: HttpParams = req.params;
-    const params: Record<string, unknown> = {};
+    const params: Dict = {};
     for (const k of reqParams.keys()) params[k] = reqParams.get(k);
 
     return LibShape.hasObjData(params) ? params : null;

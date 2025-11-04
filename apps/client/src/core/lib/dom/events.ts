@@ -1,9 +1,7 @@
 import { SvgFillCheck } from '@/common/components/svgs/fill/check/check';
 import { SvgFillError } from '@/common/components/svgs/fill/error/error';
 import { SvgFillInfo } from '@/common/components/svgs/fill/info/info';
-import { SvgT } from '@/common/types/etc';
-
-export type AppEventT = 'ERR' | 'WARN' | 'INFO' | 'NONE' | 'OK';
+import { AppEventT, SvgT } from '@/common/types/etc';
 
 export interface MetaAppEventT {
   varCss: string;

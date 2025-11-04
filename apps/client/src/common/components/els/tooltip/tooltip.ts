@@ -1,4 +1,4 @@
-import { Nullable } from '@/common/types/etc';
+import { AppEventT, Nullable } from '@/common/types/etc';
 import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -9,7 +9,7 @@ import {
   Signal,
 } from '@angular/core';
 import { ArrowTooltipDirectionT } from './etc/types';
-import { AppEventT, MetaEventDom } from '@/core/lib/dom/events';
+import { MetaEventDom } from '@/core/lib/dom/events';
 
 @Component({
   selector: 'app-tooltip',
