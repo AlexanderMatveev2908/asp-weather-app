@@ -1,8 +1,9 @@
 import { Reg } from '@/core/paperwork/reg';
 import z, { ZodObject, ZodString } from 'zod';
 import { FormControl, FormGroup } from '@angular/forms';
+import { RootFormMng } from '@/core/paperwork/root_form_mng/root_form_mng';
 
-export class SearchWeatherFormMng {
+export class SearchWeatherFormMng extends RootFormMng {
   // eslint-disable-next-line no-magic-numbers
   private static readonly MAX_LEN_CITY: number = 100;
 
@@ -14,9 +15,12 @@ export class SearchWeatherFormMng {
       .regex(Reg.CITY),
   });
 
-  public static readonly form: FormGroup = new FormGroup({
-    city: new FormControl(''),
-  });
+  public static readonly form: FormGroup = new FormGroup(
+    {
+      city: new FormControl(''),
+    },
+    { validators: this.validate(this.schema) }
+  );
 }
 
 export type FormWeatherT = z.infer<typeof SearchWeatherFormMng.schema>;

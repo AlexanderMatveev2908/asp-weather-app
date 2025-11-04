@@ -1,6 +1,6 @@
-<form class="root">
+<form [formGroup]="form" class="root">
   <div class="root__field">
-    <app-form-field-txt [Svg]="searchSvg()" />
+    <app-form-field-txt [Svg]="searchSvg()" [f]="cityField" />
   </div>
   <app-btn-svg [Svg]="refreshSvg()" />
 </form>

@@ -1,4 +1,5 @@
 import { Nullable, SvgT } from '@/common/types/etc';
+import { TxtFieldT } from '@/common/types/forms';
 import { NgComponentOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -18,6 +19,7 @@ import {
 })
 export class FormFieldTxt {
   // ? props
+  public readonly f: InputSignal<TxtFieldT> = input.required();
   public readonly Svg: InputSignal<Nullable<SvgT>> = input<Nullable<SvgT>>(null);
 
   // ? derived

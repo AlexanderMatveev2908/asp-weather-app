@@ -1,4 +1,19 @@
 export class LibPrs {
+  public static devDate(date: Date | string | number): string {
+    {
+      const param =
+        date instanceof Date ? date : /^\d{10,}n?$/.test(date + '') ? +date : new Date(date);
+
+      return new Intl.DateTimeFormat('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+
+        hour12: true,
+      }).format(param);
+    }
+  }
+
   public static firstCharUpper(arg: string): string {
     return arg[0].toUpperCase() + arg.slice(1).toLowerCase();
   }

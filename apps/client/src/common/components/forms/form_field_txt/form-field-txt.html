@@ -1,9 +1,9 @@
 <div class="root">
   <input
-    type="text"
+    [type]="f().type"
     [style.padding]="padding()"
     class="root__input txt__hd__xs"
-    placeholder="Search City..."
+    [placeholder]="f().place"
   />
 
   @if(Svg()){
