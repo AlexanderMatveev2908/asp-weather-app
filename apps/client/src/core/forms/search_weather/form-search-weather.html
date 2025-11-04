@@ -1,6 +1,11 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="root">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="root" id="search_weather_form">
   <div class="root__field">
-    <app-form-field-txt [Svg]="searchSvg()" [f]="cityField" [ctrl]="ctrlCity" />
+    <app-form-field-txt
+      [Svg]="searchSvg()"
+      [f]="cityField"
+      [ctrl]="ctrlCity"
+      [onSvgClick]="triggerSubmit"
+    />
   </div>
   <app-btn-svg [Svg]="refreshSvg()" [btnT]="'submit'" />
 </form>

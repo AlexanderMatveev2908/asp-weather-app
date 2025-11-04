@@ -8,9 +8,9 @@
   />
 
   @if(Svg()){
-  <div class="root__svg">
+  <button (click)="onSvgClick()()" type="button" class="root__svg">
     <ng-container *ngComponentOutlet="Svg()" />
-  </div>
+  </button>
   }
 
   <app-form-field-err [ctrl]="ctrl()" />

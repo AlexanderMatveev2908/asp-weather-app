@@ -1,6 +1,8 @@
 @use 'exports/defaults' as def;
+@use 'exports/mix' as mix;
 
 .root {
+  @include mix.app__btn__scl(1.3);
   @extend .app__base;
   @apply w-[41px] sm:w-[34px] h-[41px] flex justify-center items-center;
 

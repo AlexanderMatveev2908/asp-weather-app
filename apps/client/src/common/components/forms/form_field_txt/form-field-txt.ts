@@ -24,6 +24,7 @@ export class FormFieldTxt extends UseInjCtxHk {
   // ? props
   public readonly f: InputSignal<TxtFieldT> = input.required();
   public readonly Svg: InputSignal<Nullable<SvgT>> = input<Nullable<SvgT>>(null);
+  public readonly onSvgClick: InputSignal<() => void> = input<() => void>(() => null);
   public readonly ctrl: InputSignal<FormControl> = input.required();
 
   // ? derived

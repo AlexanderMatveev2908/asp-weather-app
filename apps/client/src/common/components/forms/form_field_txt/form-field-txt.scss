@@ -17,6 +17,14 @@
   }
 
   .root__svg {
-    @apply absolute right-[14px] top-1/2 -translate-y-1/2 w-[16px] h-[16px] text-white/70;
+    @apply transition-all duration-300 absolute right-[14px] top-1/2 -translate-y-1/2 w-[16px] h-[16px] text-white/70;
+
+    &:hover {
+      @apply -translate-y-1/2 scale-[1.5];
+    }
+
+    &:active {
+      @apply duration-100 scale-75;
+    }
   }
 }

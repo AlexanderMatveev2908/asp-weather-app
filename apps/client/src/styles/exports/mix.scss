@@ -14,3 +14,16 @@
   @include with_w($v);
   @include with_h($v);
 }
+
+@mixin app__btn__scl($scale_hover) {
+  transition: all 0.3s ease;
+
+  &:enabled:hover {
+    transform: scale($scale_hover);
+  }
+
+  &:enabled:active {
+    transform: scale(0.8);
+    transition: transform 0.1s ease;
+  }
+}
