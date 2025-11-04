@@ -19,7 +19,7 @@ ngcv() {
     local base_dir="$(pwd)/apps/client"
   fi
 
-  local assets_dir="$base_dir/src/core/svgs"
+  local assets_dir="$base_dir/src/assets/svgs"
   local output_base="$base_dir/src/common/components/svgs"
 
   (
@@ -64,4 +64,3 @@ ngcv() {
     echo "🎉 SVGs parsed 🎉"
   )
 }
-
