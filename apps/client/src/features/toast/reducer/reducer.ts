@@ -28,7 +28,7 @@ export const toastReducer = createReducer(
     status: action.status,
     isToast: true,
   })),
-  on(ToastActT.SET_ID, (state: ToastStateT, action: WithIdT<void>) => ({
+  on(ToastActT.SET_ID, (state: ToastStateT, action: WithIdT<object>) => ({
     ...state,
     prevID: state.currID,
     currID: action.id,

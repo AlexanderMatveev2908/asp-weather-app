@@ -10,10 +10,9 @@ export type Optional<T> = T | undefined;
 
 export type SvgT = Type<unknown>;
 
-interface BaseIdT {
+export type WithIdT<T> = T & {
   id: string;
-}
-export type WithIdT<T> = T extends void ? BaseIdT : T & BaseIdT;
+};
 
 export type TimerIdT = Nullable<NodeJS.Timeout>;
 
