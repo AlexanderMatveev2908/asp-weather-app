@@ -2,7 +2,7 @@ import { Reg } from '@/core/paperwork/reg';
 import z, { ZodObject, ZodString } from 'zod';
 import { FormControl, FormGroup } from '@angular/forms';
 import { RootFormMng } from '@/core/paperwork/root_form_mng/root_form_mng';
-import { LibShape } from '@/core/lib/data_structure/shape_check';
+import { LibShape } from '@/core/lib/data_structure/shape';
 
 export class SearchWeatherFormMng extends RootFormMng {
   // eslint-disable-next-line no-magic-numbers
@@ -14,7 +14,7 @@ export class SearchWeatherFormMng extends RootFormMng {
       .min(1, 'City name required')
       .max(this.MAX_LEN_CITY, 'Max length exceeded')
       .regex(Reg.CITY, 'Invalid characters')
-      .refine((v: string) => LibShape.isStr(v), 'City required'),
+      .refine((v: string) => LibShape.hasText(v), 'City required'),
   });
 
   public static readonly form: FormWeatherGroupT = new FormGroup<{

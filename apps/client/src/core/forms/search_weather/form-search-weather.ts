@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, OnInit, Signal } from '@angular/core';
 import { FormFieldTxt } from '@/common/components/forms/form_field_txt/form-field-txt';
 import { BtnSvg } from '@/common/components/btns/btn_svg/btn-svg';
 import { SvgFillSearch } from '@/common/components/svgs/fill/search/search';
@@ -7,9 +7,12 @@ import { Nullable, SvgT } from '@/common/types/etc';
 import { TxtFieldT } from '@/common/types/forms';
 import { FormWeatherUiFkt } from './etc/ui_fkt';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { FormWeatherGroupT, SearchWeatherFormMng } from './etc/form_mng';
+import { FormWeatherGroupT, FormWeatherT, SearchWeatherFormMng } from './etc/paperwork/form_mng';
 import { RootFormMng } from '@/core/paperwork/root_form_mng/root_form_mng';
 import { LibLog } from '@/core/lib/dev/log';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
+import { UseDebounceHk } from './etc/hooks/use_debounce/use_debounce';
 
 @Component({
   selector: 'app-form-search-weather',
@@ -18,7 +21,7 @@ import { LibLog } from '@/core/lib/dev/log';
   styleUrl: './form-search-weather.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormSearchWeather {
+export class FormSearchWeather extends UseDebounceHk implements OnInit {
   // ? statics
   public readonly form: FormWeatherGroupT = SearchWeatherFormMng.form;
   public readonly cityField: TxtFieldT = FormWeatherUiFkt.cityField;
@@ -31,13 +34,18 @@ export class FormSearchWeather {
   public readonly ctrlCity: FormControl = this.form.get('city') as FormControl;
 
   // ? listeners
+  private readonly triggerStrategy: (data: FormWeatherT) => void = (data: FormWeatherT) => {
+    if (!this.form.value) return;
+    LibLog.logTtl('✅ ok', data);
+  };
+
   public readonly onSubmit: () => void = () => {
     if (!this.form.valid) {
       RootFormMng.onSubmitFailed(this.form);
       return;
     }
 
-    LibLog.logTtl('✅ ok', this.form.value);
+    this.triggerStrategy(this.form.value as FormWeatherT);
   };
 
   public readonly triggerSubmit: () => void = () => {
@@ -48,4 +56,21 @@ export class FormSearchWeather {
 
     el.requestSubmit();
   };
+
+  // ? local state
+  public formValue: Nullable<Signal<FormWeatherT>> = null;
+
+  ngOnInit(): void {
+    this.inCtx(() => {
+      this.formValue = toSignal(this.form.valueChanges as Observable<FormWeatherT>, {
+        initialValue: this.form.value as FormWeatherT,
+      });
+    });
+
+    this.debounce({
+      form: this.form,
+      formValue: this.formValue,
+      triggerStrategy: this.triggerStrategy,
+    });
+  }
 }

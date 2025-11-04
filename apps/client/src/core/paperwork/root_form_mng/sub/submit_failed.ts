@@ -1,5 +1,5 @@
 import { Nullable } from '@/common/types/etc';
-import { LibShape } from '@/core/lib/data_structure/shape_check';
+import { LibShape } from '@/core/lib/data_structure/shape';
 import { LibLog } from '@/core/lib/dev/log';
 import { FocusDom } from '@/core/lib/dom/focus';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
@@ -49,7 +49,7 @@ export class RootFormMngSubmitMng {
       // ! fields triggered above are nested forms
       // ! which means that the parent itself does not have errors being
       // ! a simple container while children forms manage the validations
-      if (LibShape.isStr(err)) {
+      if (LibShape.hasText(err)) {
         this.mark(ctrl);
         if (!first) first = keyCtrl;
       }
