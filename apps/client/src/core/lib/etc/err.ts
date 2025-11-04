@@ -1,4 +1,4 @@
-import { ApiStatusT } from '@/common/types/api';
+import { ApiStatusT } from '@/core/store/api/etc/types';
 
 export class ErrApp extends Error {
   private readonly msg: string;

@@ -1,3 +1,5 @@
+import { BoolStrT } from '@/common/types/etc';
+
 export class LibPrs {
   public static devDate(date: Date | string | number): string {
     {
@@ -43,5 +45,14 @@ export class LibPrs {
       .replace(/_{3,}/g, '__');
 
     return replaced.toLowerCase();
+  }
+
+  public static strToBool(arg: BoolStrT): boolean {
+    const map: Record<BoolStrT, boolean> = {
+      true: true,
+      false: false,
+    };
+
+    return map[arg];
   }
 }

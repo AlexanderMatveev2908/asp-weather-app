@@ -15,3 +15,5 @@ export type WithIdT<T> = T & { id: string };
 export type TimerIdT = Nullable<NodeJS.Timeout>;
 
 export type Dict = Record<string, unknown>;
+
+export type BoolStrT = 'true' | 'false';
