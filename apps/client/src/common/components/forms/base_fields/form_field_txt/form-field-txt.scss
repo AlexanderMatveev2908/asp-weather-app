@@ -1,0 +1,22 @@
+@use 'exports/defaults.scss' as def;
+
+:host {
+  @apply block w-full;
+}
+
+.root {
+  @apply w-full relative;
+
+  .root__input {
+    @extend .app__base;
+    @apply w-full h-[42px];
+
+    &::placeholder {
+      @apply text-gray__prm;
+    }
+  }
+
+  .root__svg {
+    @apply absolute right-[14px] top-1/2 -translate-y-1/2 w-[16px] h-[16px] text-white/70;
+  }
+}

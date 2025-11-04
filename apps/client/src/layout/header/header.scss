@@ -1,0 +1,28 @@
+@use 'exports/mix' as mix;
+
+.root {
+  @apply w-full flex flex-col gap-[16px] mt-[16px] sm:mt-[24px] px-[18px] lg:px-[104px] sm:flex-row;
+
+  .root__span {
+    @apply w-full flex justify-start items-center gap-[12px];
+
+    .span__svg {
+      @include mix.sqr(37.5px);
+      @apply text-white_smoke;
+    }
+
+    .span__label {
+      .label__txt {
+        @apply text-[24px];
+      }
+    }
+  }
+
+  .root__search_bar {
+    @apply w-full flex items-center gap-[8px] sm:gap-[16px] justify-end;
+
+    .search_bar__input {
+      @apply w-full sm:max-w-[306px];
+    }
+  }
+}
