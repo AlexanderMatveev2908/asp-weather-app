@@ -19,10 +19,12 @@ public class GetWeather {
   private final WeatherCitySvc cityCoordsSvc;
 
   public Mono<ResponseEntity<ResAPI>> byCoords(Api api) {
-    return weatherSvc.main(api).flatMap(bodyWeather -> new ResAPI(200).data(bodyWeather).build());
+    return weatherSvc.main(api, null).flatMap(bodyWeather -> new ResAPI(200).data(bodyWeather).build());
   }
 
   public Mono<ResponseEntity<ResAPI>> byCity(Api api) {
-    return cityCoordsSvc.main(api).flatMap(bodyCoords -> new ResAPI(200).data(bodyCoords).build());
+    return cityCoordsSvc.main(api).flatMap(
+        formCoords -> weatherSvc.main(api, formCoords)
+            .flatMap(bodyWeather -> new ResAPI(200).data(bodyWeather).build()));
   }
 }

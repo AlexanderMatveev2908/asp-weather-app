@@ -36,7 +36,7 @@ public class WeatherCoordsSvc extends BaseWeatherSvc {
     return uriBuilder
         .queryParam("lat", form.getLat())
         .queryParam("lon", form.getLon())
-        .queryParam("exclude", "hourly")
+        .queryParam("exclude", "minutely,hourly")
         .queryParam("appid", getApiKey())
         .build();
   }
@@ -71,11 +71,15 @@ public class WeatherCoordsSvc extends BaseWeatherSvc {
         });
   }
 
-  public Mono<Map<String, Object>> main(Api api) {
-    FormWeatherCoords form = api.getMappedData();
+  public Mono<Map<String, Object>> main(Api api, FormWeatherCoords formCoords) {
+    FormWeatherCoords form = formCoords != null ? formCoords : api.getMappedData();
 
     return firstLookRd(form).switchIfEmpty(
         callWeatherApi(form)).flatMap(body -> {
+
+          if (body.get("minutely") != null)
+            body.remove("minutely");
+
           return saveInRd(form, body).thenReturn(body);
         }).onErrorMap(err -> {
           LibLog.logErr(err);

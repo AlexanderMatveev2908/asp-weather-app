@@ -1,11 +1,14 @@
 package server.features.weather.paperwork;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FormWeatherCoords {
 
   @NotNull(message = "Latitude is required")

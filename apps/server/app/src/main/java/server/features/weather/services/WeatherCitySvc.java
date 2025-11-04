@@ -13,10 +13,12 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import reactor.core.publisher.Mono;
 import server.conf.db.remote_dictionary.RdCmd;
 import server.conf.env_conf.EnvVars;
+import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 import server.features.weather.paperwork.FormWeatherCity;
+import server.features.weather.paperwork.FormWeatherCoords;
 import server.features.weather.services.etc.BaseWeatherSvc;
-import server.lib.dev.lib_log.LibLog;
+import server.lib.data_structure.prs.LibPrs;
 
 @Service
 @SuppressFBWarnings({ "EI2" })
@@ -34,17 +36,22 @@ public class WeatherCitySvc extends BaseWeatherSvc {
     return uriBuilder.queryParam("q", form.getCity()).queryParam("appid", getApiKey()).queryParam("limit", 1).build();
   }
 
-  public Mono<Map<String, Object>> main(Api api) {
+  public Mono<FormWeatherCoords> main(Api api) {
 
     FormWeatherCity form = api.getMappedData();
 
     return getWebClient().get().uri(uriBuilder -> buildURI(uriBuilder, form)).retrieve()
         .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {
-        }).flatMap(body -> {
+        }).map(body -> {
 
-          LibLog.wOk(body);
+          if (body.size() < 1)
+            throw new ErrAPI("city weather not found", 404);
 
-          return Mono.just(Map.of());
+          Map<String, Object> firstRes = body.get(0);
+
+          FormWeatherCoords formCoords = LibPrs.tFromMap(firstRes, FormWeatherCoords.class);
+
+          return formCoords;
         });
   }
 }
