@@ -1,6 +1,6 @@
 import { Nullable } from '@/common/types/etc';
 import { LibStack } from './stack';
-import { LibShape } from '../data_structure/shape_check';
+import { LibShape } from '../data_structure/shape';
 import { Reg } from '@/core/paperwork/reg';
 import { LibPrs } from '../prs/prs';
 
@@ -12,7 +12,7 @@ export class LibLog {
     // eslint-disable-next-line no-magic-numbers
     const caller: string = LibStack.getCallerLess(2);
 
-    const existsTtl: boolean = LibShape.isStr(title);
+    const existsTtl: boolean = LibShape.hasText(title);
     const ttl: string = existsTtl ? title! : caller;
     let emoji: string = '';
     if (existsTtl) {

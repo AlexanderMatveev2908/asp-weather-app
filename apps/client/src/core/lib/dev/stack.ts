@@ -1,5 +1,5 @@
 import { Optional } from '@/common/types/etc';
-import { LibShape } from '../data_structure/shape_check';
+import { LibShape } from '../data_structure/shape';
 
 export class LibStack {
   private static getTraces(upCount: number): string[] {
@@ -32,7 +32,7 @@ export class LibStack {
     for (const t of traces) {
       caller = this.getSplittedName(t);
 
-      if (LibShape.isStr(caller)) return caller.replace(/[_<>/]/g, '');
+      if (LibShape.hasText(caller)) return caller.replace(/[_<>/]/g, '');
     }
 
     return 'unknown caller';

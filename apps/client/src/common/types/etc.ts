@@ -11,3 +11,7 @@ export type Optional<T> = T | undefined;
 export type SvgT = Type<unknown>;
 
 export type WithIdT<T> = T & { id: string };
+
+export type TimerIdT = Nullable<NodeJS.Timeout>;
+
+export type Dict = Record<string, unknown>;
