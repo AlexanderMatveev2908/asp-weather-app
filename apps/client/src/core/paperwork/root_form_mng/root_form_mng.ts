@@ -5,6 +5,10 @@ import { RootFormMngSubmitMng } from './sub/submit_failed';
 
 type FormGroupControls = AbstractControl & { controls: AbstractControl[] };
 
+export interface FieldErrsT extends ValidationErrors {
+  zod: Nullable<string>;
+}
+
 export class RootFormMng extends RootFormMngSubmitMng {
   private static resetOld(form: AbstractControl): void {
     for (const ctrl of Object.values((form as FormGroupControls).controls)) ctrl.setErrors(null);

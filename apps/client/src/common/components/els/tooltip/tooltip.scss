@@ -1,0 +1,21 @@
+.common {
+  @apply border-red-600 border-2 bg-blue__prm;
+}
+
+.root {
+  @extend .common;
+  @apply max-w-[200px] min-w-fit absolute bottom-full z-50 py-2 px-4 transition-all duration-300 pointer-events-none flex justify-center rounded-[12px];
+
+  .root__msg {
+    @apply text-center text-nowrap;
+  }
+
+  .root__arrow {
+    @apply absolute top-full w-[40px] h-[40px] overflow-hidden;
+
+    &:after {
+      @extend .common;
+      @apply content-[''] absolute left-0 w-full h-full rotate-45 -top-1/2 -mt-2;
+    }
+  }
+}

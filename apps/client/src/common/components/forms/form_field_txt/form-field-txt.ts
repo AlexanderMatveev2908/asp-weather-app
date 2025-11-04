@@ -11,10 +11,11 @@ import {
   Signal,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormFieldErr } from '../form_field_err/form-field-err';
 
 @Component({
   selector: 'app-form-field-txt',
-  imports: [NgComponentOutlet, ReactiveFormsModule],
+  imports: [NgComponentOutlet, ReactiveFormsModule, FormFieldErr],
   templateUrl: './form-field-txt.html',
   styleUrl: './form-field-txt.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
