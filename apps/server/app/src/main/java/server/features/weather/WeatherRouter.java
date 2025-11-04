@@ -17,8 +17,13 @@ import server.router.RouterAPI;
 public class WeatherRouter {
   private final GetWeather getCtrl;
 
-  @GetMapping
-  public Mono<ResponseEntity<ResAPI>> getExample(Api api) {
-    return getCtrl.main(api);
+  @GetMapping("/coords")
+  public Mono<ResponseEntity<ResAPI>> byCoords(Api api) {
+    return getCtrl.byCoords(api);
+  }
+
+  @GetMapping("/city")
+  public Mono<ResponseEntity<ResAPI>> byCity(Api api) {
+    return getCtrl.byCity(api);
   }
 }

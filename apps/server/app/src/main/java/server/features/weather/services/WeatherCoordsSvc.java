@@ -9,32 +9,30 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 import server.conf.db.remote_dictionary.RdCmd;
 import server.conf.env_conf.EnvVars;
 import server.decorators.flow.api.Api;
-import server.features.weather.paperwork.FormWeather;
+import server.features.weather.paperwork.FormWeatherCoords;
+import server.features.weather.services.etc.BaseWeatherSvc;
 import server.lib.data_structure.prs.LibPrs;
 import server.lib.dev.lib_log.LibLog;
 
 @Service
-@RequiredArgsConstructor
 @SuppressFBWarnings({ "EI2" })
-public class WeatherSvc {
-  private final EnvVars envVars;
+public class WeatherCoordsSvc extends BaseWeatherSvc {
   private final RdCmd rdCmd;
-  private final WebClient.Builder webClientBuilder;
+
+  public WeatherCoordsSvc(EnvVars envVars, WebClient.Builder webClientBuilder, RdCmd rdCmd) {
+    super(envVars, webClientBuilder);
+    this.rdCmd = rdCmd;
+  }
 
   private WebClient getWebCLient() {
     return webClientBuilder.baseUrl("https://api.openweathermap.org/data/3.0/onecall").build();
   }
 
-  private String getApiKey() {
-    return envVars.getWeatherApiKey();
-  }
-
-  private URI buildQuery(UriBuilder uriBuilder, FormWeather form) {
+  private URI buildQuery(UriBuilder uriBuilder, FormWeatherCoords form) {
     return uriBuilder
         .queryParam("lat", form.getLat())
         .queryParam("lon", form.getLon())
@@ -47,18 +45,18 @@ public class WeatherSvc {
     return String.format("%.4f", val);
   }
 
-  private String buildWeatherKey(FormWeather form) {
+  private String buildWeatherKey(FormWeatherCoords form) {
     return "weather__" + asRedisKey(form.getLat()) + "__" + asRedisKey(form.getLon());
   }
 
-  private Mono<Boolean> saveInRd(FormWeather form, Map<String, Object> body) {
+  private Mono<Boolean> saveInRd(FormWeatherCoords form, Map<String, Object> body) {
     String key = buildWeatherKey(form);
     String json = LibPrs.jsonFromObj(body);
 
     return rdCmd.setStr(key, json).then(rdCmd.expire(key, 60));
   }
 
-  private Mono<Map<String, Object>> firstLookRd(FormWeather form) {
+  private Mono<Map<String, Object>> firstLookRd(FormWeatherCoords form) {
     String key = buildWeatherKey(form);
 
     return rdCmd.getStr(key).map(json -> {
@@ -67,15 +65,14 @@ public class WeatherSvc {
     });
   }
 
-  private Mono<Map<String, Object>> callWeatherApi(FormWeather form) {
+  private Mono<Map<String, Object>> callWeatherApi(FormWeatherCoords form) {
     return getWebCLient().get().uri(uriBuilder -> buildQuery(uriBuilder, form)).retrieve()
         .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
         });
   }
 
   public Mono<Map<String, Object>> main(Api api) {
-
-    FormWeather form = api.getMappedData();
+    FormWeatherCoords form = api.getMappedData();
 
     return firstLookRd(form).switchIfEmpty(
         callWeatherApi(form)).flatMap(body -> {

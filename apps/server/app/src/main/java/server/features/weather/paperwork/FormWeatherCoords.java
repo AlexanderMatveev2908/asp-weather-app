@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class FormWeather {
+public class FormWeatherCoords {
 
   @NotNull(message = "Latitude is required")
   @Min(value = -90, message = "Latitude must be greater than or equal to -90")
