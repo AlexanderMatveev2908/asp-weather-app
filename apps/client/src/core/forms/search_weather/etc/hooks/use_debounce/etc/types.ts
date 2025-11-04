@@ -5,6 +5,6 @@ import { FormWeatherT } from '../../../paperwork/form_mng';
 
 export interface UseDebounceMainArgT {
   form: FormGroup;
-  formVal: Nullable<Signal<FormWeatherT>>;
+  formValue: Nullable<Signal<FormWeatherT>>;
   triggerStrategy: (arg: FormWeatherT) => void;
 }

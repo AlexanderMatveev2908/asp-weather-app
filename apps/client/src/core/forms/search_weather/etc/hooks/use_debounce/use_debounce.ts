@@ -27,18 +27,18 @@ export class UseDebounceHk extends UseInjCtxHk {
     this.prevForm = data;
   };
 
-  public readonly main: (arg: UseDebounceMainArgT) => void = ({
+  public readonly debounce: (arg: UseDebounceMainArgT) => void = ({
     form,
-    formVal,
+    formValue,
     triggerStrategy,
   }: UseDebounceMainArgT) => {
     this.useEffect(() => {
-      void formVal?.();
+      void formValue?.();
 
       if (this.timerID) this.timerID = LibEtc.clearTmr(this.timerID);
 
       this.timerID = setTimeout(() => {
-        const dataNow: Nullable<FormWeatherT> = formVal?.() ?? null;
+        const dataNow: Nullable<FormWeatherT> = formValue?.() ?? null;
 
         if (!dataNow || !form.valid) {
           this.timerID = LibEtc.clearTmr(this.timerID);
