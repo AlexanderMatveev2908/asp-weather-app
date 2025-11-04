@@ -3,7 +3,7 @@ import { FormFieldTxt } from '@/common/components/forms/form_field_txt/form-fiel
 import { BtnSvg } from '@/common/components/btns/btn_svg/btn-svg';
 import { SvgFillSearch } from '@/common/components/svgs/fill/search/search';
 import { SvgFillRerun } from '@/common/components/svgs/fill/rerun/rerun';
-import { SvgT } from '@/common/types/etc';
+import { Nullable, SvgT } from '@/common/types/etc';
 import { TxtFieldT } from '@/common/types/forms';
 import { FormWeatherUiFkt } from './etc/ui_fkt';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -38,5 +38,14 @@ export class FormSearchWeather {
     }
 
     LibLog.logTtl('✅ ok', this.form.value);
+  };
+
+  public readonly triggerSubmit: () => void = () => {
+    const el: Nullable<HTMLFormElement> = document.getElementById(
+      'search_weather_form'
+    ) as Nullable<HTMLFormElement>;
+    if (!el) return;
+
+    el.requestSubmit();
   };
 }
