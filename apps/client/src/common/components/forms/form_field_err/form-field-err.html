@@ -1,0 +1,5 @@
+<app-tooltip
+  [msg]="recErrs().curr ?? recErrs().prev"
+  [isHover]="!!recErrs().curr"
+  [appEventT]="'ERR'"
+/>

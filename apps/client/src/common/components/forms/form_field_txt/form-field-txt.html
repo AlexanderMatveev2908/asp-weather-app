@@ -1,9 +1,10 @@
 <div class="root">
   <input
-    type="text"
+    [formControl]="ctrl()"
+    [type]="f().type"
     [style.padding]="padding()"
     class="root__input txt__hd__xs"
-    placeholder="Search City..."
+    [placeholder]="f().place"
   />
 
   @if(Svg()){
@@ -11,4 +12,6 @@
     <ng-container *ngComponentOutlet="Svg()" />
   </div>
   }
+
+  <app-form-field-err [ctrl]="ctrl()" />
 </div>

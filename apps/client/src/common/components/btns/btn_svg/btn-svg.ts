@@ -1,3 +1,4 @@
+import { BtnT } from '@/common/types/dom';
 import { SvgT } from '@/common/types/etc';
 import { NgComponentOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';
@@ -11,4 +12,5 @@ import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular
 })
 export class BtnSvg {
   public readonly Svg: InputSignal<SvgT> = input.required();
+  public readonly btnT: InputSignal<BtnT> = input.required();
 }

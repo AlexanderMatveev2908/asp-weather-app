@@ -1,0 +1,42 @@
+import { ChangeDetectionStrategy, Component, computed, Signal } from '@angular/core';
+import { FormFieldTxt } from '@/common/components/forms/form_field_txt/form-field-txt';
+import { BtnSvg } from '@/common/components/btns/btn_svg/btn-svg';
+import { SvgFillSearch } from '@/common/components/svgs/fill/search/search';
+import { SvgFillRerun } from '@/common/components/svgs/fill/rerun/rerun';
+import { SvgT } from '@/common/types/etc';
+import { TxtFieldT } from '@/common/types/forms';
+import { FormWeatherUiFkt } from './etc/ui_fkt';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormWeatherGroupT, SearchWeatherFormMng } from './etc/form_mng';
+import { RootFormMng } from '@/core/paperwork/root_form_mng/root_form_mng';
+import { LibLog } from '@/core/lib/dev/log';
+
+@Component({
+  selector: 'app-form-search-weather',
+  imports: [FormFieldTxt, BtnSvg, ReactiveFormsModule],
+  templateUrl: './form-search-weather.html',
+  styleUrl: './form-search-weather.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class FormSearchWeather {
+  // ? statics
+  public readonly form: FormWeatherGroupT = SearchWeatherFormMng.form;
+  public readonly cityField: TxtFieldT = FormWeatherUiFkt.cityField;
+
+  // ? dynamic vectors
+  public readonly searchSvg: Signal<SvgT> = computed(() => SvgFillSearch);
+  public readonly refreshSvg: Signal<SvgT> = computed(() => SvgFillRerun);
+
+  // ? control city field
+  public readonly ctrlCity: FormControl = this.form.get('city') as FormControl;
+
+  // ? listeners
+  public readonly onSubmit: () => void = () => {
+    if (!this.form.valid) {
+      RootFormMng.onSubmitFailed(this.form);
+      return;
+    }
+
+    LibLog.logTtl('✅ ok', this.form.value);
+  };
+}

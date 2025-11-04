@@ -9,3 +9,5 @@ export type Nullable<T> = T | null;
 export type Optional<T> = T | undefined;
 
 export type SvgT = Type<unknown>;
+
+export type WithIdT<T> = T & { id: string };
