@@ -1,0 +1,10 @@
+@use 'exports/defaults' as def;
+
+.root {
+  @extend .app__base;
+  @apply w-[41px] sm:w-[34px] h-[41px] flex justify-center items-center;
+
+  .root__svg {
+    @apply w-[16px] h-[16px] text-white;
+  }
+}

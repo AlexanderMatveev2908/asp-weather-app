@@ -1,8 +1,15 @@
+@use 'exports/defaults.scss' as def;
+
+:host {
+  @apply block w-full;
+}
+
 .root {
   @apply w-full relative;
 
   .root__input {
-    @apply w-full bg-white/20 outline-none h-[42px] rounded-[12px];
+    @extend .app__base;
+    @apply w-full h-[42px];
 
     &::placeholder {
       @apply text-gray__prm;
