@@ -1,64 +1,14 @@
 @use './t.css';
 
+@use './tokens/twd_hex.scss';
+@use './tokens/fonts.scss';
+
 // ? all files inside tokens are imported here
 // ! exports are never imported here
 // ! files inside exports are used inside components only
 
-:root {
-  --white__0: #f5f5f5;
-
-  --gray__300: #d1d5dc;
-
-  --green__600: #16a34a;
-  --blue__300: #93c5fd;
-  --blue__600: #2563eb;
-  --red__600: #dc2626;
-  --orange__600: #ea580c;
-  --yellow__600: #ca8a04;
-
-  --neutral__50: #fafafa;
-  --neutral__100: #f5f5f5;
-  --neutral__200: #e5e5e5;
-  --neutral__300: #d4d4d4;
-  --neutral__400: #a3a3a3;
-  --neutral__500: #737373;
-  --neutral__600: #525252;
-  --neutral__700: #404040;
-  --neutral__800: #262626;
-  --neutral__900: #171717;
-  --neutral__950: #0a0a0a;
-}
-
-@font-face {
-  font-family: 'Sour Gummy';
-  src: url('/fonts/Sour_Gummy/static/SourGummy-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Sour Gummy';
-  src: url('/fonts/Sour_Gummy/static/SourGummy-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Sour Gummy';
-  src: url('/fonts/Sour_Gummy/static/SourGummy-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Sour Gummy';
-  src: url('/fonts/Sour_Gummy/static/SourGummy-Italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-}
-
 * {
-  font-family: 'Sour Gummy';
+  font-family: 'Rubik', sans-serif;
 }
 
 html {
@@ -67,7 +17,7 @@ html {
 }
 
 body {
-  @apply text-gray-300 overflow-x-hidden;
+  @apply overflow-x-hidden;
 }
 
 button {
@@ -78,8 +28,4 @@ button {
     cursor: not-allowed;
     opacity: 0.5;
   }
-}
-
-.app__portal {
-  @apply fixed w-full min-h-screen top-0 left-0 pointer-events-none;
 }
