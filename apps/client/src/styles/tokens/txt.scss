@@ -1,0 +1,16 @@
+$txt_sizes: (
+  hd__xl: 72,
+  hd__lg: 30,
+  hd__md: 20,
+  hd__sm: 18,
+  hd__xs: 16,
+  bd__md: 14,
+);
+
+@each $k, $v in $txt_sizes {
+  .txt__#{$k} {
+    font-size: #{$v}px;
+    letter-spacing: 0;
+    line-height: if($k == hd__xl, 100%, 125%);
+  }
+}
