@@ -1,0 +1,62 @@
+{
+	"info": {
+		"_postman_id": "67da2f6a-fe5b-4216-92a4-be851c17ab35",
+		"name": "weather_app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40442632"
+	},
+	"item": [
+		{
+			"name": "get_weather_by_coords",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{DEF_URL}}/weather/coords?lat=52&lon=51",
+					"host": [
+						"{{DEF_URL}}"
+					],
+					"path": [
+						"weather",
+						"coords"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "52"
+						},
+						{
+							"key": "lon",
+							"value": "51"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_weather_by_city",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{DEF_URL}}/weather/city?city=rowdttdf",
+					"host": [
+						"{{DEF_URL}}"
+					],
+					"path": [
+						"weather",
+						"city"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "rowdttdf"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

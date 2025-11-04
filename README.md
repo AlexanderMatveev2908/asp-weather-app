@@ -1,12 +1,9 @@
-# ASP JOB APPLICATION TRACKER 📈
+# ASP WEATHER APP 🌤️
 
 ## 📌 About This Project
 
-This app was inspired by my own job search journey. I started by tracking applications in a notepad, but quickly realized I needed something more structured.
-
-The first version was built with **Next.js** on the frontend and **Python** on the backend. Later, I rebuilt the backend in **Java**, focusing on scalability and cleaner API design while keeping the **Next.js** client.
-
-Now, I’m rebuilding the client in **Angular**, and with the backend already developed and tested, I can focus entirely on the interface.
+Responsive Weather App built with the [OpenWeather API](openweathermap.org/api) in combination with a custom **Remote Dictionary** powered by [Upstash](https://upstash.com/).
+Developed as learning project following design provided by [BeCoder](https://becoder.ro/en).
 
 ---
 
@@ -40,23 +37,10 @@ Together they form a clean, modern **full-stack architecture** 🚀
 
 - **Java 21** — Primary backend language
 - **Spring Boot (WebFlux)** — Reactive, non-blocking backend framework powered by an **event-loop** execution model
-- **Project Reactor** — Core reactive foundation powering **WebFlux**, **R2DBC**, and **Redis** for fully non-blocking data flows
-- **PostgreSQL + R2DBC** — Asynchronous database access with reactive drivers
-- **Liquibase** — Database migrations, written in raw SQL for full control
+- **Project Reactor** — Core reactive foundation powering **WebFlux** and **Redis** for fully non-blocking data flows
 - **Redis (Lettuce)** — Async/reactive Redis client for caching and real-time data
 - **Cloudinary (Reactive WebClient)** — Manually integrated using Spring’s WebClient, enabling fully non-blocking image and video uploads
-- **JavaMailSender (MimeMessage)**— For sending HTML email content, including transactional emails built with custom, hand-crafted templates for full control over design and layout
 - **java_pkg_cli** — Custom **Python** CLI utility to automatically add dependencies to both the **TOML catalog** and **Gradle build file**, eliminating repetitive hardcoding and improving consistency in dependency management
-
----
-
-### 🧪 **Testing & Quality**
-
-- **Playwright** — End-to-end testing for UI flows
-- **Vitest** — Unit testing for the client
-- **JUnit Jupiter** — Unit and integration testing for the backend
-- **Postman** — API testing
-- **Checkstyle, SpotBugs, PMD** — Static analysis and code quality enforcement for Java
 
 ---
 
@@ -68,11 +52,7 @@ Together they form a clean, modern **full-stack architecture** 🚀
 - **Kind** — Run local Kubernetes clusters for development
 - **GitHub Actions** — Automated pipelines for testing, building, and deploying both apps
 - **Fly.io** — Hosting platform (client and server deployed as separate services)
-- **Supabase** — PostgreSQL hosting
 - **Upstash** — Hosting platform for Redis
-- **Brevo (SMTP)** — Outbound transactional email delivery
-- **Zoho Mail** — Inbound email hosting for custom domain addresses
-- **Namecheap** — Domain provider, configured with DNS records (SPF, DKIM, DMARC) to support both Brevo + Zoho
 - **Zsh** — Custom shell scripts for scaffolding and developer productivity
 - **sync_env_cli** — Custom **Python** CLI tool that synchronizes environment variables across the client and server directories, updates **Kubernetes** secrets, and patches environment variables in the Git-based **CI/CD pipeline** for deployment.
 
@@ -99,10 +79,6 @@ All required environment variables are listed in:
 This file not only configures the server but also declares the environment variables required by the application.
 
 - **Main runtime** variables are grouped under the top-level key **app**.
-
-- **Mail service** settings are located under **spring.mail**.
-
-- **Database connection** settings are under **spring.r2dbc**.
 
 - **💡Note**:
   The same variables must also be present in a **kind-secrets.yml** file (not committed to git). This file is required if you want to run the app in a local **Kubernetes cluster** via **Kind**.
@@ -294,148 +270,6 @@ The script present in [scripts/kind.zsh](scripts/kind.zsh) will
 - **Server** => available at **[http://localhost:30080](http://localhost:30080)**
 
 If you’ve set up the **Nginx reverse proxy** (see section above), it will automatically route these internal ports behind a single HTTPS entrypoint (port 443).
-
----
-
-### ⚗️ Testing & Type Checking & Code Quality
-
-#### ✒️ Type Checking & Code Quality
-
-- **Client**: Formatting with **ESLint** • Type checking with **TypeScript**
-- **Server**:
-  - Code style enforcement with **Checkstyle**
-  - Code quality checks with **PMD**
-  - Bug detection with **SpotBugs**
-
-Run:
-
-```bash
-yarn check
-```
-
----
-
-#### 🧪 Tests
-
-If your development environment uses **HTTPS** (via Nginx or another proxy), you’ll need an additional set of environment variables for testing.
-
----
-
-Running every test with `ng serve` directly can be slow and flaky due to rebuild times.  
-To improve stability and speed, the recommended workflow is:
-
-1. **Build** the app
-
-   ```bash
-   yarn build:test
-   ```
-
-2. **Start** both client & server
-
-   ```bash
-   yarn start
-   ```
-
-3. **Run tests** in parallel for both client & server, using the maximum number of workers available on your machine:
-
-   ```bash
-   yarn tests
-   ```
-
----
-
-##### 🟧 Postman testing
-
-A ready-to-use **Postman setup** is available at the root of the repo in the **postman directory**:
-
-- [TEST_API.postman_collection.json](/postman/TEST_API.postman_collection.json) — Contains all API request
-- [ENV_VAR.postman_environment.json](postman/ENV_VAR.postman_environment.json) — Contains the required environment variables
-- [scripts](/postman/scripts/) — Contains reusable scripts used during testing to improve **efficiency**
-
----
-
-## 🐘 PostgreSQL Tables Shape
-
-```mermaid
-erDiagram
-  users ||--o{ tokens : has
-  users ||--o{ backup_codes : has
-  users ||--o{ applications : has
-  tokens }o--|| token_t : uses
-  tokens }o--|| alg_t : uses
-  applications }o--||application_status_t : uses
-  root_table ||--|| users : extends
-  root_table ||--|| tokens : extends
-  root_table ||--|| backup_codes : extends
-  root_table ||--|| applications : extends
-
-  root_table {
-    uuid id
-    bigint created_at
-    bigint updated_at
-    bigint deleted_at
-  }
-
-  users {
-    string first_name
-    string last_name
-    string email
-    string tmp_email
-    string password
-    string totp_secret
-    boolean is_verified
-  }
-
-  backup_codes {
-    uuid user_id
-    string code
-  }
-
-  tokens {
-    uuid user_id
-    token_t token_type
-    alg_t alg_type
-    string hashed
-    bigint exp
-  }
-
-  applications {
-    uuid user_id
-    string company_name
-    string position_name
-    applications_status_t status
-    string notes
-    bigint applied_at
-  }
-
-  token_t {
-    enum REFRESH
-    enum CONF_EMAIL
-    enum RECOVER_PWD
-    enum RECOVER_PWD_2FA
-    enum CHANGE_EMAIL
-    enum CHANGE_EMAIL_2FA
-    enum CHANGE_PWD
-    enum MANAGE_ACC
-    enum LOGIN_2FA
-    enum MANAGE_ACC_2FA
-  }
-
-  alg_t {
-    enum AES_CBC_HMAC_SHA256
-    enum RSA_OAEP_256_A256GCM
-    enum HMAC_SHA256
-  }
-
-  application_status_t {
-  enum APPLIED
-  enum UNDER_REVIEW
-  enum INTERVIEW
-  enum OFFER
-  enum REJECTED
-  enum WITHDRAWN
-  }
-```
 
 ---
 
