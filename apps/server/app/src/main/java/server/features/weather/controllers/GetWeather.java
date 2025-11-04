@@ -8,13 +8,23 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.api.Api;
 import server.decorators.flow.res_api.ResAPI;
+import server.features.weather.services.WeatherCitySvc;
+import server.features.weather.services.WeatherCoordsSvc;
 
 @SuppressFBWarnings({ "EI2" })
 @Component
 @RequiredArgsConstructor
 public class GetWeather {
+  private final WeatherCoordsSvc weatherSvc;
+  private final WeatherCitySvc cityCoordsSvc;
 
-  public Mono<ResponseEntity<ResAPI>> main(Api api) {
-    return new ResAPI(200).msg("Get Weather endpoint").build();
+  public Mono<ResponseEntity<ResAPI>> byCoords(Api api) {
+    return weatherSvc.main(api, null).flatMap(bodyWeather -> new ResAPI(200).data(bodyWeather).build());
+  }
+
+  public Mono<ResponseEntity<ResAPI>> byCity(Api api) {
+    return cityCoordsSvc.main(api).flatMap(
+        formCoords -> weatherSvc.main(api, formCoords)
+            .flatMap(bodyWeather -> new ResAPI(200).data(bodyWeather).build()));
   }
 }

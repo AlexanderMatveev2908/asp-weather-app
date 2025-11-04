@@ -7,7 +7,7 @@ import server.decorators.flow.ErrAPI;
 import server.lib.data_structure.Jack;
 import server.lib.data_structure.prs.sub.F_PrsCases;
 
-public final class Prs extends F_PrsCases {
+public final class LibPrs extends F_PrsCases {
 
     public static <T> T tFromMap(Map<String, Object> map, Class<T> cls) {
         try {

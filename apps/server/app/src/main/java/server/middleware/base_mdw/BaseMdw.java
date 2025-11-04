@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import reactor.core.publisher.Mono;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
-import server.lib.data_structure.prs.Prs;
+import server.lib.data_structure.prs.LibPrs;
 import server.middleware.base_mdw.etc.services.FormChecker;
 import server.middleware.base_mdw.etc.services.RateLimitSvc;
 
@@ -40,7 +40,7 @@ public abstract class BaseMdw implements WebFilter {
     }
 
     private <T> Mono<T> convertAndCheckForm(Api api, Map<String, Object> arg, Class<T> cls) {
-        T form = Prs.tFromMap(arg, cls);
+        T form = LibPrs.tFromMap(arg, cls);
         return checkForm(api, form).thenReturn(form);
     }
 

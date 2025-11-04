@@ -23,7 +23,7 @@ import server.conf.env_conf.EnvVars;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 import server.lib.data_structure.Jack;
-import server.lib.data_structure.prs.Prs;
+import server.lib.data_structure.prs.LibPrs;
 
 @Component
 @Order(10)
@@ -65,7 +65,7 @@ public final class CorsMdw implements WebFilter {
             throw new ErrAPI("err writing json for cors response");
         }
 
-        DataBuffer buff = res.bufferFactory().wrap(Prs.binaryFromUtf8(body));
+        DataBuffer buff = res.bufferFactory().wrap(LibPrs.binaryFromUtf8(body));
         return res.writeWith(Mono.just(buff));
     }
 

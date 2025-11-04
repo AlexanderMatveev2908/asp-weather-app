@@ -18,7 +18,7 @@ public class C_PrsHex extends B_PrsUtf8 {
   }
 
   public static Map<String, Object> mapFromHex(String arg) {
-    return jsonToMap(utf8FromHex(arg));
+    return mapFromJson(utf8FromHex(arg));
   }
 
   public static String hexFromMap(Map<String, Object> arg) {

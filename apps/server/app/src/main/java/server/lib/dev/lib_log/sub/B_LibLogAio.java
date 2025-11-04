@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import server.lib.data_structure.prs.Prs;
+import server.lib.data_structure.prs.LibPrs;
 import server.lib.paths.LibPath;
 
 public class B_LibLogAio extends A_LibLogBase {
@@ -24,10 +24,10 @@ public class B_LibLogAio extends A_LibLogBase {
 
         String json;
         if (arg instanceof Throwable err)
-          json = Prs.toJson(Map.of("msg", err.getMessage(), "type", err.getClass().getSimpleName(), "time",
+          json = LibPrs.jsonFromObj(Map.of("msg", err.getMessage(), "type", err.getClass().getSimpleName(), "time",
               LocalTime.now().toString()));
         else
-          json = Prs.toJson(arg);
+          json = LibPrs.jsonFromObj(arg);
 
         bw.write(json);
         bw.newLine();
