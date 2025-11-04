@@ -1,0 +1,15 @@
+.root {
+  @apply w-full relative;
+
+  .root__input {
+    @apply w-full bg-white/20 outline-none h-[42px] rounded-[12px];
+
+    &::placeholder {
+      @apply text-gray__prm;
+    }
+  }
+
+  .root__svg {
+    @apply absolute right-[14px] top-1/2 -translate-y-1/2 w-[16px] h-[16px] text-white/70;
+  }
+}

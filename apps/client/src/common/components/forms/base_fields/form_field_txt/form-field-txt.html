@@ -1,0 +1,14 @@
+<div class="root">
+  <input
+    type="text"
+    [style.padding]="padding()"
+    class="root__input txt__hd__xs"
+    placeholder="Search City..."
+  />
+
+  @if(Svg()){
+  <div class="root__svg">
+    <ng-container *ngComponentOutlet="Svg()" />
+  </div>
+  }
+</div>
