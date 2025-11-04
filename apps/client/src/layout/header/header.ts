@@ -1,12 +1,12 @@
 import { SvgFillHalfSun } from '@/common/components/svgs/fill/half_sun/half-sun';
 import { SvgT } from '@/common/types/etc';
+import { FormSearchWeather } from '@/core/forms/search_weather/form-search-weather';
 import { NgComponentOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SearchWeather } from '@/core/forms/search_weather/search-weather';
 
 @Component({
   selector: 'app-header',
-  imports: [NgComponentOutlet, SearchWeather],
+  imports: [NgComponentOutlet, FormSearchWeather],
   templateUrl: './header.html',
   styleUrl: './header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
