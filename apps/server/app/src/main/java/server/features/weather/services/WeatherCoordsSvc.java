@@ -24,7 +24,7 @@ public class WeatherCoordsSvc extends BaseWeatherSvc {
   private final RdCmd rdCmd;
 
   public WeatherCoordsSvc(EnvVars envVars, WebClient.Builder webClientBuilder, RdCmd rdCmd) {
-    super(envVars, webClientBuilder);
+    super(webClientBuilder, envVars);
     this.rdCmd = rdCmd;
   }
 

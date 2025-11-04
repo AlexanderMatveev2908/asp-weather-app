@@ -25,7 +25,7 @@ import server.lib.data_structure.prs.LibPrs;
 public class WeatherCitySvc extends BaseWeatherSvc {
 
   public WeatherCitySvc(EnvVars envVars, WebClient.Builder webClientBuilder, RdCmd rdCmd) {
-    super(envVars, webClientBuilder);
+    super(webClientBuilder, envVars);
   }
 
   private WebClient getWebClient() {
