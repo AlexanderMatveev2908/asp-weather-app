@@ -36,8 +36,12 @@ public class WeatherCitySvc extends BaseWeatherSvc {
     return uriBuilder.queryParam("q", form.getCity()).queryParam("appid", getApiKey()).queryParam("limit", 1).build();
   }
 
+  private String buildKey(String city) {
+    return "geo_city__" + city;
+  }
+
   private Mono<FormWeatherCoords> firstLookRd(FormWeatherCity form) {
-    return rdCmd.getStr(form.getCity()).map(json -> LibPrs.tFormJson(json, FormWeatherCoords.class));
+    return rdCmd.getStr(buildKey(form.getCity())).map(json -> LibPrs.tFormJson(json, FormWeatherCoords.class));
   }
 
   private Mono<FormWeatherCoords> callWeatherGeoApi(FormWeatherCity form) {
@@ -53,7 +57,7 @@ public class WeatherCitySvc extends BaseWeatherSvc {
           FormWeatherCoords formCoords = LibPrs.tFromMap(firstRes, FormWeatherCoords.class);
           String json = LibPrs.jsonFromObj(formCoords);
 
-          return rdCmd.setStr(form.getCity(), json).thenReturn(formCoords);
+          return rdCmd.setStr(buildKey(form.getCity()), json).thenReturn(formCoords);
         });
   }
 

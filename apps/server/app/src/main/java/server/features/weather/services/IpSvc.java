@@ -29,7 +29,7 @@ public class IpSvc extends BaseWeatherSvc {
   }
 
   private String buildKey(String ip) {
-    return "geo__" + ip;
+    return "geo_ip__" + ip;
   }
 
   private Mono<RecGeo> firstLookRd(String ip) {
