@@ -1,6 +1,6 @@
 import { TxtFieldT } from '@/common/types/forms';
 import { RootUiFkt } from '../root';
-import { LibPrs } from '@/core/lib/prs/prs';
+import { LibPrs } from '@/core/lib/data_structure/prs/prs';
 
 export class FormsUiFkt extends RootUiFkt {
   public static txtFieldOf(arg: Partial<TxtFieldT> & { name: string }): TxtFieldT {

@@ -6,7 +6,7 @@ import { _UseSideEffectsMngNoticeHk } from './sub/3.notice';
 @Injectable({
   providedIn: 'root',
 })
-export class UseSideEffectsMngSvc extends _UseSideEffectsMngNoticeHk {
+export class _UseSideEffectsMngSvc extends _UseSideEffectsMngNoticeHk {
   public main<T, K>(cb: ObsResT<T>, args: LibApiArgs<K>): ObsOnOkT<T> {
     return this.withNotice(this.withToast(this.withLog(cb), args.getOptToast()), args.getOptErr());
   }

@@ -2,7 +2,7 @@ import { Nullable } from '@/common/types/etc';
 import { LibStack } from './stack';
 import { LibShape } from '../data_structure/shape';
 import { Reg } from '@/core/paperwork/reg';
-import { LibPrs } from '../prs/prs';
+import { LibPrs } from '../data_structure/prs/prs';
 
 export class LibLog {
   private static _log(title: Nullable<string>, ...args: unknown[]): void {

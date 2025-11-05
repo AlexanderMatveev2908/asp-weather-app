@@ -1,10 +1,10 @@
 import { Dict, Nullable } from '@/common/types/etc';
 import { LibShape } from '@/core/lib/data_structure/shape';
 import { HttpErrorResponse, HttpEvent, HttpParams, HttpRequest } from '@angular/common/http';
-import { LibApiShape } from '../../../lib/shape';
-import { HttpMethod, HttpResT } from '../../../types';
-import { UseApiConfSvc } from '../../../services/use_api_conf';
-import { ConfApiT } from '../../../services/use_api_conf/etc/types';
+import { LibApiShape } from '../../../etc/lib/shape';
+import { UseApiConfSvc } from '../../../etc/services/use_api_conf';
+import { HttpMethod, HttpResT } from '../../../etc/types';
+import { ConfApiT } from '../../../etc/services/use_api_conf/etc/types';
 
 export class ConfApiMdwMng {
   private static getRequestBody(req: HttpRequest<unknown>): Nullable<Dict> {

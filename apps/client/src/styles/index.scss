@@ -3,7 +3,9 @@
 @use './tokens/twd_hex.scss';
 @use './tokens/fonts.scss';
 @use './tokens/txt.scss';
+@use './tokens/SVGs.scss';
 @use './tokens/etc.scss';
+@use './tokens/z.scss';
 
 // ? all files inside tokens are imported here
 // ! exports are never imported here

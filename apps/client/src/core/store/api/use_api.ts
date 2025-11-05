@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { LibApiArgs } from './etc/lib/api_args';
-import { UseSideEffectsMngSvc } from './etc/services/manage_side_effects';
+import { _UseSideEffectsMngSvc } from './etc/services/manage_side_effects';
 import { ObsOnOkT, ResApiT } from './etc/types';
 import { Optional } from '@/common/types/etc';
 
@@ -10,7 +10,7 @@ import { Optional } from '@/common/types/etc';
 })
 export class UseApiSvc {
   private readonly http: HttpClient = inject(HttpClient);
-  private readonly sideEffectsMng: UseSideEffectsMngSvc = inject(UseSideEffectsMngSvc);
+  private readonly sideEffectsMng: _UseSideEffectsMngSvc = inject(_UseSideEffectsMngSvc);
 
   public get<T, K>(args: LibApiArgs<K>): ObsOnOkT<T> {
     return this.sideEffectsMng.main(
