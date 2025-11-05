@@ -16,12 +16,13 @@ import { FormWeatherUiFkt } from './etc/ui_fkt';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FormWeatherGroupT, FormWeatherT, SearchWeatherFormMng } from './etc/paperwork/form_mng';
 import { RootFormMng } from '@/core/paperwork/root_form_mng/root_form_mng';
-import { LibLog } from '@/core/lib/dev/log';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { UseDebounceHk } from './etc/hooks/use_debounce/use_debounce';
 import { UseWeatherKitSvc } from '../../etc/hooks/use_weather_kit';
 import { SvgFillAlmostCircle } from '@/common/components/svgs/fill/almost_circle/almost-circle';
+import { LibShape } from '@/core/lib/data_structure/shape';
+import { GeoUserT } from '../../reducer/reducer';
 
 @Component({
   selector: 'app-form-search-weather',
@@ -41,7 +42,12 @@ export class FormSearchWeather extends UseDebounceHk implements OnInit {
   public readonly cityField: TxtFieldT = FormWeatherUiFkt.cityField;
 
   // ? dynamic vectors
-  public readonly searchSvg: Signal<SvgT> = computed(() => SvgFillSearch);
+  public readonly searchSvg: Signal<SvgT> = computed(() =>
+    this.useWeatherKit.weatherSlice.weatherPending() ? SvgFillAlmostCircle : SvgFillSearch
+  );
+  public readonly searchTwd: Signal<string> = computed(() =>
+    this.useWeatherKit.weatherSlice.weatherPending() ? 'app__spin' : ''
+  );
   public readonly refreshSvg: Signal<SvgT> = computed(() =>
     this.useWeatherKit.weatherSlice.geoPending() ? SvgFillAlmostCircle : SvgFillRerun
   );
@@ -54,8 +60,16 @@ export class FormSearchWeather extends UseDebounceHk implements OnInit {
 
   // ? listeners
   private readonly triggerStrategy: (data: FormWeatherT) => void = (data: FormWeatherT) => {
-    if (!this.form.value) return;
-    LibLog.logTtl('✅ ok', data);
+    const val: Nullable<FormWeatherT> = data ?? (this.form.value as Nullable<FormWeatherT>);
+    if (!this.form.valid || !LibShape.hasText(val?.city)) return;
+
+    this.forceSetPrevForm(val);
+
+    this.useWeatherKit.weatherSlice.setWeatherPending(true);
+    this.useWeatherKit.weatherApi
+      .getWeatherByCity(val)
+      .pipe(finalize(() => this.useWeatherKit.weatherSlice.setWeatherPending(false)))
+      .subscribe();
   };
 
   public readonly onSubmit: () => void = () => {
@@ -63,16 +77,15 @@ export class FormSearchWeather extends UseDebounceHk implements OnInit {
       RootFormMng.onSubmitFailed(this.form);
       return;
     }
-
     this.triggerStrategy(this.form.value as FormWeatherT);
   };
 
+  // ? btn svg inside input
   public readonly triggerSubmit: () => void = () => {
     const el: Nullable<HTMLFormElement> = document.getElementById(
       'search_weather_form'
     ) as Nullable<HTMLFormElement>;
     if (!el) return;
-
     el.requestSubmit();
   };
 
@@ -90,6 +103,17 @@ export class FormSearchWeather extends UseDebounceHk implements OnInit {
       form: this.form,
       formValue: this.formValue,
       triggerStrategy: this.triggerStrategy,
+    });
+
+    this.useEffect(() => {
+      const geo: Nullable<GeoUserT> = this.useWeatherKit.weatherSlice.geoUser();
+      if (this.useWeatherKit.weatherSlice.weather() || !geo) return;
+
+      this.form.markAsDirty();
+      this.form.markAsTouched();
+      this.form.patchValue({
+        city: geo.region,
+      });
     });
   }
 }

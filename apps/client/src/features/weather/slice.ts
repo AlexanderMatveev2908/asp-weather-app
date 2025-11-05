@@ -2,7 +2,7 @@ import { computed, Injectable, Signal } from '@angular/core';
 import { GeoUserT, WeatherStateT } from './reducer/reducer';
 import { getWeatherState } from './reducer/selectors';
 import { UseKitSliceSvc } from '@/core/services/use_kit_slice';
-import { Nullable } from '@/common/types/etc';
+import { Dict, Nullable } from '@/common/types/etc';
 import { WeatherActT } from './reducer/actions';
 
 @Injectable({
@@ -17,6 +17,18 @@ export class WeatherSlice extends UseKitSliceSvc {
 
   public setGeoPending(v: boolean): void {
     this.store.dispatch(WeatherActT.SET_GEO_PENDING({ v }));
+  }
+
+  public weatherPending: Signal<boolean> = computed(() => this.weatherState().weatherPending);
+
+  public setWeatherPending(v: boolean): void {
+    this.store.dispatch(WeatherActT.SET_WEATHER_PENDING({ v }));
+  }
+
+  public weather: Signal<Nullable<Dict>> = computed(() => this.weatherState().weather);
+
+  public setWeather(data: Dict): void {
+    this.store.dispatch(WeatherActT.SET_WEATHER(data));
   }
 
   public setGeuUser(geoUser: GeoUserT): void {

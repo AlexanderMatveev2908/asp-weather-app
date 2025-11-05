@@ -1,7 +1,7 @@
 import { Nullable, SvgT } from '@/common/types/etc';
 import { TxtFieldT } from '@/common/types/forms';
 import { UseInjCtxHk } from '@/core/hooks/use_inj_ctx';
-import { NgComponentOutlet } from '@angular/common';
+import { NgClass, NgComponentOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,7 +16,7 @@ import { FormFieldErr } from '../form_field_err/form-field-err';
 
 @Component({
   selector: 'app-form-field-txt',
-  imports: [NgComponentOutlet, ReactiveFormsModule, FormFieldErr],
+  imports: [NgComponentOutlet, ReactiveFormsModule, FormFieldErr, NgClass],
   templateUrl: './form-field-txt.html',
   styleUrl: './form-field-txt.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,6 +28,8 @@ export class FormFieldTxt extends UseInjCtxHk implements OnInit {
   public readonly onSvgClick: InputSignal<() => void> = input<() => void>(() => null);
   public readonly ctrl: InputSignal<FormControl> = input.required();
   public readonly disabled: InputSignal<boolean> = input(false);
+
+  public readonly additionalSvgTwd: InputSignal<string> = input('');
 
   // ? derived
   public readonly padding: Signal<string> = computed(() =>

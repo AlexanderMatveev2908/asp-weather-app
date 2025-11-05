@@ -10,7 +10,9 @@
 
   @if(Svg()){
   <button (click)="onSvgClick()()" [disabled]="disabled()" type="button" class="root__svg">
-    <ng-container *ngComponentOutlet="Svg()" />
+    <div [ngClass]="additionalSvgTwd()">
+      <ng-container *ngComponentOutlet="Svg()" />
+    </div>
   </button>
   }
 
