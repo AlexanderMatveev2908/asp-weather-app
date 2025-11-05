@@ -12,8 +12,8 @@ import { LibLog } from '@/core/lib/dev/log';
   providedIn: 'root',
 })
 export class UseGeoSvc {
-  private readonly toastSlice: ToastSlice = inject(ToastSlice);
-  private readonly weatherSlice: WeatherSlice = inject(WeatherSlice);
+  protected readonly toastSlice: ToastSlice = inject(ToastSlice);
+  protected readonly weatherSlice: WeatherSlice = inject(WeatherSlice);
 
   private getGeoChrome(): Observable<GeoResT> {
     return new Observable<GeoResT>((obs: Subscriber<GeoResT>) => {
@@ -66,7 +66,7 @@ export class UseGeoSvc {
     );
   }
 
-  public saveGeoResponse(res: GeoResT): void {
+  protected saveGeoResponse(res: GeoResT): void {
     this.toastSlice.openToast({
       eventT: 'OK',
       msg: `Geolocation retrieved using ${res.strategy} strategy`,
@@ -77,7 +77,7 @@ export class UseGeoSvc {
     this.weatherSlice.setGeuUser(payload);
   }
 
-  public main(): Observable<GeoUserT> {
+  protected getGeoExternalStrategies(): Observable<GeoUserT> {
     // ! firefox is a little dump for geolocation so is necessary an external service to retrieve the current user geolocation
     return this.getGeoChrome()
       .pipe(catchError((_: unknown) => this.getGeoFirefox()))

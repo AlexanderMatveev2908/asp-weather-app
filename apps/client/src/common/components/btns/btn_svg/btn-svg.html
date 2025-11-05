@@ -1,5 +1,5 @@
-<button [type]="btnT()" class="root">
-  <div class="root__svg">
+<button [type]="btnT()" class="root" [disabled]="disable()">
+  <div class="root__svg" [ngClass]="additionalSvgTwd()">
     <ng-container *ngComponentOutlet="Svg()" />
   </div>
 </button>

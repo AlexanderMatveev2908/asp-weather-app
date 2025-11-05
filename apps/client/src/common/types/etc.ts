@@ -27,3 +27,7 @@ export interface AppPayloadEventT {
   status: number;
   eventT: AppEventT;
 }
+
+export interface BoolPayloadT {
+  v: boolean;
+}

@@ -13,6 +13,12 @@ export class WeatherSlice extends UseKitSliceSvc {
     return this.store.selectSignal(getWeatherState);
   }
 
+  public readonly geoPending: Signal<boolean> = computed(() => this.weatherState().geoPending);
+
+  public setGeoPending(v: boolean): void {
+    this.store.dispatch(WeatherActT.SET_GEO_PENDING({ v }));
+  }
+
   public setGeuUser(geoUser: GeoUserT): void {
     this.store.dispatch(WeatherActT.SET_GEO_USER(geoUser));
   }

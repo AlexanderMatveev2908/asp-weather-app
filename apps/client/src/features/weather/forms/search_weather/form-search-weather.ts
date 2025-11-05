@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, OnInit, Signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+  Signal,
+} from '@angular/core';
 import { FormFieldTxt } from '@/common/components/forms/form_field_txt/form-field-txt';
 import { BtnSvg } from '@/common/components/btns/btn_svg/btn-svg';
 import { SvgFillSearch } from '@/common/components/svgs/fill/search/search';
@@ -13,6 +20,8 @@ import { LibLog } from '@/core/lib/dev/log';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { UseDebounceHk } from './etc/hooks/use_debounce/use_debounce';
+import { UseWeatherKitSvc } from '../../etc/hooks/use_weather_kit';
+import { SvgFillAlmostCircle } from '@/common/components/svgs/fill/almost_circle/almost-circle';
 
 @Component({
   selector: 'app-form-search-weather',
@@ -22,13 +31,23 @@ import { UseDebounceHk } from './etc/hooks/use_debounce/use_debounce';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormSearchWeather extends UseDebounceHk implements OnInit {
+  private readonly useWeatherKit: UseWeatherKitSvc = inject(UseWeatherKitSvc);
+
+  // ? derived
+  public readonly disable: Signal<boolean> = this.useWeatherKit.weatherSlice.geoPending;
+
   // ? statics
   public readonly form: FormWeatherGroupT = SearchWeatherFormMng.form;
   public readonly cityField: TxtFieldT = FormWeatherUiFkt.cityField;
 
   // ? dynamic vectors
   public readonly searchSvg: Signal<SvgT> = computed(() => SvgFillSearch);
-  public readonly refreshSvg: Signal<SvgT> = computed(() => SvgFillRerun);
+  public readonly refreshSvg: Signal<SvgT> = computed(() =>
+    this.useWeatherKit.weatherSlice.geoPending() ? SvgFillAlmostCircle : SvgFillRerun
+  );
+  public readonly refreshTwd: Signal<string> = computed(() =>
+    this.useWeatherKit.weatherSlice.geoPending() ? 'app__spin' : ''
+  );
 
   // ? control city field
   public readonly ctrlCity: FormControl = this.form.get('city') as FormControl;

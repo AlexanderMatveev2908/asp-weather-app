@@ -1,1 +1,9 @@
 <app-header />
+
+<app-page-wrapper
+  [waitClient]="true"
+  appUseMetaEventDir
+  [eventT]="'NONE'"
+  [isPending]="useWeatherKit.weatherSlice.geoPending()"
+  [minH]="'min-h-[85vh]'"
+/>

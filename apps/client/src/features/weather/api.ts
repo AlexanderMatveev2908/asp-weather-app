@@ -1,6 +1,6 @@
 import { UseApiSvc } from '@/core/store/api/use_api';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, tap } from 'rxjs';
+import { catchError, finalize, Observable, tap } from 'rxjs';
 import { GeoUserT } from './reducer/reducer';
 import { UseGeoSvc } from './etc/services/use_geo';
 import { ErrApiT, ObsResT, ResApiT } from '@/core/store/api/etc/types';
@@ -10,15 +10,10 @@ import { GeoResT } from './etc/services/use_geo/etc/types';
 @Injectable({
   providedIn: 'root',
 })
-export class WeatherApiSvc {
+export class WeatherApiSvc extends UseGeoSvc {
   private readonly base: string = '/weather';
 
   private readonly api: UseApiSvc = inject(UseApiSvc);
-  private readonly useGeo: UseGeoSvc = inject(UseGeoSvc);
-
-  private getGeoUserExternal(): Observable<GeoUserT> {
-    return this.useGeo.main();
-  }
 
   private getGeoUserSpring(): ObsResT<GeoResT> {
     return this.api.get(LibApiArgs.withURL(`${this.base}/ip`).noToast());
@@ -29,8 +24,9 @@ export class WeatherApiSvc {
     // | but the personal endpoint has redis cache and rate limit 🚦
 
     return this.getGeoUserSpring().pipe(
-      tap((res: ResApiT<GeoResT>) => this.useGeo.saveGeoResponse(res)),
-      catchError((_: ErrApiT<void>) => this.getGeoUserExternal())
+      tap((res: ResApiT<GeoResT>) => this.saveGeoResponse(res)),
+      catchError((_: ErrApiT<void>) => this.getGeoExternalStrategies()),
+      finalize(() => this.weatherSlice.setGeoPending(false))
     );
   }
 }
