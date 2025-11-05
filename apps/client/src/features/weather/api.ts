@@ -7,6 +7,7 @@ import { LibApiArgs } from '@/core/store/api/etc/lib/api_args';
 import { GeoResT } from './etc/services/use_geo/etc/types';
 import { GeoUserT } from './reducer/reducer';
 import { FormWeatherT } from './forms/search_weather/etc/paperwork/form_mng';
+import { Dict } from '@/common/types/etc';
 
 @Injectable({
   providedIn: 'root',
@@ -27,11 +28,11 @@ export class WeatherApiSvc {
     return this.getGeoUserSpring().pipe(catchError((_: ErrApiT<void>) => this.useGeoSvc.main()));
   }
 
-  public getWeatherByCoords(coords: GeoUserT): ObsResT<unknown> {
+  public getWeatherByCoords(coords: GeoUserT): ObsResT<Dict> {
     return this.api.get(LibApiArgs.withURL(`${this.base}/coords`).query(coords).toastOnErr());
   }
 
-  public getWeatherByCity(arg: FormWeatherT): ObsResT<unknown> {
+  public getWeatherByCity(arg: FormWeatherT): ObsResT<Dict> {
     return this.api.get(LibApiArgs.withURL(`${this.base}/city`).query(arg).toastOnErr());
   }
 }

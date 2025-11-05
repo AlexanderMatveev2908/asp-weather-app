@@ -4,6 +4,6 @@
   [waitClient]="true"
   appUseMetaEventDir
   [eventT]="'NONE'"
-  [isPending]="useWeatherKit.weatherSlice.geoPending()"
+  [isPending]="!useWeatherKit.weatherSlice.weather()"
   [minH]="'min-h-[85vh]'"
 />
