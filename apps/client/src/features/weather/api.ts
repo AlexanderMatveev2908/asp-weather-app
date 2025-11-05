@@ -4,9 +4,9 @@ import { catchError, Observable } from 'rxjs';
 import { UseGeoSvc } from './etc/services/use_geo';
 import { ErrApiT, ObsResT } from '@/core/store/api/etc/types';
 import { LibApiArgs } from '@/core/store/api/etc/lib/api_args';
-import { GeoResT } from './reducer/reducer';
 import { FormWeatherT } from './forms/search_weather/etc/paperwork/form_mng';
 import { Dict } from '@/common/types/etc';
+import { GeoResT } from './etc/types';
 
 @Injectable({
   providedIn: 'root',

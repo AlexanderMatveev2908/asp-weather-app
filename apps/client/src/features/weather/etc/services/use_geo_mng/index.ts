@@ -4,7 +4,7 @@ import { ToastSlice } from '@/features/toast/slice';
 import { finalize, tap } from 'rxjs';
 import { LibLog } from '@/core/lib/dev/log';
 import { Dict } from '@/common/types/etc';
-import { GeoResT } from '@/features/weather/reducer/reducer';
+import { GeoResT } from '../../types';
 
 @Injectable({
   providedIn: 'root',

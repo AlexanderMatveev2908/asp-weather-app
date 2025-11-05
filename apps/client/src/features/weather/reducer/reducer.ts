@@ -1,16 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { WeatherActT } from './actions';
 import { BoolPayloadT, Dict, Nullable } from '@/common/types/etc';
-
-export type GeoStrategyT = 'chrome' | 'firefox';
-
-export interface GeoResT {
-  country_code: string;
-  region: string;
-  lon: number;
-  lat: number;
-  strategy: GeoStrategyT;
-}
+import { GeoResT } from '../etc/types';
 
 export interface WeatherStateT {
   geoUser: Nullable<GeoResT>;

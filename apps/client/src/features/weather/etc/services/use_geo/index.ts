@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { from, map, Observable, switchMap } from 'rxjs';
 import { Dict } from '@/common/types/etc';
 import { LibLog } from '@/core/lib/dev/log';
-import { GeoResT } from '@/features/weather/reducer/reducer';
+import { GeoResT } from '../../types';
 
 @Injectable({
   providedIn: 'root',

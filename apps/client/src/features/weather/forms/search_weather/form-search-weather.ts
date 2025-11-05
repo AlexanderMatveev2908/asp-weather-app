@@ -6,8 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormWeatherT } from './etc/paperwork/form_mng';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
-import { GeoResT } from '../../reducer/reducer';
 import { UseManageListenersWeatherHk } from './etc/sub/3.use_manage_listeners';
+import { GeoResT } from '../../etc/types';
 
 @Component({
   selector: 'app-form-search-weather',

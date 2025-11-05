@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { GeoResT } from './reducer';
 import { BoolPayloadT, Dict } from '@/common/types/etc';
+import { GeoResT } from '../etc/types';
 
 export const WeatherActT = {
   RESET__WEATHER_STATE: createAction('RESET__WEATHER_STATE'),

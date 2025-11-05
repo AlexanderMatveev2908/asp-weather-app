@@ -1,9 +1,10 @@
 import { computed, Injectable, Signal } from '@angular/core';
-import { GeoResT, WeatherStateT } from './reducer/reducer';
+import { WeatherStateT } from './reducer/reducer';
 import { getWeatherState } from './reducer/selectors';
 import { UseKitSliceSvc } from '@/core/services/use_kit_slice';
 import { Dict, Nullable } from '@/common/types/etc';
 import { WeatherActT } from './reducer/actions';
+import { GeoResT } from './etc/types';
 
 @Injectable({
   providedIn: 'root',
