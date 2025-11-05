@@ -2,9 +2,9 @@ import { computed, Injectable, Signal } from '@angular/core';
 import { WeatherStateT } from './reducer/reducer';
 import { getWeatherState } from './reducer/selectors';
 import { UseKitSliceSvc } from '@/core/services/use_kit_slice';
-import { Dict, Nullable } from '@/common/types/etc';
+import { Nullable } from '@/common/types/etc';
 import { WeatherActT } from './reducer/actions';
-import { GeoResT } from './etc/types';
+import { GeoResT, WeatherResT } from './etc/types';
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +26,9 @@ export class WeatherSlice extends UseKitSliceSvc {
     this.store.dispatch(WeatherActT.SET_WEATHER_PENDING({ v }));
   }
 
-  public weather: Signal<Nullable<Dict>> = computed(() => this.weatherState().weather);
+  public weather: Signal<Nullable<WeatherResT>> = computed(() => this.weatherState().weather);
 
-  public setWeather(data: Dict): void {
+  public setWeather(data: WeatherResT): void {
     this.store.dispatch(WeatherActT.SET_WEATHER(data));
   }
 

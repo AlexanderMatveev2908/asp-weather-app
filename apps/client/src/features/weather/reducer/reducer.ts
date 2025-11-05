@@ -1,12 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import { WeatherActT } from './actions';
-import { BoolPayloadT, Dict, Nullable } from '@/common/types/etc';
-import { GeoResT } from '../etc/types';
+import { BoolPayloadT, Nullable } from '@/common/types/etc';
+import { GeoResT, WeatherResT } from '../etc/types';
 
 export interface WeatherStateT {
   geoUser: Nullable<GeoResT>;
   geoPending: boolean;
-  weather: Nullable<Dict>;
+  weather: Nullable<WeatherResT>;
   weatherPending: boolean;
 }
 
@@ -32,5 +32,8 @@ export const weatherReducer = createReducer(
     ...state,
     weatherPending: act.v,
   })),
-  on(WeatherActT.SET_WEATHER, (state: WeatherStateT, act: Dict) => ({ ...state, weather: act }))
+  on(WeatherActT.SET_WEATHER, (state: WeatherStateT, act: WeatherResT) => ({
+    ...state,
+    weather: act,
+  }))
 );

@@ -1,4 +1,4 @@
-import { Dict, Nullable } from '@/common/types/etc';
+import { Nullable } from '@/common/types/etc';
 import { Injectable } from '@angular/core';
 import { FormWeatherT } from '../../paperwork/form_mng';
 import { LibShape } from '@/core/lib/data_structure/shape';
@@ -6,6 +6,7 @@ import { UseManageDerivedWeatherHk } from '../2.use_manage_derived';
 import { finalize, tap } from 'rxjs';
 import { RootFormMng } from '@/core/paperwork/root_form_mng/root_form_mng';
 import { ResApiT } from '@/core/store/api/etc/types';
+import { WeatherResT } from '@/features/weather/etc/types';
 
 @Injectable()
 export abstract class UseManageListenersWeatherHk extends UseManageDerivedWeatherHk {
@@ -20,7 +21,7 @@ export abstract class UseManageListenersWeatherHk extends UseManageDerivedWeathe
     this.useWeatherKit.weatherApi
       .getWeatherByCity(val)
       .pipe(
-        tap((res: ResApiT<Dict>) => {
+        tap((res: ResApiT<WeatherResT>) => {
           this.useWeatherKit.weatherSlice.setWeather(res);
         }),
         finalize(() => this.useWeatherKit.weatherSlice.setWeatherPending(false))
