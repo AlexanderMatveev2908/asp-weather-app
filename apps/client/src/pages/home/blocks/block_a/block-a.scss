@@ -1,0 +1,15 @@
+.root {
+  @apply w-full bg-white/10 border rounded-[24px] p-[27.5px] border-white/30 flex flex-col items-center;
+
+  .root__header {
+    @apply w-full max-w-[80%] flex flex-col gap-[8px] items-center;
+
+    .header__region,
+    .header__day {
+      @apply flex justify-center;
+      span {
+        @apply text-center;
+      }
+    }
+  }
+}
