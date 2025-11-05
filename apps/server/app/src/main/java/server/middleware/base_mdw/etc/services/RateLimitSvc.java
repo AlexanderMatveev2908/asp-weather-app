@@ -28,20 +28,11 @@ public final class RateLimitSvc {
         this.envKeeper = envKeeper;
     }
 
-    private String getClientIp(Api api) {
-        String xff = api.getHeader("x-forwarded-for");
-
-        if (!xff.isBlank())
-            return xff.split(",")[0].trim();
-
-        return api.getIp();
-    }
-
     private LimitData extractLimitData(Api api, Integer minutes) {
         long now = System.currentTimeMillis();
         long windowMs = Duration.ofMinutes(minutes).toMillis();
 
-        String ip = getClientIp(api);
+        String ip = api.getClientIp();
         String path = api.getPath();
         String method = api.getMethod().toString();
 

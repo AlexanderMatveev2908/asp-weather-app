@@ -19,7 +19,7 @@ public class WeatherCoordsMdw extends BaseMdw {
   @Override
   public Mono<Void> handle(Api api, WebFilterChain chain) {
     return isTarget(api, chain, "/weather/coords", HttpMethod.GET, () -> {
-      return limit(api, 30, 15).then(checkQueryForm(api, FormWeatherCoords.class).then(
+      return limit(api, 50, 15).then(checkQueryForm(api, FormWeatherCoords.class).then(
           chain.filter(api)));
     });
   }
