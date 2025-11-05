@@ -9,7 +9,7 @@ import {
   Signal,
 } from '@angular/core';
 import { ArrowTooltipDirectionT } from './etc/types';
-import { MetaEventDom } from '@/core/lib/dom/events';
+import { LibMetaEvent } from '@/core/lib/css/events';
 
 @Component({
   selector: 'app-tooltip',
@@ -34,5 +34,5 @@ export class Tooltip {
   public readonly twdArrow: Signal<string> = computed(() =>
     this.arrowOn() === '<' ? 'left-[12.5%]' : 'right-[12.5%]'
   );
-  public readonly cssVar: Signal<string> = computed(() => MetaEventDom.cssVarByT(this.appEventT()));
+  public readonly cssVar: Signal<string> = computed(() => LibMetaEvent.cssVarByT(this.appEventT()));
 }

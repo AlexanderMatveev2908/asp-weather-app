@@ -19,7 +19,7 @@ import { AnimationsPopSvc } from './etc/animations';
 import { CloseBtn } from '@/common/components/btns/close_btn/close-btn';
 import { Nullable } from '@/common/types/etc';
 import { UseInjCtxHk } from '@/core/hooks/use_inj_ctx';
-import { MetaEventDom } from '@/core/lib/dom/events';
+import { LibMetaEvent } from '@/core/lib/css/events';
 import { ElDomT, RefDomT, RefTemplateT } from '@/common/types/dom';
 
 @Component({
@@ -46,12 +46,12 @@ export class Popup extends UseInjCtxHk implements AfterViewInit {
 
   // ? black bg overlay props
   public cssBlackBg: Signal<string> = computed(
-    () => `${this.isPop() ? 'fixed' : 'hidden'} z__${this.staticProps().cls}__bg`
+    () => `${this.isPop() ? 'fixed' : 'hidden'} ${this.cssZ()}__bg`
   );
 
   // ? derived
   public readonly cssVarEvent: Signal<string> = computed(() =>
-    MetaEventDom.cssVarByT(this.staticProps().eventT)
+    LibMetaEvent.cssVarByT(this.staticProps().eventT)
   );
   public cssZ: Signal<string> = computed(() => `z__${this.staticProps().cls}`);
 

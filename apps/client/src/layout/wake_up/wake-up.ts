@@ -12,6 +12,7 @@ import { UsePopHk } from '@/core/hooks/use_pop';
 import { UseStorageSvc } from '@/core/services/use_storage/use_storage';
 import { WakeUpApiSvc } from '@/features/wake_up/api';
 import { LibPrs } from '@/core/lib/data_structure/prs/prs';
+import { envVars } from '@/environments/environment';
 
 @Component({
   selector: 'app-wake-up',
@@ -38,6 +39,9 @@ export class WakeUp implements AfterViewInit {
     eventT: 'INFO',
     closePop: this.usePopHk.closePop,
   };
+
+  // ? message user
+  public readonly backURL: string = envVars.backURL;
 
   // ? cbs
   private pollIf(): boolean {

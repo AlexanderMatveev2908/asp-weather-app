@@ -3,13 +3,13 @@ import { SvgFillError } from '@/common/components/svgs/fill/error/error';
 import { SvgFillInfo } from '@/common/components/svgs/fill/info/info';
 import { AppEventT, SvgT } from '@/common/types/etc';
 
-export interface MetaAppEventT {
+export interface MetaEventT {
   varCss: string;
   Svg: SvgT;
 }
 
-export class MetaEventDom {
-  private static readonly meta: Record<AppEventT, MetaAppEventT> = {
+export class LibMetaEvent {
+  private static readonly meta: Record<AppEventT, MetaEventT> = {
     OK: {
       Svg: SvgFillCheck,
       varCss: 'var(--green__600)',
@@ -32,7 +32,7 @@ export class MetaEventDom {
     },
   };
 
-  public static metaByT(t: AppEventT): MetaAppEventT {
+  public static metaByT(t: AppEventT): MetaEventT {
     return this.meta[t];
   }
   public static cssVarByT(t: AppEventT): string {
