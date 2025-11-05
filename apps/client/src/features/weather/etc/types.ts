@@ -1,4 +1,4 @@
-export type GeoStrategyT = 'chrome' | 'firefox';
+export type GeoStrategyT = 'firefox' | 'spring';
 
 export interface GeoResT {
   country_code: string;
