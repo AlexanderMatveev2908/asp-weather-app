@@ -15,6 +15,7 @@ export abstract class _UseSideEffectsMngToastHk extends _UseSideEffectsMngLogHk 
     return {
       toastErr: true,
       toastOk: this.confApi.getCurr()?.method !== 'GET',
+      okMsg: null,
     };
   }
 
@@ -30,6 +31,7 @@ export abstract class _UseSideEffectsMngToastHk extends _UseSideEffectsMngLogHk 
           this.toastSlice.openToast({
             eventT: 'OK',
             msg:
+              options.okMsg ??
               res?.msg ??
               `✅ ${this.confApi.getCurr()?.method ?? 'Unknown method'} operation successful`,
             status: res?.status ?? 0,

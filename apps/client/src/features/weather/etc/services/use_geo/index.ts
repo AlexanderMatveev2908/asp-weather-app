@@ -66,6 +66,17 @@ export class UseGeoSvc {
     );
   }
 
+  public saveGeoResponse(res: GeoResT): void {
+    this.toastSlice.openToast({
+      eventT: 'OK',
+      msg: `Geolocation retrieved using ${res.strategy} strategy`,
+      status: 200,
+    });
+
+    const { strategy: _, ...payload } = res;
+    this.weatherSlice.setGeuUser(payload);
+  }
+
   public main(): Observable<GeoUserT> {
     // ! firefox is a little dump for geolocation so is necessary an external service to retrieve the current user geolocation
     return this.getGeoChrome()
@@ -73,20 +84,13 @@ export class UseGeoSvc {
       .pipe(
         tap({
           next: (res: GeoResT) => {
-            this.toastSlice.openToast({
-              eventT: 'OK',
-              msg: `Geolocation retrieved using ${res.strategy} strategy`,
-              status: 200,
-            });
-
-            const { strategy: _, ...payload } = res;
-            this.weatherSlice.setGeuUser(payload);
+            this.saveGeoResponse(res);
           },
           error: (err: Dict) => {
             LibLog.logTtl('❌ err geo', err);
 
             this.toastSlice.openToast({
-              msg: 'geolocation not available neither on chrome nor in firefox',
+              msg: 'geolocation not retrieved neither with internal nor external APIs ',
               status: 500,
               eventT: 'ERR',
             });

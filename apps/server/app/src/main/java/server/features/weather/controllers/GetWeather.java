@@ -1,7 +1,5 @@
 package server.features.weather.controllers;
 
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +31,6 @@ public class GetWeather {
   }
 
   public Mono<ResponseEntity<ResAPI>> coordsByIp(Api api) {
-    return geoSvc.main(api).flatMap(rec -> new ResAPI(200).data(Map.of("coords", rec)).build());
+    return geoSvc.main(api).flatMap(rec -> new ResAPI(200).data(rec.mapForClient()).build());
   }
 }

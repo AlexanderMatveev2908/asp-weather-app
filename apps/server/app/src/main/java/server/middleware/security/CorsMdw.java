@@ -24,6 +24,7 @@ import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 import server.lib.data_structure.Jack;
 import server.lib.data_structure.prs.LibPrs;
+import server.lib.dev.lib_log.LibLog;
 
 @Component
 @Order(10)
@@ -57,7 +58,9 @@ public final class CorsMdw implements WebFilter {
         res.setStatusCode(HttpStatus.FORBIDDEN);
         res.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
-        String msg = String.format("❌ %s not allowed", origin);
+        String msg = String.format("❌ %s not allowed ⚔️", origin);
+        LibLog.log(msg);
+
         String body;
         try {
             body = Jack.mapper.writeValueAsString(Map.of("msg", msg, "status", 403));

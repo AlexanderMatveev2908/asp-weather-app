@@ -1,3 +1,4 @@
+import { Nullable } from '@/common/types/etc';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -23,6 +24,7 @@ export interface ErrApiT<T> extends HttpErrorResponse {
 export interface OptToastApiT {
   toastOk: boolean;
   toastErr: boolean;
+  okMsg: Nullable<string>;
 }
 
 export interface OptErrApiT {

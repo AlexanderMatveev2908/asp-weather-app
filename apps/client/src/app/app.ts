@@ -15,6 +15,6 @@ export class App extends UseInjCtxHk implements OnInit {
   private readonly useWeatherKit: UseWeatherKitSvc = inject(UseWeatherKitSvc);
 
   ngOnInit(): void {
-    this.useWeatherKit.weatherApi.getGeoUserSpring().subscribe();
+    void this.useWeatherKit.weatherApi.getUserGeo().subscribe();
   }
 }
