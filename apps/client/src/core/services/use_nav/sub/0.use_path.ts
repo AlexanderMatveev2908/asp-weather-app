@@ -1,4 +1,5 @@
 import { Nullable } from '@/common/types/etc';
+import { UseInjCtxHk } from '@/core/hooks/use_inj_ctx';
 import { LibShape } from '@/core/lib/data_structure/shape';
 import { inject, Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import {
@@ -18,7 +19,7 @@ export interface MetaNavT {
 }
 
 @Injectable()
-export abstract class _UsePathHk {
+export abstract class _UsePathHk extends UseInjCtxHk {
   protected readonly router: Router = inject(Router);
 
   private readonly _currPath: WritableSignal<Nullable<string>> = signal(null);
@@ -33,33 +34,6 @@ export abstract class _UsePathHk {
   public readonly query: Signal<Nullable<Params>> = this._query.asReadonly();
   public readonly path_variables: Signal<Nullable<Params>> = this._path_variables.asReadonly();
 
-  private readonly ALLOWED_FROM: Set<NavFromT> = new Set<NavFromT>(['err', 'ok']);
-
-  public allowedFrom(): boolean {
-    const meta: Nullable<MetaNavT> = this.meta();
-
-    if (!meta?.from || !this.ALLOWED_FROM.has(meta?.from)) return false;
-
-    return true;
-  }
-
-  public ifPathStartsWith(arg: string, cb: (path: string) => void): void {
-    const path: Nullable<string> = this.currPath();
-    if (!path || !path.startsWith(arg)) return;
-
-    cb(path);
-  }
-
-  public ifPathEqual(arg: string, cb: (full: string) => void): void {
-    const full: Nullable<string> = this.currPath();
-    if (!full) return;
-
-    const partial: string = full.split('?')[0];
-    if (partial !== arg) return;
-
-    cb(full);
-  }
-
   private findDeepestRoute(snapshot: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
     let snap: ActivatedRouteSnapshot = snapshot;
     while (snap.firstChild) snap = snap.firstChild;
@@ -68,6 +42,7 @@ export abstract class _UsePathHk {
   }
 
   constructor() {
+    super();
     this.router.events
       .pipe(filter((e: unknown) => e instanceof NavigationEnd || e instanceof NavigationStart))
       .subscribe((e: NavigationStart | NavigationEnd) => {
@@ -90,5 +65,22 @@ export abstract class _UsePathHk {
 
         this._path_variables.set(LibShape.hasObjData(params) ? params : null);
       });
+  }
+
+  public ifPathStartsWith(arg: string, cb: (path: string) => void): void {
+    const path: Nullable<string> = this.currPath();
+    if (!path || !path.startsWith(arg)) return;
+
+    cb(path);
+  }
+
+  public ifPathEqual(arg: string, cb: (full: string) => void): void {
+    const full: Nullable<string> = this.currPath();
+    if (!full) return;
+
+    const partial: string = full.split('?')[0];
+    if (partial !== arg) return;
+
+    cb(full);
   }
 }

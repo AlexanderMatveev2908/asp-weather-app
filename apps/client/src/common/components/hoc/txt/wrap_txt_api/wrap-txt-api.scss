@@ -1,0 +1,18 @@
+$spin_sizes: (
+  xx: 30,
+  xs: 35,
+  sm: 40,
+  md: 45,
+  lg: 50,
+);
+
+.root {
+  @apply w-full;
+
+  @each $k, $v in $spin_sizes {
+    .wrap__#{$k} {
+      width: #{$v}px;
+      height: #{$v}px;
+    }
+  }
+}

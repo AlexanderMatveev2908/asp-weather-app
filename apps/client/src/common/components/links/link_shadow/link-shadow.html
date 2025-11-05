@@ -1,0 +1,40 @@
+@if(download()){
+<a
+  [attr.download]="download()"
+  [attr.href]="path()"
+  class="root"
+  [style.--clr]="useMetaDir.cssVar()"
+  [style.--pad]="paddingProps()"
+>
+  <ng-container *ngTemplateOutlet="content"></ng-container>
+</a>
+} @else if(isExternal()){
+<a
+  [attr.href]="path()"
+  [attr.target]="'_blank'"
+  [attr.rel]="'noopener noreferrer'"
+  class="root"
+  [style.--clr]="useMetaDir.cssVar()"
+  [style.--pad]="paddingProps()"
+>
+  <ng-container *ngTemplateOutlet="content"></ng-container>
+</a>
+}@else {
+<a
+  [routerLink]="path()"
+  class="root"
+  [style.--clr]="useMetaDir.cssVar()"
+  [style.--pad]="paddingProps()"
+>
+  <ng-container *ngTemplateOutlet="content"></ng-container>
+</a>
+}
+
+<ng-template #content>
+  <app-span
+    appUseSpanDir
+    [spanProps]="useSpanDir.spanProps()"
+    [spanSizesProps]="useSpanDir.spanSizesProps()"
+    [eventT]="useMetaDir.eventT()"
+  />
+</ng-template>

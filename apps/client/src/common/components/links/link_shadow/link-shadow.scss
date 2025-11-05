@@ -1,0 +1,13 @@
+@use 'exports/mix.scss' as mix;
+@use 'exports/shapes.scss' as shapes;
+
+:host {
+  @apply block w-full;
+}
+
+.root {
+  @apply cursor-pointer border-2;
+  @include shapes.app__btn__res(var(--pad));
+  @include mix.el__shw(var(--clr));
+  @include mix.app__el__scl(1.15);
+}

@@ -1,0 +1,40 @@
+.root {
+  @apply w-full min-h-[80vh] h-full flex items-center justify-center;
+
+  .root__content {
+    color: var(--clr);
+    @apply flex flex-col items-center gap-8;
+
+    .content__svg_wrap {
+      @apply w-[200px] h-[200px];
+
+      @media (min-width: 400px) {
+        @apply w-[300px] h-[300px];
+      }
+
+      @media (min-width: 600px) {
+        @apply w-[350px] h-[350px];
+      }
+    }
+
+    .content__body {
+      @apply w-full flex flex-col gap-6;
+
+      .body__span {
+        @apply w-full flex justify-center items-center;
+      }
+
+      .body__header {
+        @apply w-full flex justify-center;
+      }
+
+      .body__mail {
+        @apply mt-[50px] w-full flex justify-center;
+
+        .mail__link {
+          @apply w-[250px] sm:w-[275px];
+        }
+      }
+    }
+  }
+}

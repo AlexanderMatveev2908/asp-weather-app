@@ -28,7 +28,28 @@
   }
 }
 
+@mixin app__el__scl($scale_hover) {
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale($scale_hover);
+  }
+
+  &:active {
+    transform: scale(0.8);
+    transition: transform 0.1s ease, color 0.3s ease;
+  }
+}
+
 @mixin app__shadow($clr) {
   color: $clr;
   box-shadow: 0 0 5px $clr, 0 0 10px $clr, 0 0 15px $clr, 0 0 20px $clr, 0 0 25px $clr;
+}
+
+@mixin el__shw($clr) {
+  border-color: $clr;
+
+  &:hover {
+    @include app__shadow($clr);
+  }
 }

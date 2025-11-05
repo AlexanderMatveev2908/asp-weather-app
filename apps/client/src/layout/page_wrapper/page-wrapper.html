@@ -1,0 +1,7 @@
+<div class="root">
+  @if((!isHydrated() && waitClient()) || isPending()){
+  <app-spin-page-ssr [minH]="minH()" [eventT]="eventT()" appUseMetaEventDir />
+  }@else {
+  <ng-container *ngTemplateOutlet="contentRef" />
+  }
+</div>
