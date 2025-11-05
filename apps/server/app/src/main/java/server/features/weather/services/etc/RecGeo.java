@@ -5,7 +5,7 @@ import java.util.Map;
 import server.decorators.flow.ErrAPI;
 import server.lib.data_structure.prs.LibPrs;
 
-public record RecGeo(double lat, double lon, String countryCode, String region) {
+public record RecGeo(double lat, double lon, String country_code, String region) {
 
   public static RecGeo fromIpApiBody(Map<String, Object> map) {
     try {
