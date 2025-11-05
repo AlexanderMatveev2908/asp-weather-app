@@ -107,7 +107,7 @@ public interface ApiInfo {
         .orElse("");
   }
 
-  private String _getIp() {
+  private String getIp() {
     var req = getExch().getRequest();
 
     return Optional.ofNullable(req.getRemoteAddress()).map(addr -> addr.getAddress()).map(inet -> inet.getHostAddress())
@@ -120,6 +120,6 @@ public interface ApiInfo {
     if (!xff.isBlank())
       return xff.split(",")[0].trim();
 
-    return _getIp();
+    return getIp();
   }
 }
