@@ -1,0 +1,13 @@
+<app-csr-notice-wrapper appUseMetaEventDir [props]="wrapEventsProps" [eventT]="'NONE'">
+  <ng-template #footer>
+    <div class="footer">
+      <app-link-shadow
+        [path]="'/'"
+        appUseSpanDir
+        [spanProps]="spanProps"
+        appUseMetaEventDir
+        [eventT]="'NONE'"
+      />
+    </div>
+  </ng-template>
+</app-csr-notice-wrapper>
