@@ -21,11 +21,9 @@ import server.lib.dev.lib_log.LibLog;
 @Service
 @SuppressFBWarnings({ "EI2" })
 public class WeatherCoordsSvc extends BaseWeatherSvc {
-  private final RdCmd rdCmd;
 
   public WeatherCoordsSvc(EnvVars envVars, WebClient.Builder webClientBuilder, RdCmd rdCmd) {
-    super(webClientBuilder, envVars);
-    this.rdCmd = rdCmd;
+    super(webClientBuilder, rdCmd, envVars);
   }
 
   private WebClient getWebCLient() {

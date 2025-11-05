@@ -17,7 +17,7 @@ public class WeatherCityMdw extends BaseMdw {
   @Override
   public Mono<Void> handle(Api api, WebFilterChain chain) {
     return isTarget(api, chain, "/weather/city", HttpMethod.GET, () -> {
-      return limit(api, 30, 15).then(checkQueryForm(api, FormWeatherCity.class).then(chain.filter(api)));
+      return limit(api, 50, 15).then(checkQueryForm(api, FormWeatherCity.class).then(chain.filter(api)));
     });
   }
 }

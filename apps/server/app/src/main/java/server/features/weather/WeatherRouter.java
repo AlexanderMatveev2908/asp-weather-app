@@ -18,12 +18,17 @@ public class WeatherRouter {
   private final GetWeather getCtrl;
 
   @GetMapping("/coords")
-  public Mono<ResponseEntity<ResAPI>> byCoords(Api api) {
-    return getCtrl.byCoords(api);
+  public Mono<ResponseEntity<ResAPI>> weatherByCoords(Api api) {
+    return getCtrl.weatherByCoords(api);
   }
 
   @GetMapping("/city")
-  public Mono<ResponseEntity<ResAPI>> byCity(Api api) {
-    return getCtrl.byCity(api);
+  public Mono<ResponseEntity<ResAPI>> weatherByCity(Api api) {
+    return getCtrl.weatherByCity(api);
+  }
+
+  @GetMapping("/ip")
+  public Mono<ResponseEntity<ResAPI>> coordsByIp(Api api) {
+    return getCtrl.coordsByIp(api);
   }
 }

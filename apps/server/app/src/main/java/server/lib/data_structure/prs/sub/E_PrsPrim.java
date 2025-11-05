@@ -3,12 +3,12 @@ package server.lib.data_structure.prs.sub;
 import java.util.Optional;
 
 import server.decorators.flow.ErrAPI;
-import server.lib.data_structure.LibShapeCheck;
+import server.lib.data_structure.LibShape;
 
 public class E_PrsPrim extends D_PrsB64 {
 
   public static Optional<String> fromAnyToStr(Object arg) {
-    return LibShapeCheck.isStr(arg) ? Optional.of((String) arg) : Optional.empty();
+    return LibShape.hasText(arg) ? Optional.of((String) arg) : Optional.empty();
   }
 
   public static long fromAnyToLong(Object arg) {

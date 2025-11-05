@@ -9,6 +9,11 @@ import server.lib.data_structure.prs.sub.F_PrsCases;
 
 public final class LibPrs extends F_PrsCases {
 
+    public static <T> T tFormJson(String json, Class<T> cls) {
+        Map<String, Object> map = mapFromJson(json);
+        return tFromMap(map, cls);
+    }
+
     public static <T> T tFromMap(Map<String, Object> map, Class<T> cls) {
         try {
             return Jack.mapper.convertValue(map, cls);

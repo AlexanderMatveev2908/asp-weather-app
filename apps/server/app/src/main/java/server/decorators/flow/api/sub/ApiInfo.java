@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.server.ServerWebExchange;
 
-import server.lib.data_structure.LibShapeCheck;
+import server.lib.data_structure.LibShape;
 import server.paperwork.Reg;
 
 public interface ApiInfo {
@@ -52,7 +52,7 @@ public interface ApiInfo {
     int lastIdx = parts.length - 1;
     String pathId;
 
-    return LibShapeCheck.isV4((pathId = parts[lastIdx])) ? Optional.of(UUID.fromString(pathId)) : Optional.empty();
+    return LibShape.isV4((pathId = parts[lastIdx])) ? Optional.of(UUID.fromString(pathId)) : Optional.empty();
   }
 
   default boolean hasPathUUID() {
@@ -107,10 +107,19 @@ public interface ApiInfo {
         .orElse("");
   }
 
-  default String getIp() {
+  private String getIp() {
     var req = getExch().getRequest();
 
     return Optional.ofNullable(req.getRemoteAddress()).map(addr -> addr.getAddress()).map(inet -> inet.getHostAddress())
         .orElse("unknown");
+  }
+
+  default String getClientIp() {
+    String xff = getHeader("x-forwarded-for");
+
+    if (!xff.isBlank())
+      return xff.split(",")[0].trim();
+
+    return getIp();
   }
 }

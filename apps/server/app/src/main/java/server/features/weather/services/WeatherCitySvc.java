@@ -25,7 +25,7 @@ import server.lib.data_structure.prs.LibPrs;
 public class WeatherCitySvc extends BaseWeatherSvc {
 
   public WeatherCitySvc(EnvVars envVars, WebClient.Builder webClientBuilder, RdCmd rdCmd) {
-    super(webClientBuilder, envVars);
+    super(webClientBuilder, rdCmd, envVars);
   }
 
   private WebClient getWebClient() {
@@ -36,13 +36,14 @@ public class WeatherCitySvc extends BaseWeatherSvc {
     return uriBuilder.queryParam("q", form.getCity()).queryParam("appid", getApiKey()).queryParam("limit", 1).build();
   }
 
-  public Mono<FormWeatherCoords> main(Api api) {
+  private Mono<FormWeatherCoords> firstLookRd(FormWeatherCity form) {
+    return rdCmd.getStr(form.getCity()).map(json -> LibPrs.tFormJson(json, FormWeatherCoords.class));
+  }
 
-    FormWeatherCity form = api.getMappedData();
-
+  private Mono<FormWeatherCoords> callWeatherGeoApi(FormWeatherCity form) {
     return getWebClient().get().uri(uriBuilder -> buildURI(uriBuilder, form)).retrieve()
         .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {
-        }).map(body -> {
+        }).flatMap(body -> {
 
           if (body.size() < 1)
             throw new ErrAPI("city weather not found", 404);
@@ -50,8 +51,16 @@ public class WeatherCitySvc extends BaseWeatherSvc {
           Map<String, Object> firstRes = body.get(0);
 
           FormWeatherCoords formCoords = LibPrs.tFromMap(firstRes, FormWeatherCoords.class);
+          String json = LibPrs.jsonFromObj(formCoords);
 
-          return formCoords;
+          return rdCmd.setStr(form.getCity(), json).thenReturn(formCoords);
         });
+  }
+
+  public Mono<FormWeatherCoords> main(Api api) {
+
+    FormWeatherCity form = api.getMappedData();
+
+    return firstLookRd(form).switchIfEmpty(callWeatherGeoApi(form));
   }
 }

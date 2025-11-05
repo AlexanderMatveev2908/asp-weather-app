@@ -13,7 +13,7 @@ import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 import server.decorators.flow.res_api.ResAPI;
 import server.features.test.services.PostFormSvc;
-import server.lib.data_structure.LibShapeCheck;
+import server.lib.data_structure.LibShape;
 
 @Component
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class PostTestCtrl {
         }).flatMap(bd -> {
             var msg = (String) bd.get("msg");
 
-            if (!LibShapeCheck.isStr(msg))
+            if (!LibShape.hasText(msg))
                 return new ResAPI(400).msg("missing msg").build();
 
             return new ResAPI(200).msg("msg received").data(Map.of("clientMsg", msg)).build();
