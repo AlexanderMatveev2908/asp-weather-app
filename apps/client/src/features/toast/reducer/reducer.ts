@@ -20,6 +20,7 @@ export const initState: ToastStateT = {
 
 export const toastReducer = createReducer(
   initState,
+  on(ToastActT.RESET__TOAST_STATE, (_: ToastStateT) => initState),
   on(ToastActT.OPEN_TOAST, (state: ToastStateT, action: AppPayloadEventT) => ({
     prevID: state.currID,
     currID: v4(),

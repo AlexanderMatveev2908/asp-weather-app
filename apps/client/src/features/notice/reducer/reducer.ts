@@ -20,6 +20,7 @@ export const initState: NoticeStateT = {
 
 export const noticeReducer = createReducer(
   initState,
+  on(NoticeActT.RESET__NOTICE_STATE, (_: NoticeStateT) => initState),
   on(NoticeActT.SET_NOTICE, (_: NoticeStateT, action: NoticeStateT) => ({
     ...action,
   }))

@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ArrowTooltipDirectionT } from './etc/types';
 import { LibMetaEvent } from '@/core/lib/css/events';
+import { LibShape } from '@/core/lib/data_structure/shape';
 
 @Component({
   selector: 'app-tooltip',
@@ -25,9 +26,14 @@ export class Tooltip {
   public readonly arrowOn: InputSignal<ArrowTooltipDirectionT> = input<ArrowTooltipDirectionT>('>');
 
   // ? derived
-  public readonly twdAnimation: Signal<string> = computed(() =>
-    this.isHover() && this.msg() ? 'translate-y-0 opacity-1' : 'translate-y-[100%] opacity-0'
+  public readonly show: Signal<boolean> = computed(
+    () => this.isHover() && LibShape.hasText(this.msg())
   );
+
+  public readonly transform: Signal<string> = computed(() =>
+    this.show() ? 'translateY(0)' : 'translateY(100%)'
+  );
+
   public readonly twdPosition: Signal<string> = computed(() =>
     this.arrowOn() === '<' ? 'left-0' : 'right-0'
   );
