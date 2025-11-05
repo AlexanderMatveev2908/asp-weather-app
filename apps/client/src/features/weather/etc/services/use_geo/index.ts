@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { catchError, from, map, Observable, Subscriber, switchMap, tap } from 'rxjs';
-import { GeoUserT } from '../../../reducer/reducer';
 import { ErrApp } from '@/core/lib/etc/err';
 import { Dict } from '@/common/types/etc';
 import { GeoResT, GeoStrategyT } from './etc/types';
@@ -77,7 +76,7 @@ export class UseGeoSvc {
     this.weatherSlice.setGeuUser(payload);
   }
 
-  protected getGeoExternalStrategies(): Observable<GeoUserT> {
+  protected getGeoExternalStrategies(): Observable<GeoResT> {
     // ! firefox is a little dump for geolocation so is necessary an external service to retrieve the current user geolocation
     return this.getGeoChrome()
       .pipe(catchError((_: unknown) => this.getGeoFirefox()))
