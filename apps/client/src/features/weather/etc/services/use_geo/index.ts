@@ -1,19 +1,14 @@
-import { inject, Injectable } from '@angular/core';
-import { catchError, from, map, Observable, Subscriber, switchMap, tap } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { catchError, from, map, Observable, Subscriber, switchMap } from 'rxjs';
 import { ErrApp } from '@/core/lib/etc/err';
 import { Dict } from '@/common/types/etc';
 import { GeoResT, GeoStrategyT } from './etc/types';
-import { ToastSlice } from '@/features/toast/slice';
-import { WeatherSlice } from '@/features/weather/slice';
 import { LibLog } from '@/core/lib/dev/log';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UseGeoSvc {
-  protected readonly toastSlice: ToastSlice = inject(ToastSlice);
-  protected readonly weatherSlice: WeatherSlice = inject(WeatherSlice);
-
   private getGeoChrome(): Observable<GeoResT> {
     return new Observable<GeoResT>((obs: Subscriber<GeoResT>) => {
       if (!navigator.geolocation) {
@@ -65,36 +60,8 @@ export class UseGeoSvc {
     );
   }
 
-  protected saveGeoResponse(res: GeoResT): void {
-    this.toastSlice.openToast({
-      eventT: 'OK',
-      msg: `Geolocation retrieved using ${res.strategy} strategy`,
-      status: 200,
-    });
-
-    const { strategy: _, ...payload } = res;
-    this.weatherSlice.setGeuUser(payload);
-  }
-
-  protected getGeoExternalStrategies(): Observable<GeoResT> {
+  public main(): Observable<GeoResT> {
     // ! firefox is a little dump for geolocation so is necessary an external service to retrieve the current user geolocation
-    return this.getGeoChrome()
-      .pipe(catchError((_: unknown) => this.getGeoFirefox()))
-      .pipe(
-        tap({
-          next: (res: GeoResT) => {
-            this.saveGeoResponse(res);
-          },
-          error: (err: Dict) => {
-            LibLog.logTtl('❌ err geo', err);
-
-            this.toastSlice.openToast({
-              msg: 'geolocation not retrieved neither with internal nor external APIs ',
-              status: 500,
-              eventT: 'ERR',
-            });
-          },
-        })
-      );
+    return this.getGeoChrome().pipe(catchError((_: unknown) => this.getGeoFirefox()));
   }
 }
