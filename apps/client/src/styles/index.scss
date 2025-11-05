@@ -6,6 +6,7 @@
 @use './tokens/SVGs.scss';
 @use './tokens/etc.scss';
 @use './tokens/z.scss';
+@use './tokens/animations.scss';
 
 // ? all files inside tokens are imported here
 // ! exports are never imported here
@@ -24,12 +25,19 @@ body {
   @apply overflow-x-hidden;
 }
 
+input {
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
 button {
   &:enabled {
     cursor: pointer;
   }
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    // opacity: 0.5;
   }
 }

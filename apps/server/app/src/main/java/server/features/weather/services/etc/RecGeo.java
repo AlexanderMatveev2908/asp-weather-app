@@ -2,16 +2,24 @@ package server.features.weather.services.etc;
 
 import java.util.Map;
 
-public record RecGeo(double lat, double lon) {
+import server.decorators.flow.ErrAPI;
+import server.lib.data_structure.prs.LibPrs;
+
+public record RecGeo(double lat, double lon, String countryCode, String region) {
 
   public static RecGeo fromIpApiBody(Map<String, Object> map) {
-    return new RecGeo((double) map.get("latitude"), (double) map.get("longitude"));
+    try {
+      return LibPrs.tFromMap(map, RecGeo.class);
+    } catch (Exception err) {
+      throw new ErrAPI("invalid arg geolocation");
+    }
   }
 
   public Map<String, Object> mapForClient() {
-    return Map.of(
-        "lat", lat,
-        "lon", lon,
-        "strategy", "spring");
+    Map<String, Object> map = LibPrs.mapFormT(this);
+
+    map.put("strategy", "spring");
+
+    return map;
   }
 }

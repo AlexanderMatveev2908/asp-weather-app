@@ -1,5 +1,7 @@
 package server.lib.data_structure.prs;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -31,6 +33,24 @@ public final class LibPrs extends F_PrsCases {
 
         for (int i = 0; i < kvp.length; i += 2)
             map.put((String) kvp[i], kvp[i + 1]);
+
+        return map;
+    }
+
+    public static <T> Map<String, Object> mapFormT(T arg) {
+        Map<String, Object> map = new HashMap<>();
+
+        if (arg == null)
+            return map;
+
+        for (Field field : arg.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                map.put(field.getName(), field.get(arg));
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException("Failed to read field => " + field.getName(), e);
+            }
+        }
 
         return map;
     }

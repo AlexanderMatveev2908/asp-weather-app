@@ -1,11 +1,11 @@
 import { UseApiSvc } from '@/core/store/api/use_api';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, tap } from 'rxjs';
-import { GeoUserT } from './reducer/reducer';
+import { catchError, Observable } from 'rxjs';
 import { UseGeoSvc } from './etc/services/use_geo';
-import { ErrApiT, ObsResT, ResApiT } from '@/core/store/api/etc/types';
+import { ErrApiT, ObsResT } from '@/core/store/api/etc/types';
 import { LibApiArgs } from '@/core/store/api/etc/lib/api_args';
-import { GeoResT } from './etc/services/use_geo/etc/types';
+import { FormWeatherT } from './forms/search_weather/etc/paperwork/form_mng';
+import { GeoResT, WeatherResT } from './etc/types';
 
 @Injectable({
   providedIn: 'root',
@@ -14,23 +14,23 @@ export class WeatherApiSvc {
   private readonly base: string = '/weather';
 
   private readonly api: UseApiSvc = inject(UseApiSvc);
-  private readonly useGeo: UseGeoSvc = inject(UseGeoSvc);
-
-  private getGeoUserExternal(): Observable<GeoUserT> {
-    return this.useGeo.main();
-  }
+  private readonly useGeoSvc: UseGeoSvc = inject(UseGeoSvc);
 
   private getGeoUserSpring(): ObsResT<GeoResT> {
     return this.api.get(LibApiArgs.withURL(`${this.base}/ip`).noToast());
   }
 
-  public getUserGeo(): Observable<GeoUserT> {
+  public getUserGeo(): Observable<GeoResT> {
     // | weather/ip simply call same external API which firefox strategy already use
     // | but the personal endpoint has redis cache and rate limit 🚦
+    return this.getGeoUserSpring().pipe(catchError((_: ErrApiT<void>) => this.useGeoSvc.main()));
+  }
 
-    return this.getGeoUserSpring().pipe(
-      tap((res: ResApiT<GeoResT>) => this.useGeo.saveGeoResponse(res)),
-      catchError((_: ErrApiT<void>) => this.getGeoUserExternal())
-    );
+  public getWeatherByCoords(coords: GeoResT): ObsResT<WeatherResT> {
+    return this.api.get(LibApiArgs.withURL(`${this.base}/coords`).query(coords).toastOnErr());
+  }
+
+  public getWeatherByCity(arg: FormWeatherT): ObsResT<WeatherResT> {
+    return this.api.get(LibApiArgs.withURL(`${this.base}/city`).query(arg).toastOnErr());
   }
 }

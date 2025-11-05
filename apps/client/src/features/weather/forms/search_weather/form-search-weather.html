@@ -5,7 +5,14 @@
       [f]="cityField"
       [ctrl]="ctrlCity"
       [onSvgClick]="triggerSubmit"
+      [disabled]="disable()"
+      [additionalSvgTwd]="searchTwd()"
     />
   </div>
-  <app-btn-svg [Svg]="refreshSvg()" [btnT]="'submit'" />
+  <app-btn-svg
+    [Svg]="refreshSvg()"
+    [btnT]="'submit'"
+    [disable]="disable()"
+    [additionalSvgTwd]="refreshTwd()"
+  />
 </form>

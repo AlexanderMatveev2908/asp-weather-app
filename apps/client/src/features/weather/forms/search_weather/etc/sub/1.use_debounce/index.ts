@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { FormWeatherT } from '../../paperwork/form_mng';
 import { LibMemory } from '@/core/lib/data_structure/memory';
 import { UseDebounceMainArgT } from './etc/types';
-import { UseInjCtxHk } from '@/core/hooks/use_inj_ctx';
 import { LibEtc } from '@/core/lib/etc';
 import { LibLog } from '@/core/lib/dev/log';
 import { LibFormPrs } from '@/core/lib/data_structure/prs/form_prs';
+import { UseSetupWeatherHk } from '../0.use_setup';
 
 @Injectable()
-export class UseDebounceHk extends UseInjCtxHk {
-  public timerID: TimerIdT = null;
+export abstract class UseDebounceWeatherHk extends UseSetupWeatherHk {
+  private timerID: TimerIdT = null;
   private prevForm: Nullable<FormWeatherT> = null;
 
   // eslint-disable-next-line no-magic-numbers
@@ -23,24 +23,22 @@ export class UseDebounceHk extends UseInjCtxHk {
     return LibMemory.isSame(currFlatten, prevFlatten);
   }
 
-  public readonly forceSetPrevForm: (data: FormWeatherT) => void = (data: FormWeatherT) => {
+  protected readonly forceSetPrevForm: (data: FormWeatherT) => void = (data: FormWeatherT) => {
     this.prevForm = data;
   };
 
-  public readonly debounce: (arg: UseDebounceMainArgT) => void = ({
-    form,
-    formValue,
+  protected readonly debounce: (arg: UseDebounceMainArgT) => void = ({
     triggerStrategy,
   }: UseDebounceMainArgT) => {
     this.useEffect(() => {
-      void formValue?.();
+      void this.formValue?.();
 
       if (this.timerID) this.timerID = LibEtc.clearTmr(this.timerID);
 
       this.timerID = setTimeout(() => {
-        const dataNow: Nullable<FormWeatherT> = formValue?.() ?? null;
+        const dataNow: Nullable<FormWeatherT> = this.formValue?.() ?? null;
 
-        if (!dataNow || !form.valid) {
+        if (!dataNow || !this.form.valid) {
           this.timerID = LibEtc.clearTmr(this.timerID);
           return;
         }

@@ -1,25 +1,39 @@
 import { createReducer, on } from '@ngrx/store';
 import { WeatherActT } from './actions';
-import { Nullable } from '@/common/types/etc';
-
-export interface GeoUserT {
-  lon: number;
-  lat: number;
-}
+import { BoolPayloadT, Nullable } from '@/common/types/etc';
+import { GeoResT, WeatherResT } from '../etc/types';
 
 export interface WeatherStateT {
-  geoUser: Nullable<GeoUserT>;
+  geoUser: Nullable<GeoResT>;
+  geoPending: boolean;
+  weather: Nullable<WeatherResT>;
+  weatherPending: boolean;
 }
 
 export const initState: WeatherStateT = {
   geoUser: null,
+  geoPending: true,
+  weatherPending: false,
+  weather: null,
 };
 
 export const weatherReducer = createReducer(
   initState,
   on(WeatherActT.RESET__WEATHER_STATE, (_: WeatherStateT) => initState),
-  on(WeatherActT.SET_GEO_USER, (state: WeatherStateT, action: GeoUserT) => ({
+  on(WeatherActT.SET_GEO_USER, (state: WeatherStateT, action: GeoResT) => ({
     ...state,
     geoUser: action,
+  })),
+  on(WeatherActT.SET_GEO_PENDING, (state: WeatherStateT, act: BoolPayloadT) => ({
+    ...state,
+    geoPending: act.v,
+  })),
+  on(WeatherActT.SET_WEATHER_PENDING, (state: WeatherStateT, act: BoolPayloadT) => ({
+    ...state,
+    weatherPending: act.v,
+  })),
+  on(WeatherActT.SET_WEATHER, (state: WeatherStateT, act: WeatherResT) => ({
+    ...state,
+    weather: act,
   }))
 );

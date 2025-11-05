@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { WakeUp } from '@/layout/wake_up/wake-up';
 import { Toast } from '@/layout/toast/toast';
 import { UseInjCtxHk } from '@/core/hooks/use_inj_ctx';
-import { UseWeatherKitSvc } from '@/features/weather/etc/hooks/use_weather_kit';
+import { UseGeoMngSvc } from '@/features/weather/etc/services/use_geo_mng';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +12,9 @@ import { UseWeatherKitSvc } from '@/features/weather/etc/hooks/use_weather_kit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App extends UseInjCtxHk implements OnInit {
-  private readonly useWeatherKit: UseWeatherKitSvc = inject(UseWeatherKitSvc);
+  private readonly useGeoMng: UseGeoMngSvc = inject(UseGeoMngSvc);
 
   ngOnInit(): void {
-    void this.useWeatherKit.weatherApi.getUserGeo().subscribe();
+    this.useGeoMng.main();
   }
 }
