@@ -1,5 +1,5 @@
 import { computed, Injectable, Signal } from '@angular/core';
-import { GeoUserT, WeatherStateT } from './reducer/reducer';
+import { GeoResT, WeatherStateT } from './reducer/reducer';
 import { getWeatherState } from './reducer/selectors';
 import { UseKitSliceSvc } from '@/core/services/use_kit_slice';
 import { Dict, Nullable } from '@/common/types/etc';
@@ -31,8 +31,8 @@ export class WeatherSlice extends UseKitSliceSvc {
     this.store.dispatch(WeatherActT.SET_WEATHER(data));
   }
 
-  public setGeuUser(geoUser: GeoUserT): void {
+  public setGeuUser(geoUser: GeoResT): void {
     this.store.dispatch(WeatherActT.SET_GEO_USER(geoUser));
   }
-  public geoUser: Signal<Nullable<GeoUserT>> = computed(() => this.weatherState().geoUser);
+  public geoUser: Signal<Nullable<GeoResT>> = computed(() => this.weatherState().geoUser);
 }

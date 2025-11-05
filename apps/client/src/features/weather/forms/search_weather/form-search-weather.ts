@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormWeatherT } from './etc/paperwork/form_mng';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
-import { GeoUserT } from '../../reducer/reducer';
+import { GeoResT } from '../../reducer/reducer';
 import { UseManageListenersWeatherHk } from './etc/sub/3.use_manage_listeners';
 
 @Component({
@@ -29,7 +29,7 @@ export class FormSearchWeather extends UseManageListenersWeatherHk implements On
     });
 
     this.useEffect(() => {
-      const geo: Nullable<GeoUserT> = this.useWeatherKit.weatherSlice.geoUser();
+      const geo: Nullable<GeoResT> = this.useWeatherKit.weatherSlice.geoUser();
       if (this.useWeatherKit.weatherSlice.weather() || !geo) return;
 
       this.form.markAsDirty();

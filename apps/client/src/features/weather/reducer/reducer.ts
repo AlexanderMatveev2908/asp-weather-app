@@ -2,15 +2,18 @@ import { createReducer, on } from '@ngrx/store';
 import { WeatherActT } from './actions';
 import { BoolPayloadT, Dict, Nullable } from '@/common/types/etc';
 
-export interface GeoUserT {
+export type GeoStrategyT = 'chrome' | 'firefox';
+
+export interface GeoResT {
   country_code: string;
   region: string;
   lon: number;
   lat: number;
+  strategy: GeoStrategyT;
 }
 
 export interface WeatherStateT {
-  geoUser: Nullable<GeoUserT>;
+  geoUser: Nullable<GeoResT>;
   geoPending: boolean;
   weather: Nullable<Dict>;
   weatherPending: boolean;
@@ -26,7 +29,7 @@ export const initState: WeatherStateT = {
 export const weatherReducer = createReducer(
   initState,
   on(WeatherActT.RESET__WEATHER_STATE, (_: WeatherStateT) => initState),
-  on(WeatherActT.SET_GEO_USER, (state: WeatherStateT, action: GeoUserT) => ({
+  on(WeatherActT.SET_GEO_USER, (state: WeatherStateT, action: GeoResT) => ({
     ...state,
     geoUser: action,
   })),

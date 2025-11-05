@@ -4,8 +4,7 @@ import { catchError, Observable } from 'rxjs';
 import { UseGeoSvc } from './etc/services/use_geo';
 import { ErrApiT, ObsResT } from '@/core/store/api/etc/types';
 import { LibApiArgs } from '@/core/store/api/etc/lib/api_args';
-import { GeoResT } from './etc/services/use_geo/etc/types';
-import { GeoUserT } from './reducer/reducer';
+import { GeoResT } from './reducer/reducer';
 import { FormWeatherT } from './forms/search_weather/etc/paperwork/form_mng';
 import { Dict } from '@/common/types/etc';
 
@@ -28,7 +27,7 @@ export class WeatherApiSvc {
     return this.getGeoUserSpring().pipe(catchError((_: ErrApiT<void>) => this.useGeoSvc.main()));
   }
 
-  public getWeatherByCoords(coords: GeoUserT): ObsResT<Dict> {
+  public getWeatherByCoords(coords: GeoResT): ObsResT<Dict> {
     return this.api.get(LibApiArgs.withURL(`${this.base}/coords`).query(coords).toastOnErr());
   }
 

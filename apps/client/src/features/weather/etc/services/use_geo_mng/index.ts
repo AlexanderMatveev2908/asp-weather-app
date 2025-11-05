@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { UseWeatherKitSvc } from '../../hooks/use_weather_kit';
 import { ToastSlice } from '@/features/toast/slice';
-import { GeoResT } from '../use_geo/etc/types';
 import { finalize, tap } from 'rxjs';
 import { LibLog } from '@/core/lib/dev/log';
 import { Dict } from '@/common/types/etc';
+import { GeoResT } from '@/features/weather/reducer/reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +20,7 @@ export class UseGeoMngSvc {
       status: 200,
     });
 
-    const { strategy: _, ...payload } = res;
-    this.useWeatherKit.weatherSlice.setGeuUser(payload);
+    this.useWeatherKit.weatherSlice.setGeuUser(res);
   }
 
   public main(): void {
