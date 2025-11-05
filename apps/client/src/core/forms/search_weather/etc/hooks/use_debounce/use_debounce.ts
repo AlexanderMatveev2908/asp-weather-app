@@ -1,12 +1,12 @@
 import { Dict, Nullable, TimerIdT } from '@/common/types/etc';
 import { Injectable } from '@angular/core';
 import { FormWeatherT } from '../../paperwork/form_mng';
-import { LibFormPrs } from '@/core/lib/prs/form_prs';
 import { LibMemory } from '@/core/lib/data_structure/memory';
 import { UseDebounceMainArgT } from './etc/types';
 import { UseInjCtxHk } from '@/core/hooks/use_inj_ctx';
 import { LibEtc } from '@/core/lib/etc';
 import { LibLog } from '@/core/lib/dev/log';
+import { LibFormPrs } from '@/core/lib/data_structure/prs/form_prs';
 
 @Injectable()
 export class UseDebounceHk extends UseInjCtxHk {

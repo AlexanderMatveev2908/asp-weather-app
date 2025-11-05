@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Dict, None, Nullable, OrNone } from '@/common/types/etc';
 import { OptErrApiT, OptToastApiT } from '../../types';
 import { ErrApp } from '@/core/lib/etc/err';
-import { LibFormPrs } from '@/core/lib/prs/form_prs';
+import { LibFormPrs } from '@/core/lib/data_structure/prs/form_prs';
 
 export class LibApiArgs<T> {
   private readonly _url: string = '';

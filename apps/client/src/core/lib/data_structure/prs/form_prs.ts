@@ -1,6 +1,6 @@
 import { Dict, OrNone } from '@/common/types/etc';
-import { LibShape } from '../data_structure/shape';
-import { ErrApp } from '../etc/err';
+import { LibShape } from '../shape';
+import { ErrApp } from '../../etc/err';
 
 export class LibFormPrs {
   private static appendPrimitive(params: URLSearchParams | FormData, k: string, v: unknown): void {

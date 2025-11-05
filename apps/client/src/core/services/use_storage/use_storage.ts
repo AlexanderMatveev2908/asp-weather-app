@@ -5,7 +5,7 @@ import { LibShape } from '../../lib/data_structure/shape';
 import { StorageKeyT } from './etc/types';
 import { ErrApp } from '@/core/lib/etc/err';
 import { LibLog } from '@/core/lib/dev/log';
-import { LibPrs } from '@/core/lib/prs/prs';
+import { LibPrs } from '@/core/lib/data_structure/prs/prs';
 
 @Injectable({
   providedIn: 'root',

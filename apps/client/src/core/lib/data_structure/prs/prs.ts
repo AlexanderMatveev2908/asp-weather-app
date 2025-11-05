@@ -55,4 +55,9 @@ export class LibPrs {
 
     return map[arg];
   }
+
+  public static msFromMinutes(minutes: number): number {
+    // eslint-disable-next-line no-magic-numbers
+    return minutes * 60 * 1000;
+  }
 }

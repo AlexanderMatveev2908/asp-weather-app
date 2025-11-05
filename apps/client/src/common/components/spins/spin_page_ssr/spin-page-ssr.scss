@@ -1,0 +1,44 @@
+:host {
+  @apply block h-full w-full;
+}
+
+@keyframes spin {
+  0% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.root {
+  @apply w-full h-full overflow-hidden flex justify-center items-center;
+
+  .root__spinner {
+    @apply relative w-1/2 h-1/2 min-w-[150px] min-h-[150px] max-w-[400px] max-h-[400px];
+
+    .spinner__dot {
+      transform: rotate(var(--rot));
+      @apply absolute inset-0;
+
+      &::after {
+        background: var(--clr);
+        box-shadow: 0 0 10px var(--clr), 0 0 20px var(--clr), 0 0 30px var(--clr),
+          0 0 40px var(--clr), 0 0 50px var(--clr), 0 0 60px var(--clr), 0 0 70px var(--clr),
+          0 0 80px var(--clr);
+
+        @apply content-[''] absolute top-0 left-0 w-[30px] h-[30px] rounded-full;
+
+        transform: scale(0);
+        animation: spin 1s linear infinite;
+        animation-delay: var(--del);
+
+        @media (min-width: 600px) {
+          @apply h-[40px] w-[40px];
+        }
+      }
+    }
+  }
+}

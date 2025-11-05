@@ -1,0 +1,12 @@
+<div class="root" [ngClass]="minH()">
+  <div class="root__spinner">
+    @for(id of IDs; track id; let idx = $index){
+    <div
+      class="spinner__dot"
+      [style.--clr]="useMetaEventDir.cssVar()"
+      [style.--rot]="getRotation(idx)"
+      [style.--del]="getDelay(idx)"
+    ></div>
+    }
+  </div>
+</div>

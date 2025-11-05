@@ -1,8 +1,8 @@
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { inject } from '@angular/core';
-import { UseApiConfSvc } from '../../services/use_api_conf';
 import { ConfApiMdwMng } from './etc/mng';
+import { UseApiConfSvc } from '../../etc/services/use_api_conf';
 
 export const useConfApiMdw: HttpInterceptorFn = (
   req: HttpRequest<unknown>,

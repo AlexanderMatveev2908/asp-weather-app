@@ -1,0 +1,21 @@
+:host {
+  @apply fixed inset-0 z-50 pointer-events-none;
+}
+
+.root {
+  @apply fixed inset-0 flex justify-center items-center;
+
+  .root__pop {
+    border-color: var(--clr);
+    @apply w-[90%] max-w-[600px] h-[75%] max-h-[500px] border-3 bg-neutral-950 rounded-xl scale-0 relative;
+
+    .pop__close_row {
+      @apply absolute top-1 right-4;
+    }
+
+    .pop__content {
+      height: calc(100% - 50px);
+      @apply mt-[50px] px-3 sm:px-4 pt-2 pb-6 flex flex-col overflow-y-auto;
+    }
+  }
+}
