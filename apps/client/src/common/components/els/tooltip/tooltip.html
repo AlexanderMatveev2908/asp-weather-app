@@ -1,4 +1,10 @@
-<div class="root" [ngClass]="[twdAnimation(), twdPosition()]" [style.--clr]="cssVar()">
+<div
+  class="root"
+  [ngClass]="[twdPosition()]"
+  [style.--clr]="cssVar()"
+  [style.transform]="transform()"
+  [style.opacity]="show() ? '1' : '0'"
+>
   <span class="root__msg txt__hd__sm">{{ msg() }}</span>
 
   <div [ngClass]="twdArrow()" class="root__arrow"></div>
