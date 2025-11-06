@@ -4,5 +4,14 @@
 
 .root {
   opacity: var(--opac);
-  @apply w-full flex flex-col gap-[12px];
+  grid-template-columns: repeat(1, 100%);
+  @apply w-full grid gap-[12px];
+
+  @media (min-width: 1200px) {
+    grid-template-columns: 500px 1fr;
+  }
+
+  .root__right {
+    @apply max-w-full w-full flex flex-col gap-[12px];
+  }
 }
