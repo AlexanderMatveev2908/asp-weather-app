@@ -20,3 +20,17 @@
   scrollbar-width: auto;
   scrollbar-color: var(--gray__300) transparent;
 }
+
+.app__hide_scroll::-webkit-scrollbar {
+  display: none;
+}
+.app__hide_scroll::-webkit-scrollbar-track {
+  display: none;
+}
+.app__hide_scroll::-webkit-scrollbar-thumb {
+  display: none;
+}
+.app__hide_scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

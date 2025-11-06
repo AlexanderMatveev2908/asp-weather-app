@@ -1,7 +1,9 @@
 @use 'exports/mix' as mix;
+@use 'exports/shapes' as shapes;
 
 .root {
-  @apply w-full bg-white/10 border rounded-[24px] py-[20px] px-[25px] border-white/30 flex flex-col items-center gap-[28px];
+  @include shapes.app__block_info(20px 25px);
+  @apply items-center gap-[28px];
 
   .root__header {
     @apply w-full max-w-[80%] flex flex-col gap-[8px] items-center;

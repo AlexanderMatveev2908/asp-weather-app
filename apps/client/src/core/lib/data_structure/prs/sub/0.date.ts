@@ -1,3 +1,5 @@
+import { OrNone } from '@/common/types/etc';
+
 export class LibPrsDate {
   private static readonly days: string[] = [
     'Sunday',
@@ -24,11 +26,15 @@ export class LibPrsDate {
     'December',
   ];
 
-  public static prettyDate(timestamp?: number): string {
+  public static timestampAsMillis(arg: OrNone<number>): number {
     const trillion: number = 1e12;
-    // eslint-disable-next-line no-magic-numbers
-    const ts: number = timestamp && timestamp < trillion ? timestamp * 1000 : (timestamp as number);
-    const date: Date = new Date(ts ?? Date.now());
+    const varMs: number = 1000;
+    const ts: number = arg && arg < trillion ? arg * varMs : (arg as number);
+    return ts;
+  }
+
+  public static prettyDate(timestamp?: number): string {
+    const date: Date = new Date(this.timestampAsMillis(timestamp ?? Date.now()));
 
     const dayName: string = this.days[date.getDay()];
     const monthName: string = this.months[date.getMonth()];
