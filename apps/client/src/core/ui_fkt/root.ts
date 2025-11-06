@@ -8,4 +8,8 @@ export class RootUiFkt {
       id: v4(),
     };
   }
+
+  public static listWithIDs<T>(arg: T[]): WithIdT<T>[] {
+    return arg.map((el: T) => this.withID(el));
+  }
 }

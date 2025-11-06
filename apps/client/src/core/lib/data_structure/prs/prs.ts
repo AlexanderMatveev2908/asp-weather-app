@@ -1,6 +1,7 @@
-import { BoolStrT } from '@/common/types/etc';
+import { BoolStrT, OrNone } from '@/common/types/etc';
+import { LibPrsDate } from './sub/0.date';
 
-export class LibPrs {
+export class LibPrs extends LibPrsDate {
   public static devDate(date: Date | string | number): string {
     {
       const param =
@@ -15,6 +16,15 @@ export class LibPrs {
       }).format(param);
     }
   }
+
+  // public static prettyDate(timestamp?: number): string {
+  //   return Intl.DateTimeFormat('en-US', {
+  //     weekday: 'long',
+  //     day: 'numeric',
+  //     month: 'long',
+  //     year: 'numeric',
+  //   }).format(new Date(timestamp ?? Date.now()));
+  // }
 
   public static firstCharUpper(arg: string): string {
     return arg[0].toUpperCase() + arg.slice(1).toLowerCase();
@@ -59,5 +69,9 @@ export class LibPrs {
   public static msFromMinutes(minutes: number): number {
     // eslint-disable-next-line no-magic-numbers
     return minutes * 60 * 1000;
+  }
+
+  public static roundNone(arg: OrNone<number>): number {
+    return Math.round(arg ?? 0);
   }
 }

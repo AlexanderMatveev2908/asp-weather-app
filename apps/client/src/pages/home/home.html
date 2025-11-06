@@ -6,4 +6,10 @@
   [eventT]="'NONE'"
   [isPending]="!useWeatherKit.weatherSlice.weather()"
   [minH]="'min-h-[85vh]'"
-/>
+>
+  <ng-template #contentRef>
+    <div class="root" [style.--opac]="opacity()">
+      <app-block-a />
+    </div>
+  </ng-template>
+</app-page-wrapper>

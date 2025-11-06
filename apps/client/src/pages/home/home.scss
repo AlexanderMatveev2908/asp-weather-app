@@ -1,1 +1,8 @@
-.root{}
+:host {
+  @apply block w-full;
+}
+
+.root {
+  opacity: var(--opac);
+  @apply w-full flex flex-col;
+}

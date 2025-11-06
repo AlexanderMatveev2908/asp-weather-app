@@ -15,19 +15,16 @@ export class WeatherSlice extends UseKitSliceSvc {
   }
 
   public readonly geoPending: Signal<boolean> = computed(() => this.weatherState().geoPending);
-
   public setGeoPending(v: boolean): void {
     this.store.dispatch(WeatherActT.SET_GEO_PENDING({ v }));
   }
 
   public weatherPending: Signal<boolean> = computed(() => this.weatherState().weatherPending);
-
   public setWeatherPending(v: boolean): void {
     this.store.dispatch(WeatherActT.SET_WEATHER_PENDING({ v }));
   }
 
   public weather: Signal<Nullable<WeatherResT>> = computed(() => this.weatherState().weather);
-
   public setWeather(data: WeatherResT): void {
     this.store.dispatch(WeatherActT.SET_WEATHER(data));
   }

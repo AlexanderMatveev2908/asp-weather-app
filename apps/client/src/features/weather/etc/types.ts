@@ -8,8 +8,26 @@ export interface GeoResT {
   strategy: GeoStrategyT;
 }
 
+export type MainWeatherT =
+  | 'Thunderstorm'
+  | 'Drizzle'
+  | 'Rain'
+  | 'Snow'
+  | 'Mist'
+  | 'Smoke'
+  | 'Haze'
+  | 'Dust'
+  | 'Fog'
+  | 'Sand'
+  | 'Ash'
+  | 'Squall'
+  | 'Tornado'
+  | 'Clear'
+  | 'Clouds'
+  | 'Error';
+
 export interface UserFriendlyWeatherT {
-  mainly: string;
+  main: MainWeatherT;
   description: string;
   icon: string;
 }

@@ -25,7 +25,7 @@ public class IpSvc extends BaseWeatherSvc {
   }
 
   private WebClient getWebClient() {
-    return webClientBuilder.baseUrl("https://ipwho.is").build();
+    return webClientBuilder.baseUrl("https://ipwho.is/").build();
   }
 
   private String buildKey(String ip) {
@@ -37,7 +37,7 @@ public class IpSvc extends BaseWeatherSvc {
   }
 
   private Mono<RecGeo> callIpApi(String ip) {
-    String url = "/" + ip;
+    String url = ip;
 
     return getWebClient().get().uri(url).retrieve().bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
     }).flatMap(body -> {

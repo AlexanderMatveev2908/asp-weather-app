@@ -1,0 +1,58 @@
+<div class="root">
+  <div class="root__header">
+    <div class="header__span">
+      <span class="txt__hd__md">
+        {{ payload().titleWhere }}
+      </span>
+    </div>
+    <div class="header__span">
+      <span class="txt__bd__md">
+        {{ payload().today }}
+      </span>
+    </div>
+  </div>
+
+  <div class="root__body">
+    <div class="body__svg" [ngClass]="payload().meta.twdCss">
+      <ng-container *ngComponentOutlet="payload().meta.Svg" />
+    </div>
+
+    <div class="body__span">
+      <span class="txt__hd__xl">
+        {{ payload().temp }}
+      </span>
+    </div>
+    <div class="body__span">
+      <span class="txt__hd__md">
+        {{ payload().main }}
+      </span>
+    </div>
+    <div class="body__span">
+      <span class="txt__bd__md text-white/70">
+        {{ payload().feelsLike }}
+      </span>
+    </div>
+  </div>
+
+  <div class="root__footer">
+    @for(f of fieldsFooter(); track f.id ){
+    <div class="footer__item">
+      <div class="item__svg">
+        <ng-container *ngComponentOutlet="f.Svg" />
+      </div>
+
+      <div class="item__span_wrap">
+        <span class="span_wrap__label txt__bd__md">
+          {{ f.label }}
+        </span>
+      </div>
+
+      <div class="item__span_wrap">
+        <span class="text__hd__sm span_wrap__val">
+          {{ f.val }}
+        </span>
+      </div>
+    </div>
+    }
+  </div>
+</div>
