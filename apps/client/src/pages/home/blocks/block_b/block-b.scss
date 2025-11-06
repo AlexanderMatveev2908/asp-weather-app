@@ -14,7 +14,7 @@
     @apply max-w-full flex items-center gap-[15px] overflow-x-scroll snap-x snap-mandatory px-[16px];
 
     .content__item {
-      @apply w-fit min-w-[110px] p-[16px] flex flex-col gap-[3px] items-center bg-white/10 rounded-[16px] snap-center;
+      @apply w-fit min-w-[110px] h-[145px] p-[16px] flex flex-col gap-[3px] items-center bg-white/10 rounded-[16px] snap-center;
 
       .item__span {
         @apply flex justify-center;

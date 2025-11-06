@@ -6,7 +6,7 @@
   <div class="root__content app__hide_scroll">
     @for (p of payloadDays(); track p.id){
     <div class="content__item">
-      <div class="item__span">
+      <div class="item__span h-[20px]">
         <span class="text-white/80 txt__bd__md">
           {{ p.weekDay }}
         </span>
@@ -16,7 +16,7 @@
         <ng-container *ngComponentOutlet="p.meta.Svg" />
       </div>
 
-      <div class="item__span">
+      <div class="item__span h-[28px] mt-[2.5px]">
         <span class="txt__hd__sm">
           {{ p.temp }}
         </span>
