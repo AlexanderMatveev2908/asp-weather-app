@@ -13,8 +13,8 @@ import reactor.core.publisher.Mono;
 import server.conf.db.remote_dictionary.RdCmd;
 import server.conf.env_conf.EnvVars;
 import server.decorators.flow.api.Api;
-import server.features.weather.paperwork.FormWeatherCoords;
 import server.features.weather.services.etc.BaseWeatherSvc;
+import server.features.weather.services.etc.RecGeo;
 import server.features.weather.services.weather_svc.sub.AirPollutionMng;
 import server.features.weather.services.weather_svc.sub.WeatherMng;
 import server.lib.data_structure.prs.LibPrs;
@@ -34,10 +34,10 @@ public class WeatherAirPollutionSvc extends BaseWeatherSvc implements WeatherMng
     return webClientBuilder;
   }
 
-  public UriBuilder commonBuildQuery(UriBuilder uriBuilder, FormWeatherCoords form) {
+  public UriBuilder commonBuildQuery(UriBuilder uriBuilder, RecGeo geo) {
     return uriBuilder
-        .queryParam("lat", form.getLat())
-        .queryParam("lon", form.getLon())
+        .queryParam("lat", geo.lat())
+        .queryParam("lon", geo.lon())
         .queryParam("appid", getApiKey());
   }
 
@@ -45,19 +45,19 @@ public class WeatherAirPollutionSvc extends BaseWeatherSvc implements WeatherMng
     return String.format("%.6f", val);
   }
 
-  private String buildWeatherKey(FormWeatherCoords form) {
-    return "weather_&_air_pollution__" + asRedisKey(form.getLat()) + "__" + asRedisKey(form.getLon());
+  private String buildWeatherKey(RecGeo geo) {
+    return "weather_&_air_pollution__" + asRedisKey(geo.lat()) + "__" + asRedisKey(geo.lon());
   }
 
-  private Mono<Boolean> saveInRd(FormWeatherCoords form, Map<String, Object> body) {
-    String key = buildWeatherKey(form);
+  private Mono<Boolean> saveInRd(RecGeo geo, Map<String, Object> body) {
+    String key = buildWeatherKey(geo);
     String json = LibPrs.jsonFromObj(body);
 
     return rdCmd.setStr(key, json).then(rdCmd.expire(key, 30));
   }
 
-  private Mono<Map<String, Object>> firstLookRd(FormWeatherCoords form) {
-    String key = buildWeatherKey(form);
+  private Mono<Map<String, Object>> firstLookRd(RecGeo geo) {
+    String key = buildWeatherKey(geo);
 
     return rdCmd.getStr(key).map(json -> {
       Map<String, Object> weatherDict = LibPrs.mapFromJson(json);
@@ -65,22 +65,21 @@ public class WeatherAirPollutionSvc extends BaseWeatherSvc implements WeatherMng
     });
   }
 
-  public Mono<Map<String, Object>> main(Api api, FormWeatherCoords formCoords) {
-    FormWeatherCoords form = formCoords != null ? formCoords : api.getMappedData();
+  public Mono<Map<String, Object>> main(Api api, RecGeo geo) {
 
-    return firstLookRd(form).switchIfEmpty(
-        callWeatherApi(form)).flatMap(bodyWeather -> callAirPollutionApi(form).flatMap(bodyPollution -> {
+    return firstLookRd(geo).switchIfEmpty(
+        callWeatherApi(geo)).flatMap(bodyWeather -> callAirPollutionApi(geo).flatMap(bodyPollution -> {
           Map<String, Object> merged = new HashMap<>();
           merged.putAll(bodyWeather);
           merged.put("airPollution", bodyPollution);
+          merged.put("coords", geo);
 
           if (merged.get("minutely") != null)
             merged.remove("minutely");
 
-          return saveInRd(form, merged).thenReturn(merged);
-        }).onErrorMap(err -> {
+          return saveInRd(geo, merged).thenReturn(merged);
+        }).doOnError(err -> {
           LibLog.logErr(err);
-          return err;
         }));
   }
 }

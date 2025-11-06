@@ -8,12 +8,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
 
 import reactor.core.publisher.Mono;
-import server.features.weather.paperwork.FormWeatherCoords;
+import server.features.weather.services.etc.RecGeo;
 
 public interface AirPollutionMng {
   abstract WebClient.Builder getWebClientBuilder();
 
-  abstract UriBuilder commonBuildQuery(UriBuilder uriBuilder, FormWeatherCoords form);
+  abstract UriBuilder commonBuildQuery(UriBuilder uriBuilder, RecGeo geo);
 
   private WebClient getAirPollutionWebClient() {
     return getWebClientBuilder()
@@ -21,12 +21,12 @@ public interface AirPollutionMng {
         .build();
   }
 
-  private URI buildQueryAirPollution(UriBuilder uriBuilder, FormWeatherCoords form) {
-    return commonBuildQuery(uriBuilder, form).build();
+  private URI buildQueryAirPollution(UriBuilder uriBuilder, RecGeo geo) {
+    return commonBuildQuery(uriBuilder, geo).build();
   }
 
-  default Mono<Map<String, Object>> callAirPollutionApi(FormWeatherCoords form) {
-    return getAirPollutionWebClient().get().uri(uriBuilder -> buildQueryAirPollution(uriBuilder, form)).retrieve()
+  default Mono<Map<String, Object>> callAirPollutionApi(RecGeo geo) {
+    return getAirPollutionWebClient().get().uri(uriBuilder -> buildQueryAirPollution(uriBuilder, geo)).retrieve()
         .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
         });
   }

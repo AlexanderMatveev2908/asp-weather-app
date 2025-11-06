@@ -16,9 +16,10 @@ import server.conf.env_conf.EnvVars;
 import server.decorators.flow.ErrAPI;
 import server.decorators.flow.api.Api;
 import server.features.weather.paperwork.FormWeatherCity;
-import server.features.weather.paperwork.FormWeatherCoords;
 import server.features.weather.services.etc.BaseWeatherSvc;
+import server.features.weather.services.etc.RecGeo;
 import server.lib.data_structure.prs.LibPrs;
+import server.lib.dev.lib_log.LibLog;
 
 @Service
 @SuppressFBWarnings({ "EI2" })
@@ -40,11 +41,11 @@ public class CoordsCitySvc extends BaseWeatherSvc {
     return "geo_city__" + city.replaceAll("\\s+", "_");
   }
 
-  private Mono<FormWeatherCoords> firstLookRd(FormWeatherCity form) {
-    return rdCmd.getStr(buildKey(form.getCity())).map(json -> LibPrs.tFormJson(json, FormWeatherCoords.class));
+  private Mono<RecGeo> firstLookRd(FormWeatherCity form) {
+    return rdCmd.getStr(buildKey(form.getCity())).map(json -> LibPrs.tFormJson(json, RecGeo.class));
   }
 
-  private Mono<FormWeatherCoords> callWeatherGeoApi(FormWeatherCity form) {
+  private Mono<RecGeo> callWeatherGeoApi(FormWeatherCity form) {
     return getWebClient().get().uri(uriBuilder -> buildURI(uriBuilder, form)).retrieve()
         .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {
         }).flatMap(body -> {
@@ -54,15 +55,16 @@ public class CoordsCitySvc extends BaseWeatherSvc {
 
           Map<String, Object> firstRes = body.get(0);
 
-          FormWeatherCoords formCoords = LibPrs.tFromMap(firstRes, FormWeatherCoords.class);
-          String json = LibPrs.jsonFromObj(formCoords);
+          LibLog.wOk(firstRes);
 
-          return rdCmd.setStr(buildKey(form.getCity()), json).thenReturn(formCoords);
+          RecGeo geo = RecGeo.fromWeatherApiBody(firstRes);
+          String json = LibPrs.jsonFromObj(geo);
+
+          return rdCmd.setStr(buildKey(form.getCity()), json).thenReturn(geo);
         });
   }
 
-  public Mono<FormWeatherCoords> main(Api api) {
-
+  public Mono<RecGeo> main(Api api) {
     FormWeatherCity form = api.getMappedData();
 
     return firstLookRd(form).switchIfEmpty(callWeatherGeoApi(form));
