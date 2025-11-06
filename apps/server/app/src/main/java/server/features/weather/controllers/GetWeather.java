@@ -20,13 +20,9 @@ public class GetWeather {
   private final CoordsCitySvc cityCoordsSvc;
   private final CoordsIpSvc geoSvc;
 
-  public Mono<ResponseEntity<ResAPI>> weatherByCoords(Api api) {
-    return weatherSvc.main(api, null).flatMap(bodyWeather -> new ResAPI(200).data(bodyWeather).build());
-  }
-
   public Mono<ResponseEntity<ResAPI>> weatherByCity(Api api) {
     return cityCoordsSvc.main(api).flatMap(
-        formCoords -> weatherSvc.main(api, formCoords)
+        recGeo -> weatherSvc.main(api, recGeo)
             .flatMap(bodyWeather -> new ResAPI(200).data(bodyWeather).build()));
   }
 

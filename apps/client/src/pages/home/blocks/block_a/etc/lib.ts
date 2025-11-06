@@ -27,9 +27,7 @@ export interface PayloadBlockA extends BasePayloadWeatherT, HeaderPayloadBlockA 
 }
 
 export class LibWeatherBlockA {
-  private static headerPayload(
-    geo: Nullable<GeoResT>
-  ): Pick<PayloadBlockA, 'titleWhere' | 'today'> {
+  private static headerPayload(geo: OrNone<GeoResT>): Pick<PayloadBlockA, 'titleWhere' | 'today'> {
     return {
       titleWhere: `${geo?.region ?? ''}, ${geo?.country_code ?? ''}`,
       today: LibPrs.prettyDate(),
@@ -45,7 +43,7 @@ export class LibWeatherBlockA {
     };
   }
 
-  public static main(weather: Nullable<WeatherResT>, geo: Nullable<GeoResT>): PayloadBlockA {
+  public static main(weather: Nullable<WeatherResT>): PayloadBlockA {
     const curr: OrNone<CurrWeatherT> = weather?.current;
     const main: MainWeatherT = curr?.weather?.[0]?.main ?? 'Error';
 
@@ -55,7 +53,7 @@ export class LibWeatherBlockA {
       temp: LibPrsWeather.celsiusFromKelvin(curr?.temp),
       feelsLike: `Feels like ${LibPrsWeather.celsiusFromKelvin(curr?.feels_like)}`,
       footerPayload: this.footerPayload(weather?.current),
-      ...this.headerPayload(geo),
+      ...this.headerPayload(weather?.coords),
     };
   }
 }

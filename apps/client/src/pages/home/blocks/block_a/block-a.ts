@@ -15,7 +15,7 @@ export class BlockA {
   private readonly weatherSLice: WeatherSlice = inject(WeatherSlice);
 
   public readonly payload: Signal<PayloadBlockA> = computed(() =>
-    LibWeatherBlockA.main(this.weatherSLice.weather(), this.weatherSLice.geoUser())
+    LibWeatherBlockA.main(this.weatherSLice.weather())
   );
 
   public readonly fieldsFooter: Signal<FooterInfoItemT[]> = computed(() =>

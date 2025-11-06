@@ -109,8 +109,8 @@ export interface WeatherResT {
     DailyWeatherT,
     DailyWeatherT
   ];
-
   airPollution: AirPollutionT;
+  coords: GeoResT;
 }
 
 export interface BasePayloadWeatherT {
