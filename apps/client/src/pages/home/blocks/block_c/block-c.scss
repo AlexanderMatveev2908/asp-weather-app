@@ -2,7 +2,7 @@
 @use 'exports/mix' as mix;
 
 .root {
-  @apply w-full flex flex-col gap-[16px];
+  @apply w-full max-w-full flex flex-col gap-[16px] sm:flex-row;
 
   .root__header,
   .root__footer {
@@ -19,7 +19,7 @@
       @apply flex flex-col gap-[16px];
 
       .content__item {
-        @apply w-full flex items-center gap-[170px] h-[32px];
+        @apply w-full flex items-center h-[32px];
 
         .item__left {
           @apply flex items-center justify-start gap-[12px];
@@ -38,7 +38,7 @@
         }
 
         .item__right {
-          @apply flex justify-end;
+          @apply w-full flex justify-end;
         }
       }
     }

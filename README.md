@@ -14,6 +14,7 @@ The name **ASP** comes from the core stack that powers the project:
 - **A** => **Angular** for building the client interface
 - **S** => **Spring Boot** for the backend logic and API layer
 - **P** => **PostgreSQL** for handling data persistence and storage
+  - **💡 Note** => This particular project **doesn’t** use an **SQL** database, it caches data exclusively through a **Remote Dictionary**. The acronym is kept purely for simplicity.
 
 Together they form a clean, modern **full-stack architecture** 🚀
 
