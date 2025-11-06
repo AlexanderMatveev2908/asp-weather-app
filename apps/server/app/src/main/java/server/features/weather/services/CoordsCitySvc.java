@@ -19,7 +19,6 @@ import server.features.weather.paperwork.FormWeatherCity;
 import server.features.weather.services.etc.BaseWeatherSvc;
 import server.features.weather.services.etc.RecGeo;
 import server.lib.data_structure.prs.LibPrs;
-import server.lib.dev.lib_log.LibLog;
 
 @Service
 @SuppressFBWarnings({ "EI2" })
@@ -54,8 +53,6 @@ public class CoordsCitySvc extends BaseWeatherSvc {
             throw new ErrAPI("city coords not found", 404);
 
           Map<String, Object> firstRes = body.get(0);
-
-          LibLog.wOk(firstRes);
 
           RecGeo geo = RecGeo.fromWeatherApiBody(firstRes);
           String json = LibPrs.jsonFromObj(geo);
