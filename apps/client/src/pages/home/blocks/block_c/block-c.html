@@ -36,7 +36,21 @@
 
     <div class="footer__content">
       <div class="content__val">
-        <span class="txt__hd__lg"></span>
+        <span class="txt__hd__lg">
+          {{ payloadFooter().val }}
+        </span>
+      </div>
+
+      <div class="content__quality" [ngClass]="payloadFooter().twdCss">
+        <span class="txt__bd__md">
+          {{ payloadFooter().quality }}
+        </span>
+      </div>
+
+      <div class="content__comment">
+        <span class="txt__bd__md">
+          {{ payloadFooter().comment }}
+        </span>
       </div>
     </div>
   </div>

@@ -54,6 +54,15 @@
       @apply flex flex-col items-start;
 
       .content__val {
+        @apply min-h-[36px];
+      }
+
+      .content__quality {
+        @apply w-fit flex justify-center items-center py-[5px] px-[10px] rounded-full mt-[3px];
+      }
+
+      .content__comment {
+        @apply mt-[12px] text-white/70;
       }
     }
   }

@@ -13,7 +13,7 @@ export interface PayloadHeaderBlockC {
   id: string;
 }
 
-export class WeatherUiFktBlockC extends RootUiFkt {
+export class HeaderWeatherUiFktBlockC extends RootUiFkt {
   private static timeUsStyle(arg: OrNone<number>): string {
     if (!arg) return '0:0 AM';
 
@@ -44,7 +44,7 @@ export class WeatherUiFktBlockC extends RootUiFkt {
     };
   }
 
-  public static fieldsHeaderBlockC(arg: OrNone<CurrWeatherT>): PayloadHeaderBlockC[] {
+  public static main(arg: OrNone<CurrWeatherT>): PayloadHeaderBlockC[] {
     const list: Omit<PayloadHeaderBlockC, 'id'>[] = Array.from(
       { length: 2 },
       (_: undefined, idx: number) => ({
