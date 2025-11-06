@@ -1,5 +1,5 @@
 import { BoolStrT } from '@/common/types/etc';
-import { LibPrsDate } from './sub/date';
+import { LibPrsDate } from './sub/0.date';
 
 export class LibPrs extends LibPrsDate {
   public static devDate(date: Date | string | number): string {

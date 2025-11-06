@@ -1,15 +1,28 @@
+@use 'exports/mix' as mix;
+
 .root {
-  @apply w-full bg-white/10 border rounded-[24px] p-[27.5px] border-white/30 flex flex-col items-center;
+  @apply w-full bg-white/10 border rounded-[24px] py-[20px] px-[25px] border-white/30 flex flex-col items-center gap-[28px];
 
   .root__header {
     @apply w-full max-w-[80%] flex flex-col gap-[8px] items-center;
 
-    .header__region,
-    .header__day {
+    .header__span {
       @apply flex justify-center;
       span {
         @apply text-center;
       }
+    }
+  }
+
+  .root__body {
+    @apply flex flex-col gap-[10px] items-center;
+
+    .body__svg {
+      @include mix.sqr(100px);
+    }
+
+    .body__span {
+      @apply flex justify-center;
     }
   }
 }

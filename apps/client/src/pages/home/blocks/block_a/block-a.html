@@ -1,13 +1,35 @@
 <div class="root">
   <div class="root__header">
-    <div class="header__region">
+    <div class="header__span">
       <span class="txt__hd__md">
         {{ titleWhere() }}
       </span>
     </div>
-    <div class="header__region">
+    <div class="header__span">
       <span class="txt__bd__md">
         {{ today }}
+      </span>
+    </div>
+  </div>
+
+  <div class="root__body">
+    <div class="body__svg" [ngClass]="metaWeather().twdCss">
+      <ng-container *ngComponentOutlet="metaWeather().Svg" />
+    </div>
+
+    <div class="body__span">
+      <span class="txt__hd__xl">
+        {{ celsiusTemp() }}
+      </span>
+    </div>
+    <div class="body__span">
+      <span class="txt__hd__md">
+        {{ mainWeather() }}
+      </span>
+    </div>
+    <div class="body__span">
+      <span class="txt__bd__md text-white/70">
+        {{ feelsLikeCelsius() }}
       </span>
     </div>
   </div>
