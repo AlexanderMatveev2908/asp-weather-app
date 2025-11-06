@@ -2,3 +2,8 @@
   padding: $padding;
   @apply flex w-full justify-center max-w-full border-2 rounded-xl text-gray-300;
 }
+
+@mixin app__block_info($padding) {
+  padding: $padding;
+  @apply w-full bg-white/10 border rounded-[24px] border-white/30 flex flex-col;
+}

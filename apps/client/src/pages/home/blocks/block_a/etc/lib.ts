@@ -1,8 +1,14 @@
 import { Nullable, OrNone } from '@/common/types/etc';
 import { LibPrs } from '@/core/lib/data_structure/prs/prs';
-import { LibMetaWeather, MetaWeatherT } from '@/features/weather/etc/lib/meta';
+import { LibMetaWeather } from '@/features/weather/etc/lib/meta';
 import { LibPrsWeather } from '@/features/weather/etc/lib/prs';
-import { CurrWeatherT, GeoResT, MainWeatherT, WeatherResT } from '@/features/weather/etc/types';
+import {
+  BasePayloadWeatherT,
+  CurrWeatherT,
+  GeoResT,
+  MainWeatherT,
+  WeatherResT,
+} from '@/features/weather/etc/types';
 
 export interface HeaderPayloadBlockA {
   titleWhere: string;
@@ -16,11 +22,7 @@ export interface FooterPayloadBlockA {
   pressure: string;
 }
 
-export interface PayloadBlockA extends HeaderPayloadBlockA {
-  meta: MetaWeatherT;
-  main: MainWeatherT;
-  temp: string;
-  feelsLike: string;
+export interface PayloadBlockA extends BasePayloadWeatherT, HeaderPayloadBlockA {
   footerPayload: FooterPayloadBlockA;
 }
 

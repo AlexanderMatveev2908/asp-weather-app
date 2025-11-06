@@ -4,10 +4,11 @@ import { UseWeatherKitSvc } from '@/features/weather/etc/hooks/use_weather_kit';
 import { PageWrapper } from '@/layout/page_wrapper/page-wrapper';
 import { UseMetaEventDir } from '@/core/directives/use_meta_event';
 import { BlockA } from './blocks/block_a/block-a';
+import { BlockB } from './blocks/block_b/block-b';
 
 @Component({
   selector: 'app-home',
-  imports: [Header, PageWrapper, UseMetaEventDir, BlockA],
+  imports: [Header, PageWrapper, UseMetaEventDir, BlockA, BlockB],
   templateUrl: './home.html',
   styleUrl: './home.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

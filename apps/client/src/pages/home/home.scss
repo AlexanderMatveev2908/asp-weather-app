@@ -4,5 +4,5 @@
 
 .root {
   opacity: var(--opac);
-  @apply w-full flex flex-col;
+  @apply w-full flex flex-col gap-[12px];
 }

@@ -1,1 +1,28 @@
-.root{}
+@use 'exports/shapes' as shapes;
+@use 'exports/mix' as mix;
+
+.root {
+  @include shapes.app__block_info(16px 0);
+  @apply gap-[14px] overflow-hidden;
+
+  .root__title {
+    @apply w-full flex justify-start px-[16px];
+  }
+
+  .root__content {
+    scroll-behavior: smooth;
+    @apply max-w-full flex items-center gap-[15px] overflow-x-scroll snap-x snap-mandatory px-[16px];
+
+    .content__item {
+      @apply w-fit min-w-[110px] h-[145px] p-[16px] flex flex-col gap-[3px] items-center bg-white/10 rounded-[16px] snap-center;
+
+      .item__span {
+        @apply flex justify-center;
+      }
+
+      .item__svg {
+        @include mix.sqr(30px);
+      }
+    }
+  }
+}

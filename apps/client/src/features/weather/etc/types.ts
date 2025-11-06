@@ -1,3 +1,5 @@
+import { MetaWeatherT } from './lib/meta';
+
 export type GeoStrategyT = 'firefox' | 'spring';
 
 export interface GeoResT {
@@ -32,29 +34,38 @@ export interface UserFriendlyWeatherT {
   icon: string;
 }
 
-export interface CurrWeatherT {
-  // ? following 3 unix timestamps ->
+interface CommonWeatherT {
   dt: number;
-  // ? when sun rise
   sunrise: number;
-  // ? when sun disappear
   sunset: number;
-  // ? kelvin temp ( -273.15 to grab Celsius)
+  pressure: number;
+  humidity: number;
+  clouds: number;
+  visibility: number;
+  wind_speed: number;
+  weather: UserFriendlyWeatherT[];
+}
+
+export interface CurrWeatherT extends CommonWeatherT {
   temp: number;
   // ? kelvin temp perception of body
   feels_like: number;
   // ? hectopascals atmospheric pressure
-  pressure: number;
-  // ? % humidity
-  humidity: number;
-  // ? % clouds in sky
-  clouds: number;
-  // ? visibility in meters
-  visibility: number;
-  // ? meters for sec of wind speed
-  wind_speed: number;
+}
 
-  weather: UserFriendlyWeatherT[];
+interface CommonTempDailyWeatherT {
+  day: number;
+  night: number;
+  eve: number;
+  morn: number;
+}
+
+export interface DailyWeatherT extends CommonWeatherT {
+  temp: {
+    min: number;
+    max: number;
+  } & CommonTempDailyWeatherT;
+  feels_like: CommonTempDailyWeatherT;
 }
 
 export interface WeatherResT {
@@ -66,13 +77,20 @@ export interface WeatherResT {
   current: CurrWeatherT;
   // ? 8 days forecast
   daily: [
-    CurrWeatherT,
-    CurrWeatherT,
-    CurrWeatherT,
-    CurrWeatherT,
-    CurrWeatherT,
-    CurrWeatherT,
-    CurrWeatherT,
-    CurrWeatherT
+    DailyWeatherT,
+    DailyWeatherT,
+    DailyWeatherT,
+    DailyWeatherT,
+    DailyWeatherT,
+    DailyWeatherT,
+    DailyWeatherT,
+    DailyWeatherT
   ];
+}
+
+export interface BasePayloadWeatherT {
+  main: MainWeatherT;
+  meta: MetaWeatherT;
+  temp: string;
+  feelsLike: string;
 }

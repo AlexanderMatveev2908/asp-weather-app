@@ -1,3 +1,33 @@
 <div class="root">
-  <p>BlockB generated 🎉</p>
+  <div class="root__title">
+    <span class="txt__hd__sm">5-Day Forecast</span>
+  </div>
+
+  <div class="root__content app__hide_scroll">
+    @for (p of payloadDays(); track p.id){
+    <div class="content__item">
+      <div class="item__span h-[20px]">
+        <span class="text-white/80 txt__bd__md">
+          {{ p.weekDay }}
+        </span>
+      </div>
+
+      <div class="item__svg" [ngClass]="p.meta.twdCss">
+        <ng-container *ngComponentOutlet="p.meta.Svg" />
+      </div>
+
+      <div class="item__span h-[28px] mt-[2.5px]">
+        <span class="txt__hd__sm">
+          {{ p.temp }}
+        </span>
+      </div>
+
+      <div class="item__span">
+        <span class="txt__bd__md text-white/70">
+          {{ p.temp }}
+        </span>
+      </div>
+    </div>
+    }
+  </div>
 </div>
