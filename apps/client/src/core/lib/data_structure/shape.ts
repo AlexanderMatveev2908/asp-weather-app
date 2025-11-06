@@ -1,4 +1,5 @@
 import { Dict } from '@/common/types/etc';
+import { Reg } from '@/core/paperwork/reg';
 
 export class LibShape {
   public static isObj(arg: unknown): boolean {
@@ -43,5 +44,9 @@ export class LibShape {
     const trimmed = arg.trim().toLowerCase();
 
     return ['true', 'false'].some((str: string) => str === trimmed);
+  }
+
+  public static isInt(arg: unknown): boolean {
+    return !this.isNone(arg) && !isNaN(+arg!) && Reg.isInt(arg + '');
   }
 }

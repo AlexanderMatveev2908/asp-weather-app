@@ -1,3 +1,57 @@
 <div class="root">
-  <p>BlockC generated 🎉</p>
+  <div class="root__header">
+    <div class="header__title">
+      <span class="txt__hd__sm">Sun Times</span>
+    </div>
+
+    <div class="header__content">
+      @for(p of payloadHeader(); track p.id){
+      <div class="content__item">
+        <div class="item__left">
+          <div class="left__svg" [ngClass]="p.twdCss">
+            <ng-container *ngComponentOutlet="p.Svg" />
+          </div>
+
+          <div class="left__label">
+            <span class="txt__hd__xs">
+              {{ p.label }}
+            </span>
+          </div>
+        </div>
+
+        <div class="item__right">
+          <span class="txt__hd__xs">
+            {{ p.time }}
+          </span>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="root__footer">
+    <div class="footer__title">
+      <span class="txt__hd__sm">Air Quality</span>
+    </div>
+
+    <div class="footer__content">
+      <div class="content__val">
+        <span class="txt__hd__lg">
+          {{ payloadFooter().val }}
+        </span>
+      </div>
+
+      <div class="content__quality" [ngClass]="payloadFooter().twdCss">
+        <span class="txt__bd__md">
+          {{ payloadFooter().quality }}
+        </span>
+      </div>
+
+      <div class="content__comment">
+        <span class="txt__bd__md">
+          {{ payloadFooter().comment }}
+        </span>
+      </div>
+    </div>
+  </div>
 </div>

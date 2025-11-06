@@ -27,4 +27,9 @@ export class LibPrsWeather {
     const varKm: number = 1000;
     return `${LibPrs.roundNone((arg ?? 0) / varKm)} km`;
   }
+
+  public static usAqiFromEuAqi(arg: OrNone<number>): number {
+    const valConversionUs: number = 100;
+    return (arg ?? 1) * valConversionUs;
+  }
 }

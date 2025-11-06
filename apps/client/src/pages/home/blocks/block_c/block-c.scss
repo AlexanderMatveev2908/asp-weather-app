@@ -1,1 +1,69 @@
-.root{}
+@use 'exports/shapes' as shapes;
+@use 'exports/mix' as mix;
+
+.root {
+  @apply w-full flex flex-col gap-[16px];
+
+  .root__header,
+  .root__footer {
+    @include shapes.app__block_info(16px);
+  }
+  .root__header {
+    @apply gap-[12px];
+
+    .header__title {
+      @apply flex justify-start h-[28px];
+    }
+
+    .header__content {
+      @apply flex flex-col gap-[16px];
+
+      .content__item {
+        @apply w-full flex items-center gap-[170px] h-[32px];
+
+        .item__left {
+          @apply flex items-center justify-start gap-[12px];
+
+          .left__svg {
+            @include mix.sqr(24px);
+          }
+
+          .left__label {
+            @apply flex justify-start;
+
+            span {
+              @apply text-white/80;
+            }
+          }
+        }
+
+        .item__right {
+          @apply flex justify-end;
+        }
+      }
+    }
+  }
+  .root__footer {
+    @apply gap-[8px];
+
+    .footer__title {
+      @apply h-[28px];
+    }
+
+    .footer__content {
+      @apply flex flex-col items-start;
+
+      .content__val {
+        @apply min-h-[36px];
+      }
+
+      .content__quality {
+        @apply w-fit flex justify-center items-center py-[5px] px-[10px] rounded-full mt-[3px];
+      }
+
+      .content__comment {
+        @apply mt-[12px] text-white/70;
+      }
+    }
+  }
+}

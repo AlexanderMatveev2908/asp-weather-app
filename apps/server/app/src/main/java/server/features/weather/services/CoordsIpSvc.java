@@ -18,9 +18,9 @@ import server.lib.data_structure.prs.LibPrs;
 
 @Service
 @SuppressFBWarnings({ "EI2" })
-public class IpSvc extends BaseWeatherSvc {
+public class CoordsIpSvc extends BaseWeatherSvc {
 
-  public IpSvc(EnvVars envVars, WebClient.Builder webClientBuilder, RdCmd rdCmd) {
+  public CoordsIpSvc(EnvVars envVars, WebClient.Builder webClientBuilder, RdCmd rdCmd) {
     super(webClientBuilder, rdCmd, envVars);
   }
 

@@ -5,10 +5,11 @@ import { PageWrapper } from '@/layout/page_wrapper/page-wrapper';
 import { UseMetaEventDir } from '@/core/directives/use_meta_event';
 import { BlockA } from './blocks/block_a/block-a';
 import { BlockB } from './blocks/block_b/block-b';
+import { BlockC } from './blocks/block_c/block-c';
 
 @Component({
   selector: 'app-home',
-  imports: [Header, PageWrapper, UseMetaEventDir, BlockA, BlockB],
+  imports: [Header, PageWrapper, UseMetaEventDir, BlockA, BlockB, BlockC],
   templateUrl: './home.html',
   styleUrl: './home.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
