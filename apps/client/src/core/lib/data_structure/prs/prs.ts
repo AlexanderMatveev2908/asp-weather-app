@@ -1,4 +1,4 @@
-import { BoolStrT } from '@/common/types/etc';
+import { BoolStrT, OrNone } from '@/common/types/etc';
 import { LibPrsDate } from './sub/0.date';
 
 export class LibPrs extends LibPrsDate {
@@ -69,5 +69,9 @@ export class LibPrs extends LibPrsDate {
   public static msFromMinutes(minutes: number): number {
     // eslint-disable-next-line no-magic-numbers
     return minutes * 60 * 1000;
+  }
+
+  public static roundNone(arg: OrNone<number>): number {
+    return Math.round(arg ?? 0);
   }
 }

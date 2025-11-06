@@ -51,7 +51,7 @@ public class WeatherCoordsSvc extends BaseWeatherSvc {
     String key = buildWeatherKey(form);
     String json = LibPrs.jsonFromObj(body);
 
-    return rdCmd.setStr(key, json).then(rdCmd.expire(key, 60));
+    return rdCmd.setStr(key, json).then(rdCmd.expire(key, 30));
   }
 
   private Mono<Map<String, Object>> firstLookRd(FormWeatherCoords form) {

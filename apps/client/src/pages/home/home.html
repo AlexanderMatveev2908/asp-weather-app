@@ -8,7 +8,7 @@
   [minH]="'min-h-[85vh]'"
 >
   <ng-template #contentRef>
-    <div class="root">
+    <div class="root" [style.--opac]="opacity()">
       <app-block-a />
     </div>
   </ng-template>
