@@ -22,9 +22,9 @@ import server.lib.data_structure.prs.LibPrs;
 
 @Service
 @SuppressFBWarnings({ "EI2" })
-public class WeatherCitySvc extends BaseWeatherSvc {
+public class CoordsCitySvc extends BaseWeatherSvc {
 
-  public WeatherCitySvc(EnvVars envVars, WebClient.Builder webClientBuilder, RdCmd rdCmd) {
+  public CoordsCitySvc(EnvVars envVars, WebClient.Builder webClientBuilder, RdCmd rdCmd) {
     super(webClientBuilder, rdCmd, envVars);
   }
 
@@ -37,7 +37,7 @@ public class WeatherCitySvc extends BaseWeatherSvc {
   }
 
   private String buildKey(String city) {
-    return "geo_city__" + city;
+    return "geo_city__" + city.replaceAll("\\s+", "_");
   }
 
   private Mono<FormWeatherCoords> firstLookRd(FormWeatherCity form) {
@@ -50,7 +50,7 @@ public class WeatherCitySvc extends BaseWeatherSvc {
         }).flatMap(body -> {
 
           if (body.size() < 1)
-            throw new ErrAPI("city weather not found", 404);
+            throw new ErrAPI("city coords not found", 404);
 
           Map<String, Object> firstRes = body.get(0);
 

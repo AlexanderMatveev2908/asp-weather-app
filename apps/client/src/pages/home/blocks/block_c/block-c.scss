@@ -44,5 +44,17 @@
     }
   }
   .root__footer {
+    @apply gap-[8px];
+
+    .footer__title {
+      @apply h-[28px];
+    }
+
+    .footer__content {
+      @apply flex flex-col items-start;
+
+      .content__val {
+      }
+    }
   }
 }
